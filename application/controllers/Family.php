@@ -1,7 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Welcome extends CI_Controller {
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true ");
+header("Access-Control-Allow-Methods: OPTIONS, GET, GET");
+header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
+class Family extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -39,7 +42,7 @@ class Welcome extends CI_Controller {
         $this->load->helper("url");
 
         $this->load->model("general_model");
-        $this->load->model("owner_group_model");
+        $this->load->model("families_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -47,22 +50,25 @@ class Welcome extends CI_Controller {
     }  
 	public function index()
 	{
-		echo json_encode(["a"=>1]);
+		
 		// $this->load->view('welcome_message');
 	}
-	public function owner(){
-		if("get" == $this->method){
-			if(null !== $this->path_variable){
-				$data = $this->owner_group_model->findByPk($this->path_variable); 
-			}else{
-				$data = $this->owner_group_model->findAll();
-			}
+	public function get(){
+		if(null !== $this->path_variable){
+			$data = $this->families_model->findByPk($this->path_variable); 
 		}else{
-
+			$data = $this->families_model->findAll();
 		}
 		$this->return_json($data);
 	}
-	
+	public function add(){
+		// $processBean =json_decode(file_get_contents('php://input'));
+		// $familyRqType = $processBean->familyRqType;
+		// if(null !=== $familyRqType["roomId"]){
+			
+		// }
+		// $this->return_json($familyRqType);
+	}
 
 	private function return_json($val){
 		$rs['code'] = 0;
