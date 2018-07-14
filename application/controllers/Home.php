@@ -54,7 +54,6 @@ class Home extends CI_Controller {
     }  
 	public function index()
 	{
-		
 		// $this->load->view('welcome_message');
 	}
 	public function get(){
@@ -135,6 +134,16 @@ class Home extends CI_Controller {
 					}
 					$this->return_json($data);
 				break;
+		}
+	}
+
+	public function login(){
+		$u = $this->input->post("username");
+		$p = $this->input->post("password");
+		if( ($u == "admin" && $p == "@1234")){
+			$this->load->view('home_index');
+		}else{
+			// $this->load->view('login');
 		}
 	}
 

@@ -47,8 +47,7 @@ class Welcome extends CI_Controller {
     }  
 	public function index()
 	{
-		echo json_encode(["a"=>1]);
-		// $this->load->view('welcome_message');
+		$this->load->view('login');
 	}
 	public function owner(){
 		if("get" == $this->method){
