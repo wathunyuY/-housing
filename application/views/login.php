@@ -208,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	            <div class="wrap">
 	                <p class="form-title">
 	                    Sign In</p>
-	                <form class="login" action="index.php/home/login" method="post">
+	                <form class="login" action="index.php/welcome/login" method="post">
 	                <input type="text" name="username" placeholder="Username" id="user" />
 	                <input type="password" name="password" placeholder="Password" id="pass" />
 	                <input type="submit" value="Sign In" class="btn btn-success btn-sm" id="btnsubmit" />

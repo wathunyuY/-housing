@@ -61,6 +61,18 @@ class Welcome extends CI_Controller {
 		}
 		$this->return_json($data);
 	}
+	public function login(){
+		$u = $this->input->post("username");
+		$p = $this->input->post("password");
+		if( ($u == "admin" && $p == "@1234")){
+			$this->load->view('header');
+			$this->load->view('home_index');
+			$this->load->view('footer');
+		}else{
+			// $this->load->view('login');
+			redirect('welcome/', 'refresh');
+		}
+	}
 	
 
 	private function return_json($val){
