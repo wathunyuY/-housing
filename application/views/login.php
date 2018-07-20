@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<meta charset="utf-8">
 	<title>Login</title>
-	<link rel="stylesheet" type="text/css" href="assets/bootstrap/dist/css/bootstrap.css"> 
+	<link rel="stylesheet" type="text/css" href="housing/bootstrap/css/bootstrap.css"> 
 	<style type="text/css">
 
 	body
@@ -233,7 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    </div>
 	    <!-- <div class="posted-by">Posted By: <a href="http://www.jquery2dotnet.com">Bhaumik Patel</a></div> -->
 	</div>
-	<script src="assets/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="housing/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>
