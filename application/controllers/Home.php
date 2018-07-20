@@ -140,11 +140,12 @@ class Home extends CI_Controller {
 	public function login(){
 		$u = $this->input->post("username");
 		$p = $this->input->post("password");
-		if( ($u == "admin" && $p == "@1234")){
-			$this->load->view('home_index');
-		}else{
-			// $this->load->view('login');
-		}
+		// if( ($u == "admin" && $p == "@1234")){
+		// 	$this->load->view('home_index');
+		// }else{
+		// 	// $this->load->view('login');
+		// }
+		$this->return_json(array("result"=>$u == "admin" && $p == "@1234"));
 	}
 
 	private function return_json($val){
