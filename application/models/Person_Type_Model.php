@@ -32,10 +32,10 @@ class Person_Type_Model extends CI_Model
   public function findByPk($ID){
       return $this->general_model->findByPk($this->TABLE,$this->PK,$ID);
   }
-  public function findByColumn($table='',$field='',$value=''){
+  public function findByColumn($field='',$value=''){
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
   }
-  public function findByColumns($table='',$fields=[],$values=[]){
+  public function findByColumns($fields=[],$values=[]){
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 

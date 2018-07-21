@@ -53,18 +53,30 @@ class Person extends CI_Controller {
 		// $this->load->view('welcome_message');
 	}
 	public function get(){
-		// if(null !== $this->path_variable){
-		// 	$data = $this->families_model->findByPk($this->path_variable); 
-		// }else{
-		// 	$data = $this->families_model->findAll();
-		// }
-		// $this->return_json($data);
+		if(null !== $this->path_variable){
+			$data = $this->families_model->findByPk($this->path_variable); 
+		}else{
+			$data = $this->families_model->findAll();
+		}
+		$this->return_json($data);
 	}
 	public function add(){
 		$processBean =json_decode(file_get_contents('php://input'));
-		$familyRqType = $processBean->familyRqType;
-		
-		$this->return_json($familyRqType);
+		// $familyRqType = $processBean->familyRqType;
+				
+		$this->return_json($processBean);
+	}
+
+	private function savePicture($base64,$image_name){
+		$sp = explode(",", $processBean->picture);
+		$head = explode("/", $sp[0]);
+		$type = $head[0];
+		$type_fianl = $head[1];
+		$image = base64_decode($sp[1]);
+		// $image_name = md5(uniqid(rand(), true));// image name generating with random number with 32 characters
+		$filename = $image_name . '.' . $type_fianl;
+
+		file_put_contents("assets/picture/".$filename, $image);
 	}
 
 	public function type(){

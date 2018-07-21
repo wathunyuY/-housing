@@ -1,0 +1,23 @@
+<div class="row">
+  <div ng-repeat="(i,x) in owner.homes">
+  <div class="col-md-3">
+    <div class="box box-widget widget-user-2">
+      <div class="widget-user-header bg-blue" ng-click="">
+        <div class="widget-user-image">
+          <img class="img-circle" src="img/zoro.jpg" alt="User Avatar">
+        </div>
+        <h3 class="widget-user-username">{{x.HOME_NAME}}</h3>
+        <h5 class="widget-user-desc">ประเภท {{ getHomeType(x.HOME_TYPE_ID) }}</h5>
+      </div>
+      <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+          <li><a href="#">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x,1)}}</span></a></li>
+          <li><a href="#">มีผู้อาศัย <span class="pull-right badge bg-blue">{{ countRoom(x,2)}}</span></a></li>
+          <li><a href="#">ซ่อมแซม <span class="pull-right badge bg-red">{{ countRoom(x,3)}}</span></a></li>
+          <li><a href="#!sections?id={{x.HOME_ID}}&owner={{owner.OWNER_GROUP_ID}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

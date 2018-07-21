@@ -1,0 +1,23 @@
+<div class="row">
+  <div ng-repeat="x in section.rooms">
+  <div class="col-md-3">
+    <div class="box box-widget widget-user-2">
+      <div class="widget-user-header bg-blue" ng-click="">
+        <div class="widget-user-image">
+          <img class="img-circle" src="img/zoro.jpg" alt="User Avatar">
+        </div>
+        <h3 class="widget-user-username">{{x.ROOM_ADDRESS}} / {{x.ROOM_SUB_ADDRESS}}</h3>
+        <p class="widget-user-desc">สถานะ {{ x.ROOM_STATUS_ID }}</p>
+      </div>
+      <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+          <li><a href="#">เจ้าของห้อง <span class="pull-right badge bg-green">XX XXXX XXXX</span></a></li>
+          <li><a href="#">จำนวนผู้อาศัย <span class="pull-right badge bg-blue">XX</span></a></li>
+          <li><a href="#">เข้าอยู่เมื่อ <span class="pull-right badge bg-red">XX-XX-XXX</span></a></li>
+          <li><a href="#!room_details?id={{x.ROOM_ID}}">ดูรายละเอียด <span class="pull-right badge bg-aqua"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

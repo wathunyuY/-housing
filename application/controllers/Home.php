@@ -47,6 +47,7 @@ class Home extends CI_Controller {
         $this->load->model("home_section_model");
         $this->load->model("room_model");
         $this->load->model("home_type_model");
+        $this->load->model("owner_group_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -148,9 +149,27 @@ class Home extends CI_Controller {
 		$this->return_json(array("result"=>$u == "admin" && $p == "@1234"));
 	}
 
+	public function ownerGroups(){
+		$data = $this->owner_group_model->findAll();
+		foreach ($data as $key_g => $own) {
+			$homes = $this->home_model->findByColumn($this->owner_group_model->PK,$own[$this->owner_group_model->PK]);
+			foreach ($homes as $key_h => $hm) {
+				$secs= $this->home_section_model->findByColumn($this->home_model->PK,$hm[$this->home_model->PK]);
+				foreach ($secs as $key_s => $sec) {
+					$rooms = $this->room_model->findByColumn($this->home_section_model->PK,$sec[$this->home_section_model->PK]);
+					$secs[$key_s]["rooms"] = $rooms;
+				}
+				$homes[$key_h]["sections"] = $secs;
+			}
+			$data[$key_g]["homes"]=$homes;
+		}
+		$this->return_json($data);
+	}
+
 	private function return_json($val){
 		$rs['code'] = 0;
 		$rs['data'] = $val;
 		echo json_encode($rs);
 	}
+
 }
