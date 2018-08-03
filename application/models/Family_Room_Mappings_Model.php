@@ -1,20 +1,24 @@
 <?php
-class Families_Model extends CI_Model
+class Family_Room_Mappings_Model extends CI_Model
 {
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "FAMILIES";
-    $this->PK = "FAMILY_ID";
+    $this->TABLE = "FAMILY_ROOM_MAPPINGS";
+    $this->PK = "FAMILY_ROOM_MAPPING_ID";
     $this->load->model("general_model");
-    $this->load->model("family_members_model");
+    $this->load->model("families_model");
+    $this->load->model("room_model");
+    $this->load->model("person_model");
   }
 
   public function _new($ID =NULL){
     return array(
-      "FAMILY_ID"=>$ID,
-      "FAMILY_NAME"=>NULL,
-      "PERS_ID"=>NULL
+      "FAMILY_ROOM_MAPPING_ID"=>$ID,
+      "ROOM_ID"=>NULL,
+      "FAMILY_ID"=>NULL,
+      "START_DATE"=>NULL,
+      "END_DATE"=>NULL
     );
   }
 
@@ -48,9 +52,22 @@ class Families_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 
-  public function members($ID){
-      return $this->family_members_model->findByFamily($ID); 
+  public function findByRoom($roomId){
+    $tbl = $this->db->select()->from($this->TABLE)->where("ROOM_ID",$roomId)->where("END_DATE",NULL)->get();
+    $row = $tbl->row_array();
+    if(isset($row)){
+      $family = $this->families_model->findByPk($row["FAMILY_ID"]);
+      $members = $this->families_model->members($family["FAMILY_ID"]);
+      $headFam = $this->person_model->findByPk($family["PERS_ID"]);
+      $room = $this->room_model->findByPk($row["ROOM_ID"]);
+      $row["FAMILY"] = $family;
+      $row["FAMILY"]["MEMBERS"] = $members;
+      $row["FAMILY"]["PERSON"] = $headFam;
+      $row["ROOM"] = $room;
+      return $row;
+    }else return NULL;
   }
+  
 }?>
 
 

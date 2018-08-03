@@ -46,8 +46,11 @@ class Home extends CI_Controller {
         $this->load->model("home_model");
         $this->load->model("home_section_model");
         $this->load->model("room_model");
+        $this->load->model("room_status_model");
         $this->load->model("home_type_model");
         $this->load->model("owner_group_model");
+        $this->load->model("family_room_mappings_model");
+        $this->load->model("family_members_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -163,6 +166,40 @@ class Home extends CI_Controller {
 			}
 			$data[$key_g]["homes"]=$homes;
 		}
+		$this->return_json($data);
+	}
+
+	public function roomDetail(){
+		$roomId = $this->input->get("room_id");
+		$roomMap = $this->family_room_mappings_model->findByRoom($roomId);
+		if(null == $roomMap) {
+			$data["find"] = false;
+			$this->return_json($data);
+			return;
+		} 
+		$roomTbl = $roomMap["ROOM"];
+		$roomStatusTbl = $this->room_status_model->findByPk($roomTbl["ROOM_STATUS_ID"]);
+		$sectionTbl = $this->home_section_model->findByPk($roomTbl["HOME_SECTION_ID"]);
+		$homeTbl = $this->home_model->findByPk($sectionTbl["HOME_ID"]);
+		$family = $roomMap["FAMILY"];
+		$family["start_date"] = $roomMap["START_DATE"];
+		$data["find"] = true;
+		$data["room_status"] = $roomStatusTbl;
+		$data["room_id"] = $roomTbl["ROOM_ID"];
+		$data["room_name"] = $roomTbl["ROOM_NAME"];
+		$data["room_address"] = $roomTbl["ROOM_ADDRESS"];
+		$data["room_sub_address"] = $roomTbl["ROOM_SUB_ADDRESS"];
+		$data["section"] = array(
+			"name"=> $sectionTbl["HOME_SECTION_NAME"],
+			"id"=>$sectionTbl["HOME_SECTION_ID"],
+			"order"=>$sectionTbl["HOME_SECTION_ORDER"]
+		);
+		$data["home"] = array(
+			"name"=> $homeTbl["HOME_NAME"],
+			"id"=>$homeTbl["HOME_ID"],
+			"descr"=>$homeTbl["HOME_DESCR"]
+		);
+		$data["family"] = $family;
 		$this->return_json($data);
 	}
 

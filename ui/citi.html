@@ -66,7 +66,7 @@
         console.log(res);
         var s = "";
         for (var i = 0; i < res.length; i++) {
-          s+= "<p> "+res[i].productID+") </p>" + "<p>@" +res[i].terms+"</p>";
+          s+= "<p> "+res[i].productID+") </p>" + '<@_@ style_="text-align: right;">' +res[i].validity+"<@_@>";
         }
         $("#con").html(s);
       });

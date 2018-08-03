@@ -1,20 +1,21 @@
 <?php
-class Families_Model extends CI_Model
+class Person_Model extends CI_Model
 {
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "FAMILIES";
-    $this->PK = "FAMILY_ID";
+    $this->TABLE = "PERSONS";
+    $this->TABLE_PERSON_CURRENT = "PERSON_CURRENTS";
+    $this->PK = "PERS_ID";
     $this->load->model("general_model");
-    $this->load->model("family_members_model");
+    $this->load->model("person_current_model");
   }
 
-  public function _new($ID =NULL){
+  public function _new($ID=NULL){
     return array(
-      "FAMILY_ID"=>$ID,
-      "FAMILY_NAME"=>NULL,
-      "PERS_ID"=>NULL
+      "PERS_ID"=>$ID,
+      "TYPE_ID"=>NULL,
+      "BIRTHDAY"=>NULL
     );
   }
 
@@ -23,7 +24,10 @@ class Families_Model extends CI_Model
   {
       if(NULL === $data[$this->PK]){
         $id = $this->general_model->addData($data,$this->TABLE);
+        $personCurrent = array($this->PK => $id);
+        $this->general_model->addData($personCurrent,$this->TABLE_PERSON_CURRENT);
         return $this->findByPk($id);
+
       }
       else {
         $this->general_model->updateData($data,$this->TABLE,$this->PK,$data[$this->PK]);
@@ -39,7 +43,9 @@ class Families_Model extends CI_Model
   }
 
   public function findByPk($ID){
-      return $this->general_model->findByPk($this->TABLE,$this->PK,$ID);
+      $row = $this->general_model->findByPk($this->TABLE,$this->PK,$ID);
+      $row["CURRENT"] = $this->person_current_model->findByPk($ID);
+      return $row;
   }
   public function findByColumn($field='',$value=''){
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
@@ -48,9 +54,7 @@ class Families_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 
-  public function members($ID){
-      return $this->family_members_model->findByFamily($ID); 
-  }
+  
 }?>
 
 

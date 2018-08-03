@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true ");
 header("Access-Control-Allow-Methods: OPTIONS, GET, GET");
 header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
-class Family extends CI_Controller {
+class Address extends CI_Controller {
 
 	function __construct()
     {
@@ -23,8 +23,7 @@ class Family extends CI_Controller {
         $this->time = $now->format('H:i:s');
         $this->load->helper("url");
 
-        $this->load->model("general_model");
-        $this->load->model("families_model");
+        $this->load->model("address_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -32,14 +31,15 @@ class Family extends CI_Controller {
     }  
 	public function index()
 	{
-		
-		// $this->load->view('welcome_message');
+		$key = $this->input->get("key");
+		$data = $this->address_model->findDistric($key);
+		$this->return_json($data);
 	}
 	public function get(){
 		if(null !== $this->path_variable){
-			$data = $this->families_model->findByPk($this->path_variable); 
+			$data = $this->address_model->findByPk($this->path_variable); 
 		}else{
-			$data = $this->families_model->findAll();
+			$data = $this->address_model->findAll();
 		}
 		$this->return_json($data);
 	}

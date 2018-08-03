@@ -1,21 +1,12 @@
 <?php
-class Families_Model extends CI_Model
+class Person_Current_Model extends CI_Model
 {
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "FAMILIES";
-    $this->PK = "FAMILY_ID";
+    $this->TABLE = "PERSON_CURRENTS";
+    $this->PK = "PERS_ID";
     $this->load->model("general_model");
-    $this->load->model("family_members_model");
-  }
-
-  public function _new($ID =NULL){
-    return array(
-      "FAMILY_ID"=>$ID,
-      "FAMILY_NAME"=>NULL,
-      "PERS_ID"=>NULL
-    );
   }
 
   // ADD
@@ -48,9 +39,7 @@ class Families_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 
-  public function members($ID){
-      return $this->family_members_model->findByFamily($ID); 
-  }
+  
 }?>
 
 

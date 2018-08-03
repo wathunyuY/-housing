@@ -9,12 +9,24 @@
         <h3 class="widget-user-username">{{x.HOME_NAME}}</h3>
         <h5 class="widget-user-desc">ประเภท {{ getHomeType(x.HOME_TYPE_ID) }}</h5>
       </div>
-      <div class="box-footer no-padding">
-        <ul class="nav nav-stacked">
-          <li><a href="#">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x,1)}}</span></a></li>
-          <li><a href="#">มีผู้อาศัย <span class="pull-right badge bg-blue">{{ countRoom(x,2)}}</span></a></li>
-          <li><a href="#">ซ่อมแซม <span class="pull-right badge bg-red">{{ countRoom(x,3)}}</span></a></li>
+      <div class="box-footer no-padding" ng-switch ="{{x.HOME_TYPE_ID}}">
+        <ul class="nav nav-stacked" ng-switch-default>
           <li><a href="#!sections?id={{x.HOME_ID}}&owner={{owner.OWNER_GROUP_ID}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
+          <li><a href="#">มีผู้อาศัย <span class="pull-right badge bg-blue">{{ countRoom(x,2)}}</span></a></li>
+          <li><a href="#">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x,1)}}</span></a></li>
+          <li><a href="#">ซ่อมแซม <span class="pull-right badge bg-red">{{ countRoom(x,3)}}</span></a></li>
+        </ul>
+        <ul class="nav nav-stacked" ng-switch-when="1">
+          <li><a href="#!room_details?home={{x.HOME_ID}}"> {{ countRoom(x,1) > 0 ? "ว่าง":"มีผู้อาศัย"}} <span class="pull-right badge bg-green">ดูรายละเอียด</span></a></li>
+          <li><a > เจ้าของห้อง <span class="pull-right badge bg-blue">-</span></a></li>
+          <li><a > จำนวนผู้อาศัย <span class="pull-right badge bg-green">-</span></a></li>
+          <li><a > เข้าอยู่เมื่อ <span class="pull-right badge bg-red">-</span></a></li>
+        </ul>
+        <ul class="nav nav-stacked" ng-switch-when="4">
+          <li><a href="#"> {{ countRoom(x,1) > 0 ? "ว่าง":"มีผู้อาศัย"}} <span class="pull-right badge bg-green"></span></a></li>
+          <li><a href="#"> เจ้าของห้อง <span class="pull-right badge bg-blue">-</span></a></li>
+          <li><a href="#"> จำนวนผู้อาศัย <span class="pull-right badge bg-green">-</span></a></li>
+          <li><a href="#"> เข้าอยู่เมื่อ <span class="pull-right badge bg-red">-</span></a></li>
         </ul>
       </div>
     </div>

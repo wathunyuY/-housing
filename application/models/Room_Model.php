@@ -38,7 +38,6 @@ class Room_Model extends CI_Model
   public function findByColumns($fields=[],$values=[]){
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
-
   
 }?>
 

@@ -42,6 +42,12 @@ class Person extends CI_Controller {
         $this->load->helper("url");
 
         $this->load->model("person_type_model");
+        $this->load->model("person_model");
+        $this->load->model("person_current_model");
+        $this->load->model("families_model");
+        $this->load->model("family_members_model");
+        $this->load->model("room_model");
+        $this->load->model("family_room_mappings_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -62,9 +68,66 @@ class Person extends CI_Controller {
 	}
 	public function add(){
 		$processBean =json_decode(file_get_contents('php://input'));
-		// $familyRqType = $processBean->familyRqType;
-				
-		$this->return_json($processBean);
+		$rq = $processBean->personRqType;
+
+		if(null != $rq->roomId){
+			$roomTbl = $this->room_model->findByPk($rq->roomId);
+			if(null == $roomTbl) return;
+
+			$person = $this->person_model->_new();
+			$person["TYPE_ID"] = $rq->person_type;
+			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));
+			$personTbl = $this->person_model->merge($person);
+			$personCur = array(
+				"PERS_ID"=>$personTbl["PERS_ID"],
+				"FIRST_NAME"=>$rq->name,
+				"GENDER" => $rq->gender,
+				"PERS_N_ID"=> $rq->idCard,
+				"NATIONALITY"=> $rq->national,
+				"EDUCATION"=>$rq->edu,
+				"CAREER"=>$rq->career,
+				"ACADEMY"=>$rq->academy,
+				"PHONE_NBR"=>$rq->phone,
+				"MOBILE_NBR_1"=>$rq->mobile,
+				"ADDRESS_1_TYPE0"=>$rq->origin_address_descr,
+				"DISTRICT_ID_TYPE0"=>$rq->origin_address,
+				"CAR_NUMBER"=>$rq->car,
+				"BIKER_NUMBER"=>$rq->biker,
+				"REFERENCE"=>$rq->reference
+			);
+			$personCurTbl = $this->person_current_model->merge($personCur);
+
+			if($rq->is_header_family){// head family
+				$family = $this->families_model->_new();
+				$family["FAMILY_NAME"]="ครอบครัว ".$personCurTbl["FIRST_NAME"];
+				$family["PERS_ID"]=$personTbl["PERS_ID"];
+				$familyTbl = $this->families_model->merge($family);
+
+				$frMapping = $this->family_room_mappings_model->_new();
+				$frMapping["ROOM_ID"] = $roomTbl["ROOM_ID"];
+				$frMapping["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
+				$frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$frMapping["END_DATE"] = null;
+				$this->family_room_mappings_model->merge($frMapping);
+			}else{
+				$familyTbl = $this->families_model->findByPk($rq->family_id);
+				$familyMember = $this->family_members_model->_new();
+				$familyMember["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
+				$familyMember["PERS_ID"] = $personTbl["PERS_ID"];
+				$familyMember["FAMILY_MEMBER_STATUS"] = $rq->member_status;
+				$familyMember["IS_STAY"] = true;
+				$familyMember["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$this->family_members_model->merge($familyMember);
+			}
+
+			
+		
+		}
+
+
+
+
+		$this->return_json($rq);
 	}
 
 	private function savePicture($base64,$image_name){

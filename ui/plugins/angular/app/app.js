@@ -6,7 +6,8 @@ app.run(function($rootScope,$http) {
     		ownerGroups :[],
     		homeTypes:[]
     }
-    $rootScope.genders = ["ชาย","หญิง"];
+    $rootScope.HEAD_FAMILY_TEXT = "หัวหน้าครอบครัว";
+    $rootScope.genders = [{k:"M",v:"ชาย"},{k:"F",v:"หญิง"}];
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {
         $rootScope.masterData.ownerGroups = response.data.data;
@@ -56,7 +57,7 @@ app.config(function($routeProvider) {
     })
     .when("/room_details", {
         templateUrl : "template/room_detail.html",
-        controller : "rmdtlCtrl"
+        controller : "rmDtlCtrl"
     });
 });
 
@@ -175,6 +176,11 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
     
  		return count;
  	}
+    $scope.goDetail =(typeId)=>{
+        if(typeId == 1 || typeId == 4){
+            $("#oneroom").click();
+        }
+    }
 });
 app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
     var params = $route.current.params;
@@ -222,7 +228,3 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
  	}
 });
 
-app.controller('rmDtlCtrl', function($rootScope,$scope,$route,$filter) {
-    var params = $route.current.params;
-    console.log(params);
-});

@@ -1,21 +1,12 @@
 <?php
-class Families_Model extends CI_Model
+class Address_Model extends CI_Model
 {
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "FAMILIES";
-    $this->PK = "FAMILY_ID";
+    $this->TABLE = "provinces";
+    $this->PK = "id";
     $this->load->model("general_model");
-    $this->load->model("family_members_model");
-  }
-
-  public function _new($ID =NULL){
-    return array(
-      "FAMILY_ID"=>$ID,
-      "FAMILY_NAME"=>NULL,
-      "PERS_ID"=>NULL
-    );
   }
 
   // ADD
@@ -48,9 +39,17 @@ class Families_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 
-  public function members($ID){
-      return $this->family_members_model->findByFamily($ID); 
+  public function findDistric($key){
+      // $this->select()->from()->join()->join()->where()->order_by()->get();
+      $sql = "SELECT d.id as d_id,d.zip_code,d.name_th as d_name,a.id as a_id,a.name_th as a_name,p.id as p_id,p.name_th as p_name 
+              FROM districts d  
+              INNER join amphures a on a.id = d.amphure_id
+              INNER join provinces p on p.id = a.province_id ORDER BY p.name_th ";
+              // WHERE d.name_th like '".$key."%' ORDER BY d.name_th";
+      $q = $this->db->query($sql);
+      return $q->result_array();
   }
+  
 }?>
 
 

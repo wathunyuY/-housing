@@ -1,0 +1,204 @@
+<style type="text/css">
+  .modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+
+</style>
+
+
+<div class="modal modal-wide  fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">เพิ่มสมาชิก</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+                <div class="box-body">
+                  <div class="form-group col-md-12 text-center">
+                     <div class="widget-user-image" ng-click="clickImage()">
+                  <img class="img-circle" src="img/zoro.jpg" alt="User Avatar"  width="150" height="150" id="pictureView">
+                </div>
+                <label for="fullname">รูปถ่าย </label>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="fullname">ชื่อ - สกุล </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="fullname" placeholder="ยศ. ชื่อ สกุล" ng-model="fullname">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>เพศ</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                          <i class="fa fa-transgender"></i>
+                      </div>
+                      <select ng-model="gender" class="form-control">
+                        <option ng-repeat="x  in genders" value="{{ x.k }}">{{ x.v }}</option>
+                      </select>
+                   </div>
+                </div>
+                  <div class="form-group col-md-4">
+                    <label >เลขประจำตัวประชาชน: </label>
+
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-credit-card"></i>
+                      </div>
+                      <input type="text" class="form-control" data-inputmask='"mask": "9-9999-9999-999-9"' data-mask id="idCard" ng-model="idCard">
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="fullname">ความสำพันธ์ </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="relation" placeholder="ลูกสาว" ng-model="relation">
+                    </div>
+                  </div>
+                <div class="form-group col-md-4">
+                    <label >วัน/เดือน/ปี เกิด: </label>
+                    <div class="input-group date">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="datepicker" ng-model="birthday">
+                    </div>
+                 </div>
+                <div class="form-group col-md-4">
+                    <label for="national">สัญชาติ </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="national" placeholder="สัญชาติ" ng-model="national">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="edu">การศึกษา </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="edu" placeholder="การศึกษา" ng-model="edu">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="career">อาชีพ </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="career" placeholder="อาชีพ" ng-model="career">
+                    </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="academy">สังกัด โรงเรียน ชื่อหน่วยงาน </label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" class="form-control" id="academy" placeholder="สังกัด" ng-model="academy">
+                    </div>
+                  </div>
+                <div class="form-group col-md-4">
+                    <label>เบอร์โทร์ศัพท์ที่ทำงาน:</label>
+
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+                      </div>
+                      <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="phone" id="phone">
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>เบอร์โทร์ศัพท์มือถือ:</label>
+
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-mobile"></i>
+                      </div>
+                      <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="mobile" id="mobile">
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label >วันที่เข้าพัก: </label>
+                    <div class="input-group date">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" id="datepicker2" ng-model="startDate">
+                    </div>
+                </div>
+                  <div class="form-group col-md-12">
+                    <label>ที่อยู่</label>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="origin_address_descr" id="origin_address_descr"></textarea>
+                      </div>
+                      <div class="form-group col-md-8">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                              <i class="fa fa-paper-plane"></i>
+                            </div>
+                          <select id="addr" ng-model="origin_address" class="form-control select2" style="width: 100%;">
+                              <option ng-repeat="x in districts" value="{{x.d_id}}">{{x.p_name}} >> {{ x.a_name}} >> {{ x.d_name }} >> {{ x.zip_code }}</option>
+                          </select>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label>ทะเบียนรถ</label>
+                    <div class="row">
+                      <div class="form-group col-md-4">
+                        <label for="car">รถยนต์ </label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-car"></i>
+                          </div>
+                          <input type="text" class="form-control" id="car" placeholder="กข 123" ng-model="car">
+                        </div>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="biker">รถจักรยานยนต์ </label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-motorcycle"></i>
+                          </div>
+                          <input type="text" class="form-control" id="biker" placeholder="กข 123" ng-model="biker">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label>หมายเหตุ</label>
+                    <textarea class="form-control" rows="3" placeholder="หมายเหตุ.." ng-model="reference" id="real_address"></textarea>
+                  </div>
+                  <div class="form-group col-md-4" ng-hide="true">
+                    <label for="exampleInputFile">รูปถ่าย</label>
+                    <input type="file" id="exampleInputFile" ng-model="picture" multiple onchange="angular.element(this).scope().fileNameChanged(this)">
+                    <p class="help-block">Example block-level help text here.</p>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+
+                <div class="box-footer">
+                  <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </div>
+              </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
