@@ -35,28 +35,24 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $('#datepicker').datepicker("setDate",new Date($scope.headFam.BIRTHDAY));
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
             if($scope.members.length > 0){
-                for (var i = 0; i < $scope.members.length; i++) {
-                    var x = $scope.members[i];
-                    $("#demoTabs .tab_head:last").before("<li  data-toggle=\"modal\" data-target=\"#tab"+x.FAMILY_ID+x.FAMILY_MEMBER_ID+"'>"+x.FAMILY_MEMBER_STATUS+"\"><a href='#tab"+x.FAMILY_ID+x.FAMILY_MEMBER_ID+"'>"+x.FAMILY_MEMBER_STATUS+" </a></li>");   
-                }
-                $("#demoTabs").tabs("refresh");
+                
             }
         }
     });
 
 
     console.log(params);
-    $("#demoTabs").tabs();
-    $("#removeTabs").click(function() {
-        var tabIndex = parseInt($("#indexValue").val(), 10);
-        var tab = $( "#demoTabs" ).find(".ui-tabs-nav li:eq(" + tabIndex + ")").remove();
-        $("#demoTabs").tabs("refresh");
-    });
-    $("#addTabs").click(function() {
-        // $("<li><a href='myTab.txt'>New Tab</a></li>").appendTo("#demoTabs .ui-tabs-nav");
-        $("#demoTabs .tab_head:last").before("<li><a href='myTab.txt'>สมาชิก </a></li>");
-        $("#demoTabs").tabs("refresh");
-    });
+    // $("#demoTabs").tabs();
+    // $("#removeTabs").click(function() {
+    //     var tabIndex = parseInt($("#indexValue").val(), 10);
+    //     var tab = $( "#demoTabs" ).find(".ui-tabs-nav li:eq(" + tabIndex + ")").remove();
+    //     $("#demoTabs").tabs("refresh");
+    // });
+    // $("#addTabs").click(function() {
+    //     // $("<li><a href='myTab.txt'>New Tab</a></li>").appendTo("#demoTabs .ui-tabs-nav");
+    //     $("#demoTabs .tab_head:last").before("<li><a href='myTab.txt'>สมาชิก </a></li>");
+    //     $("#demoTabs").tabs("refresh");
+    // });
 
     $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
@@ -149,6 +145,10 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             }
 
         });
+
+        $scope.getMemberDetail = (memberId)=>{
+            alert(memberId);
+        }
     }
     
 });
