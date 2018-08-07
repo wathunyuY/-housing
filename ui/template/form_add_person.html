@@ -1,8 +1,8 @@
-<form role="form">
+<form role="form" ng-init = "_person = x.PERSON">
   <div class="box-body">
   	<div class="form-group col-md-12 text-center">
   		 <div class="widget-user-image" ng-click="clickImage()">
-          <img class="img-circle" src="img/zoro.jpg" alt="User Avatar"  width="150" height="150" id="pictureView{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <img class="img-circle" src="img/zoro.jpg" alt="User Avatar"  width="150" height="150" id="pictureView">
         </div>
         <label for="fullname">รูปถ่าย </label>
   	</div>
@@ -12,7 +12,7 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="fullname{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="ยศ. ชื่อ สกุล" ng-model="fullname{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="fullname" placeholder="ยศ. ชื่อ สกุล" ng-model="_person.CURRENT.FIRST_NAME">
       </div>
     </div>
     <div class="form-group col-md-4">
@@ -21,8 +21,8 @@
     		<div class="input-group-addon">
                 <i class="fa fa-transgender"></i>
             </div>
-            <select ng-model="gender{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" class="form-control">
-            	<option ng-repeat="x  in genders" value="{{ x.k }}">{{ x.v }}</option>
+            <select ng-model="_person.CURRENT.GENDER" class="form-control">
+            	<option ng-repeat="x  in genders" value="{{ x.k }}" ng-selected="_person.CURRENT.GENDER">{{ x.v }}</option>
             </select>
          </div>
     </div>
@@ -33,7 +33,7 @@
           <div class="input-group-addon">
             <i class="fa fa-credit-card"></i>
           </div>
-          <input type="text" class="form-control" data-inputmask='"mask": "9-9999-9999-999-9"' data-mask id="idCard{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" ng-model="idCard{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <input type="text" class="form-control" data-inputmask='"mask": "9-9999-9999-999-9"' data-mask id="idCard" ng-model="_person.CURRENT.PERS_N_ID">
         </div>
     </div>
     <div class="form-group col-md-4">
@@ -42,16 +42,16 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="relation{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="ลูกสาว" ng-model="relation{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="relation" placeholder="ลูกสาว" ng-model="x.FAMILY_MEMBER_STATUS">
       </div>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-4" ng-mouseenter="setDateTime(x.FAMILY_MEMBER_ID,_person.BIRTHDAY)">
         <label >วัน/เดือน/ปี เกิด: </label>
         <div class="input-group date">
           <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
           </div>
-          <input type="text" class="form-control pull-right" id="datepicker{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" ng-model="birthday{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <input type="text" class="form-control pull-right" id="datepicker_{{x.FAMILY_MEMBER_ID}}" ng-init="setDateTime(x.FAMILY_MEMBER_ID,_person.BIRTHDAY)">
         </div>
      </div>
     <div class="form-group col-md-4">
@@ -60,7 +60,7 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="national{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="สัญชาติ" ng-model="national{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="national" placeholder="สัญชาติ" ng-model="_person.CURRENT.NATIONALITY">
       </div>
     </div>
     <div class="form-group col-md-4">
@@ -69,7 +69,7 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="edu{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="การศึกษา" ng-model="edu{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="edu" placeholder="การศึกษา" ng-model="_person.CURRENT.EDUCATION">
       </div>
     </div>
     <div class="form-group col-md-4">
@@ -78,7 +78,7 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="career{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="อาชีพ" ng-model="career{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="career" placeholder="อาชีพ" ng-model="_person.CURRENT.CAREER">
       </div>
     </div>
     <div class="form-group col-md-4">
@@ -87,7 +87,7 @@
           <div class="input-group-addon">
             <i class="fa fa-user"></i>
           </div>
-      	<input type="text" class="form-control" id="academy{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="สังกัด" ng-model="academy{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+      	<input type="text" class="form-control" id="academy" placeholder="สังกัด" ng-model="_person.CURRENT.ACADEMY">
       </div>
     </div>
     <div class="form-group col-md-4">
@@ -97,7 +97,7 @@
           <div class="input-group-addon">
             <i class="fa fa-phone"></i>
           </div>
-          <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="phone{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" id="phone{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="_person.CURRENT.PHONE_NBR" id="phone">
         </div>
     </div>
     <div class="form-group col-md-4">
@@ -107,31 +107,31 @@
           <div class="input-group-addon">
             <i class="fa fa-mobile"></i>
           </div>
-          <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="mobile{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" id="mobile{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="_person.CURRENT.MOBILE_NBR_1" id="mobile">
         </div>
     </div>
-    <div class="form-group col-md-4">
-        <label >วันที่เข้าพัก: </label>
+    <div class="form-group col-md-4" ng-mouseenter="setDateTime2(x.FAMILY_MEMBER_ID,x.START_DATE)">
+        <label>วันที่เข้าพัก: </label>
         <div class="input-group date">
           <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
           </div>
-          <input type="text" class="form-control pull-right" id="datepicker2{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" ng-model="startDate{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+          <input type="text" class="form-control pull-right" id="datepicker2_{{x.FAMILY_MEMBER_ID}}">
         </div>
     </div>
     <div class="form-group col-md-12">
     	<label>ที่อยู่</label>
         <div class="row">
         	<div class="col-md-4">
-                <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="origin_address_descr{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" id="origin_address_descr{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}"></textarea>
+                <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="_person.CURRENT.FIRST_NAME" id="ADDRESS_1_TYPE0"></textarea>
         	</div>
         	<div class="form-group col-md-8">
                 <div class="input-group">
                     <div class="input-group-addon">
                     	<i class="fa fa-paper-plane"></i>
                   	</div>
-	                <select id="addr{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" ng-model="origin_address{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" class="form-control select2" style="width: 100%;">
-	                  	<option ng-repeat="x in districts" value="{{x.d_id}}">{{x.p_name}} >> {{ x.a_name}} >> {{ x.d_name }} >> {{ x.zip_code }}</option>
+	                <select id="addr" ng-model="_person.CURRENT.DISTRICT_ID_TYPE0" class="form-control select2" style="width: 100%;">
+	                  	<option ng-repeat="x in districts" value="{{x.d_id}}" ng-selected="_person.CURRENT.DISTRICT_ID_TYPE0">{{x.p_name}} >> {{ x.a_name}} >> {{ x.d_name }} >> {{ x.zip_code }}</option>
 	                </select>
 	            </div>
             </div>
@@ -146,7 +146,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-car"></i>
                   </div>
-              	<input type="text" class="form-control" id="car{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="กข 123" ng-model="car{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+              	<input type="text" class="form-control" id="car" placeholder="กข 123" ng-model="_person.CURRENT.CAR_NUMBER">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -155,24 +155,22 @@
                   <div class="input-group-addon">
                     <i class="fa fa-motorcycle"></i>
                   </div>
-              	<input type="text" class="form-control" id="biker{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" placeholder="กข 123" ng-model="biker{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}">
+              	<input type="text" class="form-control" id="biker" placeholder="กข 123" ng-model="_person.CURRENT.BIKER_NUMBER">
               </div>
             </div>
         </div>
     </div>
     <div class="form-group col-md-12">
       <label>หมายเหตุ</label>
-      <textarea class="form-control" rows="3" placeholder="หมายเหตุ.." ng-model="reference{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" id="real_address{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}"></textarea>
+      <textarea class="form-control" rows="3" placeholder="หมายเหตุ.." ng-model="_person.CURRENT.REFERENCE"></textarea>
     </div>
     <div class="form-group col-md-4" ng-hide="true">
       <label for="exampleInputFile">รูปถ่าย</label>
-      <input type="file" id="exampleInputFile{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" ng-model="picture{{x.FAMILY_ID}}{{x.FAMILY_MEMBER_ID}}" multiple onchange="angular.element(this).scope().fileNameChanged(this)">
+      <input type="file" id="exampleInputFile" ng-model="_person.CURRENT.FIRST_NAME" multiple onchange="angular.element(this).scope().fileNameChanged(this)">
       <p class="help-block">Example block-level help text here.</p>
     </div>
   </div>
-  <!-- /.box-body -->
-
   <div class="box-footer">
-    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+  	<button type="button" class="btn btn-primary pull-right" ng-click="save();">บันทึก</button>
   </div>
-	</form>
+</form>

@@ -175,6 +175,13 @@ class Person extends CI_Controller {
 		}
 	}
 
+	public function memberDetail(){
+		$id = $this->input->get("id");
+		$member = $this->family_members_model->findByPk($id);
+		$person = $this->person_model->findByPk($member["PERS_ID"]);
+		$this->return_json($person);
+	}
+
 	private function return_json($val){
 		$rs['code'] = 0;
 		$rs['data'] = $val;

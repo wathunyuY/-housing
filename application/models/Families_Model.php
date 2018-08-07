@@ -8,6 +8,7 @@ class Families_Model extends CI_Model
     $this->PK = "FAMILY_ID";
     $this->load->model("general_model");
     $this->load->model("family_members_model");
+    $this->load->model("person_model");
   }
 
   public function _new($ID =NULL){
@@ -49,7 +50,14 @@ class Families_Model extends CI_Model
   }
 
   public function members($ID){
-      return $this->family_members_model->findByFamily($ID); 
+      $members = $this->family_members_model->findByFamily($ID);
+      if(count($members)){
+          foreach ($members as $key => $m) {
+             $person = $this->person_model->findByPk($m["PERS_ID"]);
+             $members[$key]["PERSON"] = $person;
+          }
+      } 
+      return $members;
   }
 }?>
 

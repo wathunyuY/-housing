@@ -34,26 +34,23 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $scope.relation = $rootScope.HEAD_FAMILY_TEXT;
             $('#datepicker').datepicker("setDate",new Date($scope.headFam.BIRTHDAY));
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
-            if($scope.members.length > 0){
-                
-            }
         }
     });
-
-
+    $scope.setDateTime = function(id,date){
+        $('#datepicker_'+id).datepicker({
+          dateFormat: 'dd-mm-yy',
+          autoclose: true
+        });
+        $('#datepicker_'+id).datepicker("setDate",new Date(date));
+    }
+    $scope.setDateTime2 = function(id,date){
+        $('#datepicker2_'+id).datepicker({
+          dateFormat: 'dd-mm-yy',
+          autoclose: true
+        });
+        $('#datepicker2_'+id).datepicker("setDate",new Date(date));
+    }
     console.log(params);
-    // $("#demoTabs").tabs();
-    // $("#removeTabs").click(function() {
-    //     var tabIndex = parseInt($("#indexValue").val(), 10);
-    //     var tab = $( "#demoTabs" ).find(".ui-tabs-nav li:eq(" + tabIndex + ")").remove();
-    //     $("#demoTabs").tabs("refresh");
-    // });
-    // $("#addTabs").click(function() {
-    //     // $("<li><a href='myTab.txt'>New Tab</a></li>").appendTo("#demoTabs .ui-tabs-nav");
-    //     $("#demoTabs .tab_head:last").before("<li><a href='myTab.txt'>สมาชิก </a></li>");
-    //     $("#demoTabs").tabs("refresh");
-    // });
-
     $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
       dateFormat: 'dd-mm-yy',
@@ -111,7 +108,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             name : $scope.fullname,
             gender : $scope.gender,
             idCard : $("#idCard").val(),
-            birth_date : $( "#datepicker" ).datepicker( "getDate" ),
+            birth_date : $( "#datepicker").datepicker( "getDate" ),
             national:$scope.national,
             edu:$scope.edu,
             career:$scope.career,
@@ -145,10 +142,6 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             }
 
         });
-
-        $scope.getMemberDetail = (memberId)=>{
-            alert(memberId);
-        }
     }
     
 });
