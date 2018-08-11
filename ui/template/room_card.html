@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div ng-repeat="x in section.rooms">
   <div class="col-md-3">
     <div class="box box-widget widget-user-2">
@@ -7,7 +7,7 @@
           <img class="img-circle" src="img/zoro.jpg" alt="User Avatar">
         </div>
         <h3 class="widget-user-username">{{x.ROOM_ADDRESS}} / {{x.ROOM_SUB_ADDRESS}}</h3>
-        <p class="widget-user-desc">สถานะ {{ x.ROOM_STATUS_ID }}</p>
+        <p class="widget-user-desc">{{getRoomStatus(x.ROOM_STATUS_ID);}}</p>
       </div>
       <div class="box-footer no-padding">
         <ul class="nav nav-stacked">
@@ -19,5 +19,76 @@
       </div>
     </div>
   </div>
+  </div>
+</div> -->
+<div class="col-md-12">
+    <div class="box">
+          <div class="box-header">
+            <button data-toggle="modal" data-target="#addRoom" class="btn bg-teal btn-md pull-right" ng-click="addBtn();">เพิ่ม <i class="fa fa-plus"></i></button>
+            <h3 class="box-title">ตารางข้อมูล</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>ที่</th>
+                <th>ชื่อห้อง</th>
+                <th>หมายเลข</th>
+                <th>สถานะ</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="(i,x) in section.rooms">
+                    <td>{{ i+1 }}</td>
+                    <td>{{x.ROOM_NAME}}</td>
+                    <td>{{x.ROOM_ADDRESS}} / {{x.ROOM_SUB_ADDRESS}}</td>
+                    <td>{{getRoomStatus(x.ROOM_STATUS_ID);}} </td>
+                    <td>
+                      <a href="#!room_details?id={{x.ROOM_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+</div>
+
+<div class="modal modal-wide  fade" id="addRoom" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">เพิ่มห้อง</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8" ng-init="room_name = 'ห้อง '+ (section.rooms.length+1)">
+              <label>ชื่อห้อง </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="room_name" placeholder="ชื่อชั้น" ng-model="room_name">
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <!-- <p>จำนวนห้องพักรวม : {{column * _row}} ห้อง</p> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addRoom() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
   </div>
 </div>

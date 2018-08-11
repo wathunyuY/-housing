@@ -1,0 +1,92 @@
+    <!-- Modal content-->
+<div class="modal-content ">
+  <div class="modal-header">
+    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+    <a href="#!member_deletes?id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove">ลบ</i></a>
+    <a href="#!member_edits?id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-warning pull-right"><i class="fa fa-edit">แก้ไข</i></a>
+    <h4 class="modal-title">ข้อมูลส่วนตัว</h4>
+  </div>
+  <div class="modal-body">
+    <div class="box-body">
+      <div class="form-group col-md-12 text-center">
+        <div class="widget-user-image" ng-click="clickImage()">
+          <img class="img-circle" src="{{filepath}}/{{person.picture_path}}" alt="User Avatar"  width="150" height="150" id="pictureView">
+        </div>
+        <label>รูปถ่าย </label>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="fullname">ชื่อ - สกุล: </label>
+          <span>{{person.fullname}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label>เพศ: </label>
+          <span>{{person.gender}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label >เลขประจำตัวประชาชน: </label>
+        <span>{{person.idCard}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="fullname">ความสำพันธ์: </label>
+        <span>{{person.relation}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label >วัน/เดือน/ปี เกิด: </label>
+        <span>{{person.birth_date}}</span>
+     </div>
+      <div class="form-group col-md-4">
+        <label for="national">สัญชาติ: </label>
+        <span>{{person.national}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="edu">การศึกษา: </label>
+        <span>{{person.edu}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="career">อาชีพ: </label>
+        <span>{{person.career}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="academy">สังกัด โรงเรียน ชื่อหน่วยงาน: </label>
+        <span>{{person.academy}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label>เบอร์โทร์ศัพท์ที่ทำงาน: </label>
+        <span>{{person.phone}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label>เบอร์โทร์ศัพท์มือถือ: </label>
+        <span>{{person.mobile}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label >วันที่เข้าพัก: </label>
+        <span>{{person.start_date}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label>ที่อยู่: </label>
+        <span>{{person.origin_address_descr}}</span>
+        <span>ต. {{person.origin_address.d_name}}</span>
+        <span>อ. {{person.origin_address.a_name}}</span>
+        <span>จ. {{person.origin_address.p_name}}</span>
+        <span> {{person.origin_address.zip_code}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="car">ทะเบียนรถยนต์: </label>
+        <span>{{person.car}}</span>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="biker">ทะเบียนรถจักรยานยนต์: </label>
+          <span>{{person.biker}}</span>
+      </div>
+      <div class="form-group col-md-12">
+        <label>หมายเหตุ: </label>
+        <span>{{person.reference}}</span>
+      </div>
+    </div>
+    <!-- /.box-body -->
+
+    <!-- <div class="box-footer"> -->
+      <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    <!-- </div> -->
+  </div>
+</div>

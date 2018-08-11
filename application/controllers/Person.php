@@ -52,6 +52,7 @@ class Person extends CI_Controller {
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
         $this->method = $this->input->method();
+        $this->HEADER_FAM = "หัวหน้าครอบครัว";
     }  
 	public function index()
 	{
@@ -78,6 +79,11 @@ class Person extends CI_Controller {
 			$person["TYPE_ID"] = $rq->person_type;
 			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));
 			$personTbl = $this->person_model->merge($person);
+
+			if(null != $rq->picture)
+				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
+			else $pic = "/assets/picture/default.png";
+
 			$personCur = array(
 				"PERS_ID"=>$personTbl["PERS_ID"],
 				"FIRST_NAME"=>$rq->name,
@@ -93,7 +99,8 @@ class Person extends CI_Controller {
 				"DISTRICT_ID_TYPE0"=>$rq->origin_address,
 				"CAR_NUMBER"=>$rq->car,
 				"BIKER_NUMBER"=>$rq->biker,
-				"REFERENCE"=>$rq->reference
+				"REFERENCE"=>$rq->reference,
+				"PICTURE_PATH"=> $pic
 			);
 			$personCurTbl = $this->person_current_model->merge($personCur);
 
@@ -118,28 +125,74 @@ class Person extends CI_Controller {
 				$familyMember["IS_STAY"] = true;
 				$familyMember["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
 				$this->family_members_model->merge($familyMember);
-			}
-
-			
-		
+			}		
 		}
-
-
-
-
 		$this->return_json($rq);
 	}
+	public function edit(){
+		$processBean =json_decode(file_get_contents('php://input'));
+		$rq = $processBean->personRqType;
 
+		// if(null != $rq->roomId){
+		// 	$roomTbl = $this->room_model->findByPk($rq->roomId);
+		// 	if(null == $roomTbl) return;
+
+			$person = $this->person_model->findByPk($rq->pers_id);
+			// $person["TYPE_ID"] = $rq->person_type;
+			unset($person["CURRENT"]); 
+			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));
+			$personTbl = $this->person_model->merge($person);
+			$personCurTbl = $personTbl["CURRENT"];
+			if(null != $rq->picture)
+				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
+			else $pic = $personCurTbl["PICTURE_PATH"];
+			$personCurTbl["FIRST_NAME"]=$rq->name;
+			$personCurTbl["GENDER"] = $rq->gender;
+			$personCurTbl["PERS_N_ID"]= $rq->idCard;
+			$personCurTbl["NATIONALITY"]= $rq->national;
+			$personCurTbl["EDUCATION"]=$rq->edu;
+			$personCurTbl["CAREER"]=$rq->career;
+			$personCurTbl["ACADEMY"]=$rq->academy;
+			$personCurTbl["PHONE_NBR"]=$rq->phone;
+			$personCurTbl["MOBILE_NBR_1"]=$rq->mobile;
+			$personCurTbl["ADDRESS_1_TYPE0"]=$rq->origin_address_descr;
+			$personCurTbl["DISTRICT_ID_TYPE0"]=$rq->origin_address;
+			$personCurTbl["CAR_NUMBER"]=$rq->car;
+			$personCurTbl["BIKER_NUMBER"]=$rq->biker;
+			$personCurTbl["REFERENCE"]=$rq->reference;
+			$personCurTbl["PICTURE_PATH"]= $pic;
+			$personCurTbl = $this->person_current_model->merge($personCurTbl);
+
+			if($rq->is_header_family){// head family
+				$family = $this->families_model->findByPk($rq->family_id);
+				$family["FAMILY_NAME"]="ครอบครัว ".$personCurTbl["FIRST_NAME"];
+				$familyTbl = $this->families_model->merge($family);
+
+				// $frMapping = $this->family_room_mappings_model->_new();
+				// $frMapping["ROOM_ID"] = $roomTbl["ROOM_ID"];
+				// $frMapping["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
+				// $frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				// $frMapping["END_DATE"] = null;
+				// $this->family_room_mappings_model->merge($frMapping);
+			}else{
+				// $familyTbl = $this->families_model->findByPk($rq->family_id);
+				$familyMember = $this->family_members_model->findByPk($rq->family_id);
+				$familyMember["FAMILY_MEMBER_STATUS"] = $rq->member_status;
+				$this->family_members_model->merge($familyMember);
+			}		
+		// }
+		$this->return_json($rq);
+	}
 	private function savePicture($base64,$image_name){
-		$sp = explode(",", $processBean->picture);
+		$sp = explode(",", $base64);
 		$head = explode("/", $sp[0]);
 		$type = $head[0];
-		$type_fianl = $head[1];
+		$type_fianl = explode(";",$head[1])[0];
 		$image = base64_decode($sp[1]);
 		// $image_name = md5(uniqid(rand(), true));// image name generating with random number with 32 characters
 		$filename = $image_name . '.' . $type_fianl;
-
 		file_put_contents("assets/picture/".$filename, $image);
+		return "assets/picture/".$filename;
 	}
 
 	public function type(){
@@ -177,9 +230,35 @@ class Person extends CI_Controller {
 
 	public function memberDetail(){
 		$id = $this->input->get("id");
-		$member = $this->family_members_model->findByPk($id);
+		$isH = $this->input->get("h");
+		$member = $isH == 1? $this->families_model->findByPk($id) : $this->family_members_model->findByPk($id);
 		$person = $this->person_model->findByPk($member["PERS_ID"]);
-		$this->return_json($person);
+		$roomMap = $isH ==1 ? $this->family_room_mappings_model->findLastFamily($id) : null;
+		$cur = $person["CURRENT"];
+		$rs = array(
+			"pers_id"=> $person["PERS_ID"],
+			"member_id"=> $isH == 1 ? $member["FAMILY_ID"] : $member["FAMILY_MEMBER_ID"],
+            "fullname" => $cur["FIRST_NAME"],
+            "idCard" => $cur["PERS_N_ID"],
+            "national" => $cur["NATIONALITY"],
+            "edu" => $cur["EDUCATION"],
+            "career" => $cur["CAREER"],
+            "academy" => $cur["ACADEMY"],
+            "mobile" => $cur["MOBILE_NBR_1"],
+            "phone" => $cur["PHONE_NBR"],
+            "origin_address_descr" => $cur["ADDRESS_1_TYPE0"],
+            "origin_address" => $cur["DISTRICT_ID_TYPE0"],
+            "car" => $cur["CAR_NUMBER"],
+            "biker" => $cur["BIKER_NUMBER"],
+            "reference" => $cur["REFERENCE"],
+            "gender" => $cur["GENDER"],
+            "birth_date" => $person["BIRTHDAY"],
+            "start_date" => $isH == 1? $roomMap["START_DATE"] : $member["START_DATE"],
+            "relation"=> $isH == 1? $this->HEADER_FAM : $member["FAMILY_MEMBER_STATUS"],
+            "is_header"=> $isH ==1,
+            "picture_path"=> $cur["PICTURE_PATH"]
+		);
+		$this->return_json($rs);
 	}
 
 	private function return_json($val){

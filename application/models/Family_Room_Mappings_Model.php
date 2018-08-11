@@ -6,6 +6,8 @@ class Family_Room_Mappings_Model extends CI_Model
     parent::__construct();
     $this->TABLE = "FAMILY_ROOM_MAPPINGS";
     $this->PK = "FAMILY_ROOM_MAPPING_ID";
+    $this->FK_ROOM = "ROOM_ID";
+    $this->FK_FAMILY = "FAMILY_ID";
     $this->load->model("general_model");
     $this->load->model("families_model");
     $this->load->model("room_model");
@@ -66,6 +68,11 @@ class Family_Room_Mappings_Model extends CI_Model
       $row["ROOM"] = $room;
       return $row;
     }else return NULL;
+  }
+  public function findLastFamily($familyId){
+    $tbl = $this->db->select("*")->from($this->TABLE)->where($this->FK_FAMILY,$familyId)->where("END_DATE",null)->get();
+    if($tbl->num_rows() > 0) return $tbl->row_array();
+    else return null;
   }
   
 }?>

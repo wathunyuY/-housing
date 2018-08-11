@@ -108,6 +108,63 @@ class Home extends CI_Controller {
 		$this->return_json($homeTbl);
 	}
 
+	public function section(){
+		switch ($this->path_variable) {
+			case 'add':
+				$processBean =json_decode(file_get_contents('php://input'));
+				$secRqType = $processBean->secRqType;
+				$sectionTbl['HOME_SECTION_ID'] = $secRqType->sectionId;
+				$sectionTbl['HOME_ID'] = $secRqType->homeId;
+				$sectionTbl['HOME_SECTION_NAME'] = $secRqType->sectionName;
+				$sectionTbl['HOME_SECTION_ORDER'] = $secRqType->sectionOrder;
+				$sectionTbl = $this->home_section_model->merge($sectionTbl);
+				if(count($secRqType->rooms)){
+					foreach ($secRqType->rooms as $key => $room) {
+						$roomTbl['ROOM_ID'] = $room->roomId;
+						$roomTbl['HOME_SECTION_ID'] = $sectionTbl['HOME_SECTION_ID'];
+						$roomTbl['ROOM_NAME'] = $room->roomName;
+						$roomTbl['ROOM_ORDER'] = $room->roomOrder;
+						$roomTbl['ROOM_ADDRESS'] = $room->roomAddress;
+						$roomTbl['ROOM_SUB_ADDRESS'] = $room->roomSubAddress;
+						$roomTbl['ROOM_SEQ'] = $room->roomSeq;
+						$roomTbl['ROOM_STATUS_ID'] = $room->roomStatusId;
+						$roomTbl['OWNER_GROUP_ID'] = $room->ownerGroupId;
+						$roomTbl = $this->room_model->merge($roomTbl);
+						// array_push($sectionTbl['rms'], $roomTbl);
+					}
+				}
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		$this->return_json(array("status"=>0));
+	}
+	public function room(){
+		switch ($this->path_variable) {
+			case 'add':
+				$processBean =json_decode(file_get_contents('php://input'));
+				$room = $processBean->roomRqType;
+				$roomTbl['ROOM_ID'] = $room->roomId;
+				$roomTbl['HOME_SECTION_ID'] = $room->sectionId;
+				$roomTbl['ROOM_NAME'] = $room->roomName;
+				$roomTbl['ROOM_ORDER'] = $room->roomOrder;
+				$roomTbl['ROOM_ADDRESS'] = $room->roomAddress;
+				$roomTbl['ROOM_SUB_ADDRESS'] = $room->roomSubAddress;
+				$roomTbl['ROOM_SEQ'] = $room->roomSeq;
+				$roomTbl['ROOM_STATUS_ID'] = $room->roomStatusId;
+				$roomTbl['OWNER_GROUP_ID'] = $room->ownerGroupId;
+				$roomTbl = $this->room_model->merge($roomTbl);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		$this->return_json(array("status"=>0));
+	}
+
 	public function type(){
 		switch ($this->path_variable) {
 			case 'add':
@@ -139,6 +196,16 @@ class Home extends CI_Controller {
 					$this->return_json($data);
 				break;
 		}
+	}
+
+	public function masterData(){
+		$home_type = $this->home_type_model->findAll();
+		$room_status = $this->room_status_model->findAll();
+		$rs = array(
+			"home_type"=>$home_type,
+			"room_status"=>$room_status
+		);
+		$this->return_json($rs);
 	}
 
 	public function login(){

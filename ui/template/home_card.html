@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div ng-repeat="(i,x) in owner.homes">
   <div class="col-md-3">
     <div class="box box-widget widget-user-2">
@@ -11,7 +11,7 @@
       </div>
       <div class="box-footer no-padding" ng-switch ="{{x.HOME_TYPE_ID}}">
         <ul class="nav nav-stacked" ng-switch-default>
-          <li><a href="#!sections?id={{x.HOME_ID}}&owner={{owner.OWNER_GROUP_ID}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
+          <li><a href="{{x.links}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
           <li><a href="#">มีผู้อาศัย <span class="pull-right badge bg-blue">{{ countRoom(x,2)}}</span></a></li>
           <li><a href="#">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x,1)}}</span></a></li>
           <li><a href="#">ซ่อมแซม <span class="pull-right badge bg-red">{{ countRoom(x,3)}}</span></a></li>
@@ -31,5 +31,139 @@
       </div>
     </div>
   </div>
+  </div>
+</div> -->
+
+<div class="col-md-12">
+    <div class="box">
+          <div class="box-header">
+            <button data-toggle="modal" data-target="#addHome" class="btn bg-teal btn-md pull-right" ng-click="addBtn();">เพิ่ม <i class="fa fa-plus"></i></button>
+            <h3 class="box-title">ตารางข้อมูล</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>ที่</th>
+                <th>ชื่อบ้าน.</th>
+                <th>ประเภท</th>
+                <th>ทั้งหมด</th>
+                <th>มีผู้อาศัย</th>
+                <th>ว่าง</th>
+                <th>ซ่อมแซม</th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="(i,x) in owner.homes">
+                    <td>{{ i+1 }} </td>
+                    <td>{{ x.HOME_NAME }}</td>
+                    <td>{{ getHomeType(x.HOME_TYPE_ID) }}</td>
+                    <td>{{ countRoom(x,0) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-info">{{ countRoom(x,2) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-success">{{ countRoom(x,1) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-danger">{{ countRoom(x,3) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+</div>
+
+<div class="modal modal-wide  fade" id="addHome" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">เพื่มบ้านพัก</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-12">
+              <label>ผู้ดูแล</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-transgender"></i>
+                </div>
+                <select ng-model="owner_group" class="form-control">
+                  <option ng-repeat="x  in masterData.ownerGroups" value="{{ x.OWNER_GROUP_ID }}">{{ x.OWNER_GROUP_NAME }} - {{ x.OWNER_GROUP_DESCR }}</option>
+                </select>
+              </div>
+            </div>
+           <div class="form-group col-md-12">
+              <label>ประเภทบ้าน</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-transgender"></i>
+                </div>
+                <select ng-model="home_type" class="form-control">
+                  <option ng-repeat="x  in masterData.homeTypes" value="{{ x.HOME_TYPE_ID }}">{{ x.HOME_TYPE_NAME }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 2 || home_type == 3">
+              <div class="row" ng-init="column=1;_row=1">
+                <div class="form-group col-md-6">
+                  <label>จำนวนชั้น/แถว </label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <input type="number" class="form-control" id="_row" ng-model="_row">
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>จำนวนห้องแต่ละชั้น/แถว </label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <input type="number" class="form-control" id="column" ng-model="column">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>ชื่อบ้านพัก </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="home_name" placeholder="ชื่อบ้านพัก" ng-model="home_name">
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label >รหัสห้อง </label>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" id="add_main" ng-model="add_main">
+                </div>
+                <div class="col-md-1">/</div>
+                <div class="form-group col-md-5">
+                  <input type="number" class="form-control" id="add_sub" ng-model="add_sub">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>รายละเอียด (เพิ่มเติม)</label>
+              <textarea class="form-control" rows="2" placeholder="รายละเอียด ..." ng-model="home_descr" id="home_descr"></textarea>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer" ng-show="home_type == 2 || home_type == 3">
+            <p>จำนวนห้องพักรวม : {{column * _row}} ห้อง</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addHome() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
   </div>
 </div>

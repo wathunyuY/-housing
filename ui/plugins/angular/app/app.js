@@ -1,21 +1,27 @@
 var app = angular.module('myApp', ["ngRoute"]);
 
-app.run(function($rootScope,$http) {
-	$rootScope.apiUrl = "http://localhost:8070/home/index.php"
+app.run(function($rootScope,$http,$filter) {
+    $rootScope.apiUrl = "http://localhost:8070/home/index.php"
+	$rootScope.filepath = "http://localhost:8070/home/"
 	$rootScope.masterData ={
     		ownerGroups :[],
     		homeTypes:[]
     }
     $rootScope.HEAD_FAMILY_TEXT = "หัวหน้าครอบครัว";
     $rootScope.genders = [{k:"M",v:"ชาย"},{k:"F",v:"หญิง"}];
+    $rootScope.getGender=(g)=>{
+       var gd = $filter('filter')($rootScope.genders , {'k':g});
+       return gd[0].v;
+    }
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {
         $rootScope.masterData.ownerGroups = response.data.data;
     });
 
-    $http.get($rootScope.apiUrl+"/home/type")
+    $http.get($rootScope.apiUrl+"/home/masterData")
     .then(function(response) {
-        $rootScope.masterData.homeTypes = response.data.data;
+        $rootScope.masterData.homeTypes = response.data.data.home_type;
+        $rootScope.masterData.roomStatus = response.data.data.room_status;
     });
 
     $rootScope.api =(req)=>{
@@ -58,6 +64,14 @@ app.config(function($routeProvider) {
     .when("/room_details", {
         templateUrl : "template/room_detail.html",
         controller : "rmDtlCtrl"
+    })
+    .when("/member_details", {
+        templateUrl : "template/member_detail.html",
+        controller : "mbDtlCtrl"
+    })
+    .when("/member_edits", {
+        templateUrl : "template/member_edit.html",
+        controller : "mbEdtCtrl"
     });
 });
 
@@ -135,96 +149,5 @@ app.controller('newPersCtrl', function($scope,$rootScope) {
 	   };
 	}
 
-});
-
-app.controller('ownerGrpCtrl', function($rootScope,$scope,$http,$filter) {
-	// console.log($rootScope.masterData);
-    // $scope.fel = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':1}) 
- 	$scope.countRoom = (homes,status)=>{
- 		var count = 0
- 		angular.forEach(homes, function(home){
-	        angular.forEach(home.sections, function(sec){
-		        angular.forEach(sec.rooms, function(r){
-		        	if(status != 0)
-			        	count += r.ROOM_STATUS_ID == status ? 1 : 0;
-			        else count++;
-			    });
-		    });
-	    });
- 		return count;
- 	}
-});
-
-app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
-    var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.id})
-    $scope.owner = $scope.owner[0];
-    $scope.getHomeType = (id)=>{
-	    var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':id})
-	    return t[0].HOME_TYPE_NAME;
-    }
-    $scope.countRoom = (home,status)=>{
- 		var count = 0
- 		
-        angular.forEach(home.sections, function(sec){
-	        angular.forEach(sec.rooms, function(r){
-	        	if(status != 0)
-		        	count += r.ROOM_STATUS_ID == status ? 1 : 0;
-		        else count++;
-		    });
-	    });
-    
- 		return count;
- 	}
-    $scope.goDetail =(typeId)=>{
-        if(typeId == 1 || typeId == 4){
-            $("#oneroom").click();
-        }
-    }
-});
-app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
-    var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
-    $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.id});
-    $scope.home =  $scope.home[0];
-    $scope.getHomeType = ()=>{
-	    var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':$scope.home.HOME_TYPE_ID})
-	    return t[0].HOME_TYPE_NAME;
-    }
-    $scope.countRoom = (sec,status)=>{
- 		var count = 0
- 		
-        angular.forEach(sec.rooms, function(r){
-        	if(status != 0)
-	        	count += r.ROOM_STATUS_ID == status ? 1 : 0;
-	        else count++;
-	    });
-    
- 		return count;
- 	}
-});
-
-app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
-    var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
-    $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.home});
-    $scope.section = $filter('filter')($scope.home[0].sections , {'HOME_SECTION_ID':params.id});
-    $scope.section =  $scope.section[0];
-    console.log($scope.section);
-    $scope.getHomeType = ()=>{
-	    var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':$scope.home[0].HOME_TYPE_ID})
-	    return t[0].HOME_TYPE_NAME;
-    }
-    $scope.countRoom = (status)=>{
- 		var count = 0
- 		
-        angular.forEach($scope.section.rooms, function(r){
-        	if(status != 0)
-	        	count += r.ROOM_STATUS_ID == status ? 1 : 0;
-	        else count++;
-	    });
-    
- 		return count;
- 	}
 });
 

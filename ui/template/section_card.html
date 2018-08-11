@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
   <div ng-repeat="x in home.sections">
   <div class="col-md-3">
     <div class="box box-widget widget-user-2">
@@ -19,5 +19,88 @@
       </div>
     </div>
   </div>
+  </div>
+</div> -->
+
+<div class="col-md-12">
+    <div class="box">
+          <div class="box-header">
+            <button data-toggle="modal" data-target="#addSection" class="btn bg-teal btn-md pull-right" ng-click="addBtn();">เพิ่ม <i class="fa fa-plus"></i></button>
+            <h3 class="box-title">ตารางข้อมูล</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>ที่</th>
+                <th>ชื่อชั้น</th>
+                <th>ทั้งหมด</th>
+                <th>มีผู้อาศัย</th>
+                <th>ว่าง</th>
+                <th>ซ่อมแซม</th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="(i,x) in home.sections">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ x.HOME_SECTION_NAME }}</td>
+                    <td>{{ countRoom(x,0) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td>{{ countRoom(x,2) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td>{{ countRoom(x,1) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td>{{ countRoom(x,3) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+</div>
+
+
+<div class="modal modal-wide  fade" id="addSection" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">เพื่มชั้น/แถว</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8" ng-init="sec_name = 'ชั้น '+ (home.sections.length+1)">
+              <label>ชื่อชั้น </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="sec_name" placeholder="ชื่อชั้น" ng-model="sec_name">
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label>จำนวนห้อง </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="number" class="form-control" id="num_room" placeholder="จำนวนห้อง" ng-model="num_room">
+              </div>
+            </div>
+        
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <!-- <p>จำนวนห้องพักรวม : {{column * _row}} ห้อง</p> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addSec() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
   </div>
 </div>
