@@ -365,13 +365,42 @@ class Home extends CI_Controller {
 	}
 
 	public function pdf(){
+		$fontSize16 = 16;
 		$this->pdf->AddPage();
 		$this->pdf->AddFont('angsa','','angsa.php');
 		$this->pdf->AddFont('angsa','B','angsab.php');
 		$this->pdf->AddFont('angsa','I','angsai.php');
 		$this->pdf->AddFont('angsa','U','angsaz.php');
-		$this->pdf->SetFont('angsa','',36);
-		$this->pdf->Cell(0,20,iconv( 'UTF-8','TIS-620','สวัสดี ชาวโลก2'),0,1,"C");
+		$this->pdf->SetFont('angsa','U',18);
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','แบบรายงานขอบ้านพักอาศัย'),0,1,'C');
+		$this->pdf->SetFont('angsa','',16);	
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','หน่วย'.$this->getDot(70)),0,1,'R');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','วันที่'.$this->getDot().'เดือน'.$this->getDot().'พ.ศ'.$this->getDot()),0,1,'R');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','เรื่อง        ขอบ้านพักอาศัยของทางราชการ'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','เรียน'.$this->getDot(100)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                กระผม/ดิฉัน'.$this->getDot(90).'ตำแหน่ง'.$this->getDot(50)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','สังกัด'.$this->getDot(50).'รับเงินเดือน'.$this->getDot(50).'เดือนละ'.$this->getDot(50)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','กับเงินพิเศษอื่นๆ เดือนละ'.$this->getDot(50).'รวมรายได้'.$this->getDot(50).'บาท'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                ภรรยา/สามี ชื่อ'.$this->getDot(70).'ทำงาน'.$this->getDot(70)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รวมรายได้เดือนละ'.$this->getDot(50).' และมีบุตร จำนวน'.$this->getDot(30).'คน'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                ปัจจุบันกระผม/ดิฉัน อาศัยอยู่บ้านเลขที่'.$this->getDot(55).'หมู่ที่'.$this->getDot(50)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตำบล/แขวง'.$this->getDot(50).'อำเภอ/เขต'.$this->getDot(50).'จังหวัด'.$this->getDot(45)),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตั้งแต่'.$this->getDot(50).'เช่าบ้าน (ถ้ามี) อยู่ที่'.$this->getDot(50).'เดือนละ'.$this->getDot(30).'บาท'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','โดย (เบิกหรือไม่เบิก) '.$this->getDot(50).'เดือนละ'.$this->getDot(30).'บาท'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตามสิทธิ์เบิกได้เดือนละ '.$this->getDot(30).'บาทและได้แนบหลักฐานการเช่าซึ่งผู้บังคับบัญชาเซ็นต์รับรองเรียบร้อยแล้ว.-'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                จำนวนคนในครอบครัวกระผม/ดิฉัน ที่จะเข้าพักอาศัยมีจำนวนทั้งหมด'.$this->getDot(30).'คน ดังนี้'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๑.   '.$this->getDot(90)),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๒.   '.$this->getDot(90)),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๓.   '.$this->getDot(90)),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๔.   '.$this->getDot(90)),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                กระผม/ดิฉัน สัญญาว่าจะปฏิบัติตามระเบียบฯ การเข้าพักอาศัยในบ้านพักของทางราชการ ทุกประเภท.-'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                จึงเรียนมาเพื่อทราบ และพิจารณาดำเนินการต่อไป'),0,1,'L');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ควรมิควรแล้วแต่จะกรุณา               '),0,1,'R');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','               '.$this->getDot(70)),0,1,'R');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','               ('.$this->getDot(70).')'),0,1,'R');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตำแน่ง'.$this->getDot(80)),0,1,'R');
+
+
 		$this->pdf->Output("/test.pdf","F");
 
 		$this->load->helper('download');
@@ -383,4 +412,11 @@ class Home extends CI_Controller {
 		//echo anchor('MyPDF/test.pdf', 'Download');
 	}
 
+	public function getDot($value=20){
+		$d = "";
+		for ($i=0; $i <$value ; $i++) { 
+			$d .= ".";
+		}
+		return $d;
+	}
 }
