@@ -18,20 +18,39 @@ app.controller('ownerGrpCtrl', function($rootScope,$scope,$http,$filter) {
 
 app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
     var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.id})
-    $scope.owner = $scope.owner[0];
-    $scope.owner.homesMod = $scope.owner.homes.map((h) =>{
-        var links = "";
-        if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4){
-            var room_id = h.sections[0].rooms[0].ROOM_ID;
-            links = "#!room_details?id="+room_id;
-        }else links = "#!sections?id="+h.HOME_ID+"&owner="+$scope.owner.OWNER_GROUP_ID;
-            h["links"]=links;
-        return h;
+    // $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.id})
+    // $scope.owner = $scope.owner[0];
+    $rootScope.api({
+        method:"GET",
+        url: "/home/homeByOwner/"+params.id,
+        data:{},
+        success:function(res){
+            $scope.homes = res.data.data;
+            console.log($scope.homes);
+            $scope.homes = $scope.homes.map((h) =>{
+                var links = "";
+                if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4){
+                    var room_id = h.sections[0].rooms[0].ROOM_ID;
+                    links = "#!room_details?id="+room_id;
+                }else links = "#!sections?id="+h.HOME_ID+"&owner="+params.id;
+                    h["links"]=links;
+                return h;
+            });
+        },
+        fail:function(){
+
+        }
+
     });
+
+    
     $scope.getHomeType = (id)=>{
         var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':id})
         return t[0].HOME_TYPE_NAME;
+    }
+    $scope.getOwnerGroup = (id)=>{
+        var t = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':id})
+        return t[0].OWNER_GROUP_NAME + " - " + t[0].OWNER_GROUP_DESCR;
     }
     $scope.countRoom = (home,status)=>{
         var count = 0
@@ -119,19 +138,95 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 console.log(res);
                 $route.reload();
             },
-            fail:function(){
-
+            fail:function(err){
+                console.log(err);
             }
 
         });
     }
+    $scope.homeDetail = (index)=>{
+        var h = $scope.homes[index];
+        $scope.home_name = h.HOME_NAME;
+        $scope.home_descr = h.HOME_DESCR  != null ? h.HOME_DESCR : "-";
+        $scope.home_type = $scope.getHomeType(h.HOME_TYPE_ID);
+        $scope.owner_group =  $scope.getOwnerGroup(h.OWNER_GROUP_ID);
+        if(h.HOME_TYPE_ID == 2 || h.HOME_TYPE_ID == 3){
+            var room = 0;
+            var sec = 0;
+            for (var i = 0; i < h.sections.length; i++) { sec++;
+                for (var j = 0; j < h.sections[i].rooms.length; j++)room++;
+            }
+        }
+        $scope.add_main = h.sections[0].rooms[0].ROOM_ADDRESS;
+        $scope.add_sub = h.sections[0].rooms[0].ROOM_SUB_ADDRESS;
+    }  
+    $scope.editHomePre = (index)=>{
+        var h = $scope.homes[index];
+        $scope.home_index = index;
+        $scope.home_name = h.HOME_NAME;
+        $scope.owner_group = h.OWNER_GROUP_ID;
+    }
+    $scope.editHome = (index)=>{
+        var h = $scope.homes[index];
+        var data ={
+            homeId: h.HOME_ID,
+            homeName: $scope.home_name,
+            homeDescr: $scope.home_descr != null ? $scope.home_descr : "-"
+        }
+        console.log(data)
+        $rootScope.api({
+            method:"POST",
+            url: "/home/edit",
+            data:{homeRqType:data},
+            success:function(res){
+                console.log(res);
+                $route.reload();
+            },
+            fail:function(err){
+                console.log(err);
+            }
 
+        });
+    }
+    $scope.deleteHome = (index)=>{
+        var h = $scope.homes[index];
+        $rootScope.api({
+            method:"delete",
+            url: "/home/delete/"+h.HOME_ID,
+            data:{},
+            success:function(res){
+                console.log(res);
+                if(res.data.data) alert("ไม่สามารถลบได้");
+                $route.reload();
+            },
+            fail:function(err){
+                console.log(err);
+            }
+
+        });
+    }
 });
 app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
     var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
-    $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.id});
-    $scope.home =  $scope.home[0];
+    // $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
+    // $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.id});
+    // $scope.home =  $scope.home[0];
+    $scope.ownerId = params.owner;
+    $rootScope.api({
+        method:"GET",
+        url: "/home/sectionByHome/"+params.id,
+        data:{},
+        success:function(res){
+            $scope.home = res.data.data;
+            $scope.sec_name = ($scope.home.HOME_TYPE_ID == 2 ? "ชั้น " : "แถว ") +($scope.home.sections.length+1);
+            console.log($scope.home);
+        },
+        fail:function(){
+
+        }
+
+    });
+
     $scope.getHomeType = ()=>{
         var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':$scope.home.HOME_TYPE_ID})
         return t[0].HOME_TYPE_NAME;
@@ -166,7 +261,7 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 roomSubAddress: $scope.home.sections[0].rooms[0].ROOM_SUB_ADDRESS,
                 roomSeq: j,
                 roomStatusId: 1,
-                ownerGroupId: $scope.owner[0].OWNER_GROUP_ID
+                ownerGroupId: params.owner
             }
             data.rooms.push(room);
         }
@@ -185,15 +280,84 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
 
         });
     }
+
+    $scope.secDetail = (index)=>{
+        var h = $scope.home.sections[index];
+        $scope.sec_name = h.HOME_SECTION_NAME;
+        $scope.sec_descr = h.HOME_SECTION_DESCR  != null ? h.HOME_SECTION_DESCR : "-";
+        var room = 0;
+        for (var j = 0; j < h.rooms.length; j++)room++;
+        $scope.num_room = room;
+    } 
+
+    $scope.editSecPre = (index)=>{
+        var s = $scope.home.sections[index];
+        $scope.sec_index = index;
+        $scope.sec_name = s.HOME_SECTION_NAME;
+        // $scope.owner_group = h.OWNER_GROUP_ID;
+    }
+    $scope.editSec = (index)=>{
+        var s = $scope.home.sections[index];
+        var data ={
+            homeId: $scope.home.HOME_ID,
+            sectionId: s.HOME_SECTION_ID,
+            sectionName: $scope.sec_name,
+        }
+        $rootScope.api({
+            method:"POST",
+            url: "/home/section/edit",
+            data:{secRqType:data},
+            success:function(res){
+                console.log(res);
+                $route.reload();
+            },
+            fail:function(){
+
+            }
+
+        });
+    }
+    $scope.deleteSec = (index)=>{
+        var h = $scope.home.sections[index];
+        $rootScope.api({
+            method:"delete",
+            url: "/home/section/delete/"+h.HOME_SECTION_ID,
+            data:{},
+            success:function(res){
+                console.log(res);
+                if(res.data.data) alert("ไม่สามารถลบได้");
+                $route.reload();
+            },
+            fail:function(err){
+                console.log(err);
+            }
+        });
+    }
+
 });
 
 app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
     var params = $route.current.params;
-    $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
-    $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.home});
-    $scope.section = $filter('filter')($scope.home[0].sections , {'HOME_SECTION_ID':params.id});
-    $scope.section =  $scope.section[0];
-    console.log($scope.section);
+    // $scope.owner = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':params.owner})
+    // $scope.home = $filter('filter')($scope.owner[0].homes , {'HOME_ID':params.home});
+    // $scope.section = $filter('filter')($scope.home[0].sections , {'HOME_SECTION_ID':params.id});
+    // $scope.section =  $scope.section[0];
+    // console.log($scope.section);
+    $rootScope.api({
+        method:"GET",
+        url: "/home/roomBySection/"+params.id,
+        data:{},
+        success:function(res){
+            $scope.section = res.data.data;
+            $scope.room_name = "ห้อง " +($scope.section.rooms.length+1);
+            console.log($scope.home);
+        },
+        fail:function(){
+
+        }
+
+    });
+
     $scope.getHomeType = ()=>{
         var t = $filter('filter')($rootScope.masterData.homeTypes , {'HOME_TYPE_ID':$scope.home[0].HOME_TYPE_ID})
         return t[0].HOME_TYPE_NAME;
@@ -225,7 +389,7 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 roomSubAddress: $scope.section.rooms[0].ROOM_SUB_ADDRESS,
                 roomSeq: $scope.section.rooms.length,
                 roomStatusId: 1,
-                ownerGroupId: $scope.owner[0].OWNER_GROUP_ID
+                ownerGroupId: params.owner
         };
         console.log(data)
         $rootScope.api({
@@ -240,6 +404,53 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
 
             }
 
+        });
+    }
+    $scope.editRoomPre = (index)=>{
+        var s = $scope.section.rooms[index];
+        $scope.room_index = index;
+        $scope.room_name = s.ROOM_NAME;
+        // $scope.owner_group = h.OWNER_GROUP_ID;
+    }
+    $scope.editRoom = (index)=>{
+        var s = $scope.section.rooms[index];
+        var data = {
+                roomId: s.ROOM_ID,
+                sectionId: $scope.section.HOME_SECTION_ID,
+                roomName: $scope.room_name,
+                // roomAddress: $scope.section.rooms[0].ROOM_ADDRESS,
+                // roomSubAddress: $scope.section.rooms[0].ROOM_SUB_ADDRESS,
+                // roomStatusId: 1
+        };
+        console.log(data)
+        $rootScope.api({
+            method:"POST",
+            url: "/home/room/edit",
+            data:{roomRqType:data},
+            success:function(res){
+                console.log(res);
+                $route.reload();
+            },
+            fail:function(){
+
+            }
+
+        });
+    }
+    $scope.deleteRoom = (index)=>{
+        var h = $scope.section.rooms[index];
+        $rootScope.api({
+            method:"delete",
+            url: "/home/room/delete/"+h.ROOM_ID,
+            data:{},
+            success:function(res){
+                console.log(res);
+                if(res.data.data) alert("ไม่สามารถลบได้");
+                $route.reload();
+            },
+            fail:function(err){
+                console.log(err);
+            }
         });
     }
 });

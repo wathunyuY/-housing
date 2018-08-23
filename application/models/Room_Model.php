@@ -4,7 +4,7 @@ class Room_Model extends CI_Model
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "Home_ROOMS";
+    $this->TABLE = "HOME_ROOMS";
     $this->PK = "ROOM_ID";
     $this->load->model("general_model");
   }
@@ -37,6 +37,12 @@ class Room_Model extends CI_Model
   }
   public function findByColumns($fields=[],$values=[]){
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
+  }
+
+  public function haveFamily($roomId){
+    $sql = "SELECT * FROM  home_rooms c 
+            WHERE ROOM_STATUS_ID <> 1 AND c.ROOM_ID = ".$roomId;
+    return $this->db->query($sql)->num_rows() > 0;
   }
   
 }?>

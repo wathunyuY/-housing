@@ -34,6 +34,11 @@ app.run(function($rootScope,$http,$filter) {
 	    // $http.post($rootScope.apiUrl+req.url,{data:[{a:1}]});
     }
 
+    $rootScope.getRoomStatus = (roomStatusId)=>{
+        var t = $filter('filter')($rootScope.masterData.roomStatus , {'ROOM_STATUS_ID':roomStatusId})
+        return t[0].ROOM_STATUS_NAME;
+    }
+
 });
 
 app.config(function($routeProvider) {
@@ -41,10 +46,10 @@ app.config(function($routeProvider) {
     .when("/", {
         templateUrl : "template/blank.html"
     })
-    .when("/new_persons", {
-        templateUrl : "template/new_person.html",
-        controller : "newPersCtrl"
-    })
+    // .when("/new_persons", {
+    //     templateUrl : "template/new_person.html",
+    //     controller : "newPersCtrl"
+    // })
     .when("/owner_groups", {
         templateUrl : "template/owner_group.html",
         controller : "ownerGrpCtrl"

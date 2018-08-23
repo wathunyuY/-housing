@@ -36,6 +36,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $('#datepicker').datepicker("setDate",new Date($scope.headFam.BIRTHDAY));
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
         }else{
+            $scope.room_detail = $scope.roomDetail.room;
             $scope.family_id = null;
             $scope.is_header_family = false;            
         }
@@ -160,6 +161,21 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             }
 
         });
+    }
+    $scope.changeRoomStatus = (status)=>{
+        $rootScope.api({
+            method:"GET",
+            url: "/home/room/changeStatus/"+$scope.room_detail.ROOM_ID+"/"+status,
+            data:{},
+            success:function(res){
+                console.log(res);
+                $route.reload();
+            },
+            fail:function(){
+
+            }
+
+        });   
     }
     
 });

@@ -48,6 +48,7 @@ class Person extends CI_Controller {
         $this->load->model("family_members_model");
         $this->load->model("room_model");
         $this->load->model("family_room_mappings_model");
+        $this->load->model("room_status_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -75,6 +76,8 @@ class Person extends CI_Controller {
 			$roomTbl = $this->room_model->findByPk($rq->roomId);
 			if(null == $roomTbl) return;
 
+			$roomTbl["ROOM_STATUS_ID"] = $this->room_status_model->STAY;
+			$this->room_model->merge($roomTbl);
 			$person = $this->person_model->_new();
 			$person["TYPE_ID"] = $rq->person_type;
 			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));

@@ -33,7 +33,13 @@
   </div>
   </div>
 </div> -->
-
+<!-- <div class="col-md-12">
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-check"></i> Alert!</h4>
+    Success alert preview. This alert is dismissable.
+  </div>
+</div> -->
 <div class="col-md-12">
     <div class="box">
           <div class="box-header">
@@ -52,10 +58,11 @@
                 <th>มีผู้อาศัย</th>
                 <th>ว่าง</th>
                 <th>ซ่อมแซม</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
-                  <tr ng-repeat="(i,x) in owner.homes">
+                  <tr ng-repeat="(i,x) in homes">
                     <td>{{ i+1 }} </td>
                     <td>{{ x.HOME_NAME }}</td>
                     <td>{{ getHomeType(x.HOME_TYPE_ID) }}</td>
@@ -63,12 +70,17 @@
                     <td class="bg-info">{{ countRoom(x,2) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
                     <td class="bg-success">{{ countRoom(x,1) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
                     <td class="bg-danger">{{ countRoom(x,3) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="text-center">
+                      <button class="btn btn-sm btn-success " data-toggle="modal" data-target="#detailHome" ng-click="homeDetail(i)"><i class="fa fa-desktop"></i></button>
+                      <button class="btn btn-sm btn-warning " data-toggle="modal" data-target="#editHome" ng-click="editHomePre(i)"><i class="fa fa-edit"></i></button>
+                      <button ng-disabled="countRoom(x,2) > 0" class="btn btn-sm btn-danger " data-toggle="modal" data-target="#deleteHome" ng-click="editHomePre(i)"><i class="fa fa-remove"></i></button>
+                    </td>
                   </tr>
               </tbody>
             </table>
           </div>
           <!-- /.box-body -->
-      </div>
+    </div>
 </div>
 
 <div class="modal modal-wide  fade" id="addHome" role="dialog">
@@ -164,6 +176,147 @@
         <button type="button" class="btn btn-default" ng-click="addHome() " data-dismiss="modal" >บันทึก</button>
       </div>
     </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="editHome" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">แก้ไข</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-12">
+              <label>ผู้ดูแล</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-transgender"></i>
+                </div>
+                <select ng-model="owner_group" class="form-control">
+                  <option ng-repeat="x  in masterData.ownerGroups" value="{{ x.OWNER_GROUP_ID }}">{{ x.OWNER_GROUP_NAME }} - {{ x.OWNER_GROUP_DESCR }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 2 || home_type == 3">
+              <div class="row" ng-init="column=1;_row=1">
+                <div class="form-group col-md-6">
+                  <label>จำนวนชั้น/แถว </label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <input type="number" class="form-control" id="_row" ng-model="_row">
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>จำนวนห้องแต่ละชั้น/แถว </label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-user"></i>
+                    </div>
+                    <input type="number" class="form-control" id="column" ng-model="column">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>ชื่อบ้านพัก </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="home_name" placeholder="ชื่อบ้านพัก" ng-model="home_name">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="editHome(home_index) " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="deleteHome" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{home_name}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <h4>ต้องการลบ <strong>"{{home_name}}"</strong> ออกใช่มั้ย ?</h4>
+          <p> <strong>หมายเหตุ </strong> สามรถลบได้เฉพาะที่ยังไม่มีคนอยู่เท่านั้น</p>        
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteHome(home_index) " data-dismiss="modal" >ยืนยัน</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="detailHome" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">รายละเอียด</h4>
+      </div>
+      <div class="modal-body text-center">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-12">
+              <label>ผู้ดูแล</label>
+              <span>{{owner_group}}</span>
+            </div>
+           <div class="form-group col-md-12">
+              <label>ประเภทบ้าน</label>
+              <span>{{home_type}}</span>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 2 || home_type == 3">
+              <div class="row" ng-init="column=1;_row=1">
+                <div class="form-group col-md-6">
+                  <label>จำนวนชั้น/แถว </label>
+                  <span>{{}}</span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>จำนวนห้องแต่ละชั้น/แถว </label>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <label>ชื่อบ้านพัก </label>
+              <span>{{home_name}}</span>
+            </div>
+            <div class="form-group col-md-12">
+              <label >รหัสห้อง </label>
+              <span>{{add_main}} / {{add_sub}}</span>
+            </div>
+            <div class="form-group col-md-12">
+              <label>รายละเอียด (เพิ่มเติม)</label>
+              <span>{{home_descr}}</span>
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </form>
+      </div>
     
   </div>
 </div>

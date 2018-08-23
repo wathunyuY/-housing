@@ -14,7 +14,7 @@
           <li><a href="#">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x,1)}}</span></a></li>
           <li><a href="#">มีผู้อาศัย <span class="pull-right badge bg-blue">{{ countRoom(x,2)}}</span></a></li>
           <li><a href="#">ซ่อมแซม <span class="pull-right badge bg-red">{{ countRoom(x,3)}}</span></a></li>
-          <li><a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
+          <li><a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}">ดูทั้งหมด... <span class="pull-right badge bg-aqua">{{ countRoom(x,0)}}</span></a></li>
         </ul>
       </div>
     </div>
@@ -39,16 +39,22 @@
                 <th>มีผู้อาศัย</th>
                 <th>ว่าง</th>
                 <th>ซ่อมแซม</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
                   <tr ng-repeat="(i,x) in home.sections">
                     <td>{{ i+1 }}</td>
                     <td>{{ x.HOME_SECTION_NAME }}</td>
-                    <td>{{ countRoom(x,0) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td>{{ countRoom(x,2) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td>{{ countRoom(x,1) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td>{{ countRoom(x,3) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{owner[0].OWNER_GROUP_ID}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td>{{ countRoom(x,0) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-info">{{ countRoom(x,2) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-success">{{ countRoom(x,1) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-danger">{{ countRoom(x,3) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="text-center">
+                      <button class="btn btn-sm btn-success " data-toggle="modal" data-target="#viewSec" ng-click="secDetail(i)"><i class="fa fa-desktop"></i></button>
+                      <button class="btn btn-sm btn-warning " data-toggle="modal" data-target="#editSec" ng-click="editSecPre(i)"><i class="fa fa-edit"></i></button>
+                      <button ng-disabled="countRoom(x,2) > 0" class="btn btn-sm btn-danger " data-toggle="modal" data-target="#deleteSec" ng-click="editSecPre(i)"><i class="fa fa-remove"></i></button>
+                    </td>
                   </tr>
               </tbody>
             </table>
@@ -70,8 +76,8 @@
       <div class="modal-body">
         <form role="form">
           <div class="box-body">
-            <div class="form-group col-md-8" ng-init="sec_name = 'ชั้น '+ (home.sections.length+1)">
-              <label>ชื่อชั้น </label>
+            <div class="form-group col-md-8">
+              <label>ชื่อชั้น</label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
@@ -99,6 +105,96 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" ng-click="addSec() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="editSec" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">แก้ไขชั้น/แถว</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8">
+              <label>ชื่อ</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="sec_name" placeholder="ชื่อชั้น" ng-model="sec_name">
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <!-- <p>จำนวนห้องพักรวม : {{column * _row}} ห้อง</p> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="editSec(sec_index) " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="deleteSec" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{sec_name}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <h4>ต้องการลบ <strong>"{{sec_name}}"</strong> ออกใช่มั้ย ?</h4>
+          <p> <strong>หมายเหตุ </strong> สามรถลบได้เฉพาะที่ยังไม่มีคนอยู่เท่านั้น</p>        
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteSec(sec_index) " data-dismiss="modal" >ยืนยัน</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="viewSec" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">รายละเอียด</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8">
+              <label>ชื่อชั้น</label>
+              <span>{{sec_name}}</span>
+            </div>
+            <div class="form-group col-md-4">
+              <label>จำนวนห้อง </label>
+              <span>{{num_room}}</span>
+            </div>
+        
+          </div>
+        </form>
       </div>
     </div>
     

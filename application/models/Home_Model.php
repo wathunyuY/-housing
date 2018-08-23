@@ -7,6 +7,8 @@ class Home_Model extends CI_Model
     $this->TABLE = "Homes";
     $this->PK = "HOME_ID";
     $this->load->model("general_model");
+    $this->load->model("home_section_model");
+    $this->load->model("room_model");
   }
 
   // ADD
@@ -39,6 +41,13 @@ class Home_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
   }
 
+  public function haveFamily($homeId){
+    $sql = "SELECT * FROM homes a 
+            INNER JOIN home_sections b on b.HOME_ID = a.HOME_ID
+            INNER JOIN home_rooms c ON c.HOME_SECTION_ID = b.HOME_SECTION_ID
+            WHERE ROOM_STATUS_ID <> 1 AND a.HOME_ID = ".$homeId;
+    return $this->db->query($sql)->num_rows() > 0;
+  }
   
 }?>
 

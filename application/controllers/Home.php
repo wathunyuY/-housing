@@ -41,6 +41,9 @@ class Home extends CI_Controller {
         $this->time = $now->format('H:i:s');
         $this->load->helper("url");
 
+        $this->load->library('pdf'); // 
+		$this->pdf->fontpath = 'fonts/'; // Create folder fonts at Codeigniter
+
         $this->load->model("general_model");
         $this->load->model("families_model");
         $this->load->model("home_model");
@@ -107,7 +110,22 @@ class Home extends CI_Controller {
 		}
 		$this->return_json($homeTbl);
 	}
-
+	public function edit(){
+		$processBean =json_decode(file_get_contents('php://input'));
+		$homeRqType = $processBean->homeRqType;
+		$homeTbl['HOME_ID'] = $homeRqType->homeId;
+		$homeTbl['HOME_NAME'] = $homeRqType->homeName;
+		$homeTbl['HOME_DESCR'] = $homeRqType->homeDescr;
+		$homeTbl = $this->home_model->merge($homeTbl);
+		$this->return_json($homeTbl);
+	}
+	public function delete(){
+		$id = $this->path_variable;
+		$hasFam = $this->home_model->haveFamily($id);
+		if(!$hasFam)
+			$this->home_model->delete($id);
+		$this->return_json($hasFam);
+	}
 	public function section(){
 		switch ($this->path_variable) {
 			case 'add':
@@ -134,7 +152,21 @@ class Home extends CI_Controller {
 					}
 				}
 				break;
-			
+			case 'edit':
+				$processBean =json_decode(file_get_contents('php://input'));
+				$secRqType = $processBean->secRqType;
+				$sectionTbl['HOME_SECTION_ID'] = $secRqType->sectionId;
+				// $sectionTbl['HOME_ID'] = $secRqType->homeId;
+				$sectionTbl['HOME_SECTION_NAME'] = $secRqType->sectionName;
+				$sectionTbl = $this->home_section_model->merge($sectionTbl);
+				break;
+			case 'delete':
+				$id = $this->uri->segment(4);
+				$hasFam = $this->home_section_model->haveFamily($id);
+				if(!$hasFam)
+					$this->home_section_model->delete($id);
+				$this->return_json($hasFam);
+				break;
 			default:
 				# code...
 				break;
@@ -157,7 +189,28 @@ class Home extends CI_Controller {
 				$roomTbl['OWNER_GROUP_ID'] = $room->ownerGroupId;
 				$roomTbl = $this->room_model->merge($roomTbl);
 				break;
-			
+			case 'edit':
+				$processBean =json_decode(file_get_contents('php://input'));
+				$room = $processBean->roomRqType;
+				$roomTbl['ROOM_ID'] = $room->roomId;
+				$roomTbl['ROOM_NAME'] = $room->roomName;
+				$roomTbl = $this->room_model->merge($roomTbl);
+				break;
+			case 'delete':
+				$id = $this->uri->segment(4);
+				$hasFam = $this->room_model->haveFamily($id);
+				if(!$hasFam)
+					$this->room_model->delete($id);
+				$this->return_json($hasFam);
+				break;
+			case 'changeStatus':
+				$roomId = $this->uri->segment(4);
+				$statusId = $this->uri->segment(5);
+				$roomTbl = $this->room_model->findByPk($roomId);
+				$roomTbl["ROOM_STATUS_ID"] = $statusId;
+				$this->room_model->merge($roomTbl);
+				$this->return_json([]);
+				break;
 			default:
 				# code...
 				break;
@@ -235,12 +288,47 @@ class Home extends CI_Controller {
 		}
 		$this->return_json($data);
 	}
-
+	public function homeByOwner(){
+		$ownerId = $this->path_variable;
+		$own = $this->owner_group_model->findByPk($ownerId);
+		// foreach ($data as $key_g => $own) {
+			$homes = $this->home_model->findByColumn($this->owner_group_model->PK,$own[$this->owner_group_model->PK]);
+			foreach ($homes as $key_h => $hm) {
+				$secs= $this->home_section_model->findByColumn($this->home_model->PK,$hm[$this->home_model->PK]);
+				foreach ($secs as $key_s => $sec) {
+					$rooms = $this->room_model->findByColumn($this->home_section_model->PK,$sec[$this->home_section_model->PK]);
+					$secs[$key_s]["rooms"] = $rooms;
+				}
+				$homes[$key_h]["sections"] = $secs;
+			}
+			// $data[$key_g]["homes"]=$homes;
+		// }
+		$this->return_json($homes);
+	}
+	public function sectionByHome(){
+		$homeId = $this->path_variable;
+		$home = $this->home_model->findByPk($homeId);;
+		$secs= $this->home_section_model->findByColumn($this->home_model->PK,$home[$this->home_model->PK]);
+		foreach ($secs as $key_s => $sec) {
+			$rooms = $this->room_model->findByColumn($this->home_section_model->PK,$sec[$this->home_section_model->PK]);
+			$secs[$key_s]["rooms"] = $rooms;
+		}
+		$home["sections"] = $secs;
+		$this->return_json($home);
+	}
+	public function roomBySection(){
+		$secId = $this->path_variable;
+		$sec= $this->home_section_model->findByPk($secId);
+		$rooms = $this->room_model->findByColumn($this->home_section_model->PK,$sec[$this->home_section_model->PK]);
+		$sec["rooms"] = $rooms;
+		$this->return_json($sec);
+	}
 	public function roomDetail(){
 		$roomId = $this->input->get("room_id");
 		$roomMap = $this->family_room_mappings_model->findByRoom($roomId);
 		if(null == $roomMap) {
 			$data["find"] = false;
+			$data["room"] = $this->room_model->findByPk($roomId);
 			$this->return_json($data);
 			return;
 		} 
@@ -274,6 +362,25 @@ class Home extends CI_Controller {
 		$rs['code'] = 0;
 		$rs['data'] = $val;
 		echo json_encode($rs);
+	}
+
+	public function pdf(){
+		$this->pdf->AddPage();
+		$this->pdf->AddFont('angsa','','angsa.php');
+		$this->pdf->AddFont('angsa','B','angsab.php');
+		$this->pdf->AddFont('angsa','I','angsai.php');
+		$this->pdf->AddFont('angsa','U','angsaz.php');
+		$this->pdf->SetFont('angsa','',36);
+		$this->pdf->Cell(0,20,iconv( 'UTF-8','TIS-620','สวัสดี ชาวโลก2'),0,1,"C");
+		$this->pdf->Output("/test.pdf","F");
+
+		$this->load->helper('download');
+
+		$data = file_get_contents("/test.pdf");
+		$name = "MyPDF/test.pdf";
+
+		force_download($name, $data); 
+		//echo anchor('MyPDF/test.pdf', 'Download');
 	}
 
 }

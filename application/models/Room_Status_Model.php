@@ -6,6 +6,9 @@ class Room_Status_Model extends CI_Model
     parent::__construct();
     $this->TABLE = "ROOM_STATUS_TBLS";
     $this->PK = "ROOM_STATUS_ID";
+    $this->EMPTY = 1;
+    $this->STAY = 2;
+    $this->FIX = 3;
     $this->load->model("general_model");
   }
 

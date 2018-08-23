@@ -72,7 +72,8 @@
         res = $.parseJSON(res);
         console.log(res);
         if(res.data.result){
-          window.location.replace("http://localhost:8070/home/ui");
+          sessionStorage.setItem("login", true);
+          window.location.replace("http://localhost:8070/home/ui/#!/owner_groups");
         }else{
           alert("login fail!");
         }

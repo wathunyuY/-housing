@@ -126,9 +126,9 @@
             </ul> -->
           </li>
           <li><a href="#"><i class="fa fa-book"></i> <span>ออกรายงาน</span></a></li>
-          <li class="header">LABELS</li>
-          <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>เพิ่มบ้านพัก</span></a></li>
-          <li><a href="#!new_persons"><i class="fa fa-circle-o text-yellow"></i> <span>เพิ่มผู้อยู่อาศัย</span></a></li>
+          <!-- <li class="header">LABELS</li> -->
+          <!-- <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>เพิ่มบ้านพัก</span></a></li> -->
+          <!-- <li><a href="#!new_persons"><i class="fa fa-circle-o text-yellow"></i> <span>เพิ่มผู้อยู่อาศัย</span></a></li> -->
           <!-- <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>รายงาน</span></a></li> -->
         </ul>
     </section>
@@ -359,7 +359,9 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
+<script type="text/javascript">
+  if(!sessionStorage.getItem("login")) window.location.replace("http://localhost:8070/home/ui/login.html");
+</script>
 <!-- angular -->
 <script src="plugins/angular/angular.js"></script>
 <script src="plugins/angular/angular-route.js"></script>
