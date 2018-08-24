@@ -62,18 +62,19 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="plugins/iCheck/icheck.min.js"></script>
+<script src="config.js"></script>
 <script type="text/javascript">
   $("#btn-singin").click((e)=>{
       var data={
         username : $("#username").val() ,
         password : $("#password").val() 
       }
-      $.post("http://localhost:8070/home/index.php/home/login",data,(res)=>{
+      $.post(appConfig.host+"/index.php/home/login",data,(res)=>{
         res = $.parseJSON(res);
         console.log(res);
         if(res.data.result){
           sessionStorage.setItem("login", true);
-          window.location.replace("http://localhost:8070/home/ui/#!/owner_groups");
+          window.location.replace(appConfig.host+"/ui/#!/owner_groups");
         }else{
           alert("login fail!");
         }

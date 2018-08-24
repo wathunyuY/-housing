@@ -76,11 +76,15 @@ class Home extends CI_Controller {
 		$homeRqType = $processBean->homeRqType;
 		$homeTbl['HOME_ID'] = $homeRqType->homeId;
 		$homeTbl['HOME_NAME'] = $homeRqType->homeName;
+		$homeTbl['HOME_ADDR'] = $homeRqType->homeAddr;
+		$homeTbl['HOME_NUMBER'] = $homeRqType->homeNumber;
+		$homeTbl['HOME_SUB_NUMBER'] = $homeRqType->homeSubNumber;
 		$homeTbl['HOME_DESCR'] = $homeRqType->homeDescr;
 		$homeTbl['HOME_TYPE_ID'] = $homeRqType->homeTypeId;
 		$homeTbl['OWNER_GROUP_ID'] = $homeRqType->ownerGroupId;
 		$homeTbl['CREATE_DATE'] =  $this->dt_now;
 		// $homeTbl['sec'] = array();
+		$index = 1;
 		$homeTbl = $this->home_model->merge($homeTbl);
 		if(count($homeRqType->sections)){
 			foreach ($homeRqType->sections as $key => $sections) {
@@ -96,8 +100,8 @@ class Home extends CI_Controller {
 						$roomTbl['HOME_SECTION_ID'] = $sectionTbl['HOME_SECTION_ID'];
 						$roomTbl['ROOM_NAME'] = $room->roomName;
 						$roomTbl['ROOM_ORDER'] = $room->roomOrder;
-						$roomTbl['ROOM_ADDRESS'] = $room->roomAddress;
-						$roomTbl['ROOM_SUB_ADDRESS'] = $room->roomSubAddress;
+						$roomTbl['ROOM_ADDRESS'] = $homeTbl['HOME_ADDR'];//$room->roomAddress;
+						$roomTbl['ROOM_SUB_ADDRESS'] = $index++;//$room->roomSubAddress;
 						$roomTbl['ROOM_SEQ'] = $room->roomSeq;
 						$roomTbl['ROOM_STATUS_ID'] = $room->roomStatusId;
 						$roomTbl['OWNER_GROUP_ID'] = $room->ownerGroupId;
@@ -319,8 +323,10 @@ class Home extends CI_Controller {
 	public function roomBySection(){
 		$secId = $this->path_variable;
 		$sec= $this->home_section_model->findByPk($secId);
+		$home= $this->home_model->findByPk($sec[$this->home_model->PK]);
 		$rooms = $this->room_model->findByColumn($this->home_section_model->PK,$sec[$this->home_section_model->PK]);
 		$sec["rooms"] = $rooms;
+		$sec["home"] = $home;
 		$this->return_json($sec);
 	}
 	public function roomDetail(){
@@ -401,12 +407,95 @@ class Home extends CI_Controller {
 		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตำแน่ง'.$this->getDot(80)),0,1,'R');
 
 
-		$this->pdf->Output("/test.pdf","F");
+		$this->pdf->Output("test.pdf","F");
 
 		$this->load->helper('download');
 
-		$data = file_get_contents("/test.pdf");
-		$name = "MyPDF/test.pdf";
+		$data = file_get_contents("test.pdf");
+		$name = "แบบรายงานขอบ้านพักอาศัย/pdf.pdf";
+
+		force_download($name, $data); 
+		//echo anchor('MyPDF/test.pdf', 'Download');
+	}
+
+	public function report(){
+		$fontSize16 = 16;
+		$this->pdf->SetMargins(20,10,20);
+		$this->pdf->AliasNbPages();
+		$this->pdf->AddPage();
+		$this->pdf->AddFont('angsa','','angsa.php');
+		$this->pdf->AddFont('angsa','B','angsab.php');
+		$this->pdf->AddFont('angsa','I','angsai.php');
+		$this->pdf->AddFont('angsa','U','angsaz.php');
+		$this->pdf->SetFont('angsa','U',18);
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รายงานบ้านพักอาศัย'),0,1,'C');
+		$this->pdf->SetFont('angsa','',14);	
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ของอาคาร'.'...'.'รับผิดชอบ'),0,1,'C');
+
+		// Column widths
+		$w = array(10, 20, 30, 40,30,50);
+		// Header
+		$header = ["ลำดับ","บ้านเลขที่","หมายเลขอาคาร","รายชื่อเข้าพักอาศัย","สังกัด","หมายเหตุ"];
+		for($i=0;$i<count($header);$i++)
+		    $this->pdf->Cell($w[$i],7,iconv( 'UTF-8','TIS-620',$header[$i]),1,0,'C');
+		$this->pdf->Ln();
+		$data["detail"] = [
+			"room_count"=>10,
+			"home_number"=> "325/16"
+		];
+		$data["row"] =[
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
+				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"]
+		];
+		$all = [
+				$data,
+				$data,
+				$data,
+				$data,
+				$data
+		];
+		for($f=0; $f<count($all) ; $f++){
+			$detail = $all[$f]["detail"];
+			$this->pdf->Cell($w[0],7,iconv( 'UTF-8','TIS-620',''),1,0,'C');
+			$this->pdf->SetFont('angsa','U',14);	
+			$this->pdf->Cell(120,7,iconv( 'UTF-8','TIS-620','เรือนแถวนายสิบ '.$detail["room_count"].' ห้อง อาคารหมายเลข '.$detail["home_number"]),1,0,'C');
+			$this->pdf->SetFont('angsa','',14);	
+			$this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620',''),1,0,'C');
+			$this->pdf->Ln();
+			$data = $all[$f]["row"];
+
+			for ($g=0; $g < count($data); $g++) { 
+				$header = $data[$g];
+				for($i=0;$i<count($header);$i++)
+				    $this->pdf->Cell($w[$i],7,iconv( 'UTF-8','TIS-620',$header[$i]),1,0,'C');
+				 $this->pdf->Ln();  		
+			} 
+		}
+
+		$this->pdf->Output("report.pdf","F");
+
+		$this->load->helper('download');
+
+		$data = file_get_contents("report.pdf");
+		$name = "รายงาน/pdf.pdf";
 
 		force_download($name, $data); 
 		//echo anchor('MyPDF/test.pdf', 'Download');

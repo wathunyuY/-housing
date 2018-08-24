@@ -1,8 +1,8 @@
 var app = angular.module('myApp', ["ngRoute"]);
 
 app.run(function($rootScope,$http,$filter) {
-    $rootScope.apiUrl = "http://localhost:8070/home/index.php"
-	$rootScope.filepath = "http://localhost:8070/home/"
+    $rootScope.apiUrl = appConfig.httphost+"/index.php"
+	$rootScope.filepath = appConfig.httphost;//"http://localhost:8070/home/"
 	$rootScope.masterData ={
     		ownerGroups :[],
     		homeTypes:[]
@@ -12,6 +12,9 @@ app.run(function($rootScope,$http,$filter) {
     $rootScope.getGender=(g)=>{
        var gd = $filter('filter')($rootScope.genders , {'k':g});
        return gd[0].v;
+    }
+    $rootScope.numadd = (num_str,add)=>{
+        return parseInt(num_str) + parseInt(add);
     }
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {

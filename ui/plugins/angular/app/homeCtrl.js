@@ -81,7 +81,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             for (var i = 0; i < $scope._row; i++) {
                 sec = {
                     sectionId: null,
-                    sectionName: sec_names[$scope._row-2] + " " + (i+1),
+                    sectionName: sec_names[$scope.home_type-2] + " " + (i+1),
                     sectionOrder : i,
                     rooms:[]
                 }
@@ -90,9 +90,9 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                         roomId: null,
                         roomName: "ห้อง"+ " " + (j+1),
                         roomOrder: j,
-                        roomAddress: $scope.add_main,
-                        roomSubAddress: $scope.add_sub,
-                        roomSeq: j,
+                        // roomAddress: $scope.add_main,
+                        // roomSubAddress: $scope.add_sub,
+                        roomSeq: j+1,
                         roomStatusId: 1,
                         ownerGroupId: $scope.owner_group
                     }
@@ -111,9 +111,9 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                                 roomId: null,
                                 roomName: "-",
                                 roomOrder: 0,
-                                roomAddress: $scope.add_main,
-                                roomSubAddress: $scope.add_sub,
-                                roomSeq: 0,
+                                // roomAddress: $scope.add_main,
+                                // roomSubAddress: $scope.add_sub,
+                                roomSeq: 1,
                                 roomStatusId: 1,
                                 ownerGroupId: $scope.owner_group
                             }
@@ -124,6 +124,9 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
         var data ={
             homeId: null,
             homeName: $scope.home_name,
+            homeNumber: $scope.add_main,
+            homeSubNumber: $scope.add_sub,
+            homeAddr: $scope.home_addr_front,
             homeDescr: $scope.home_descr != null ? $scope.home_descr : "-",
             homeTypeId: $scope.home_type,
             ownerGroupId: $scope.owner_group,
@@ -149,6 +152,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
         $scope.home_name = h.HOME_NAME;
         $scope.home_descr = h.HOME_DESCR  != null ? h.HOME_DESCR : "-";
         $scope.home_type = $scope.getHomeType(h.HOME_TYPE_ID);
+        $scope.home_type_id = h.HOME_TYPE_ID;
         $scope.owner_group =  $scope.getOwnerGroup(h.OWNER_GROUP_ID);
         if(h.HOME_TYPE_ID == 2 || h.HOME_TYPE_ID == 3){
             var room = 0;
@@ -156,9 +160,11 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             for (var i = 0; i < h.sections.length; i++) { sec++;
                 for (var j = 0; j < h.sections[i].rooms.length; j++)room++;
             }
+            $scope.sec_count = sec;
+            $scope.room_count = room;
         }
-        $scope.add_main = h.sections[0].rooms[0].ROOM_ADDRESS;
-        $scope.add_sub = h.sections[0].rooms[0].ROOM_SUB_ADDRESS;
+        $scope.add_main =h.HOME_NUMBER;// h.sections[0].rooms[0].ROOM_ADDRESS;
+        $scope.add_sub = h.HOME_SUB_NUMBER;//h.sections[0].rooms[0].ROOM_SUB_ADDRESS;
     }  
     $scope.editHomePre = (index)=>{
         var h = $scope.homes[index];

@@ -34,7 +34,8 @@
               <tr>
                 <th>ที่</th>
                 <th>ชื่อห้อง</th>
-                <th>หมายเลข</th>
+                <th>บ้านเลขที่</th>
+                <th>หมายเลขอาคาร</th>
                 <th>สถานะ</th>
                 <th></th>
               </tr>
@@ -43,7 +44,8 @@
                   <tr ng-repeat="(i,x) in section.rooms">
                     <td>{{ i+1 }}</td>
                     <td>{{x.ROOM_NAME}}</td>
-                    <td>{{x.ROOM_ADDRESS}} / {{x.ROOM_SUB_ADDRESS}} - {{section.HOME_SECTION_ORDER}}{{x.ROOM_ORDER}}</td>
+                    <td>{{x.ROOM_ADDRESS}} / {{x.ROOM_SUB_ADDRESS}} </td>
+                    <td>{{section.home.HOME_NUMBER}} / {{section.home.HOME_SUB_NUMBER}} / {{numadd(section.HOME_SECTION_ORDER,1)}} ({{x.ROOM_SEQ}})</td>
                     <td>
                       {{getRoomStatus(x.ROOM_STATUS_ID);}}
                       <a href="#!room_details?id={{x.ROOM_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a>

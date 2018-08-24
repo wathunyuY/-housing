@@ -205,6 +205,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
         // $scope.person.origin_address = $filter('filter')($scope.districts , {'d_id':$scope.person.origin_address})[0];
         
     });
+    $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
       dateFormat: 'dd-mm-yy',
       autoclose: true

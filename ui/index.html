@@ -116,7 +116,7 @@
             </ul> -->
           </li>
           <li class="treeview">
-            <a href="#">
+            <a id="report" href="" >
               <i class="fa fa-book"></i>
               <span>แบบฟอร์มขอบ้านพัก</span>
             </a>
@@ -359,9 +359,7 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-<script type="text/javascript">
-  if(!sessionStorage.getItem("login")) window.location.replace("http://localhost:8070/home/ui/login.html");
-</script>
+<script src="config.js"></script>
 <!-- angular -->
 <script src="plugins/angular/angular.js"></script>
 <script src="plugins/angular/angular-route.js"></script>
@@ -371,6 +369,10 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script type="text/javascript">
+  $("#report").attr("href",appConfig.httphost+"/index.php/home/pdf");
+  if(!sessionStorage.getItem("login")) window.location.replace(appConfig.httphost+"/ui/login.html");
+</script>
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>

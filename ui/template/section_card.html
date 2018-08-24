@@ -35,10 +35,11 @@
               <tr>
                 <th>ที่</th>
                 <th>ชื่อชั้น</th>
-                <th>ทั้งหมด</th>
-                <th>มีผู้อาศัย</th>
-                <th>ว่าง</th>
-                <th>ซ่อมแซม</th>
+                <th>ชั้น</th>
+                <th>ทั้งหมด/ห้อง</th>
+                <th>มีผู้อาศัย/ห้อง</th>
+                <th>ว่าง/ห้อง</th>
+                <th>ซ่อมแซม/ห้อง</th>
                 <th></th>
               </tr>
               </thead>
@@ -46,6 +47,7 @@
                   <tr ng-repeat="(i,x) in home.sections">
                     <td>{{ i+1 }}</td>
                     <td>{{ x.HOME_SECTION_NAME }}</td>
+                    <td>{{ numadd(x.HOME_SECTION_ORDER,1)}}</td>
                     <td>{{ countRoom(x,0) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
                     <td class="bg-info">{{ countRoom(x,2) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
                     <td class="bg-success">{{ countRoom(x,1) }} <a href="#!rooms?id={{x.HOME_SECTION_ID}}&owner={{ownerId}}&home={{home.HOME_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
