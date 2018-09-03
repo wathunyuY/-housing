@@ -1,0 +1,20 @@
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">ลบผู้อาศัย : ({{person.relation}})</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <div class="widget-user-image text-center" ng-click="clickImage()">
+            <img class="img-circle" src="{{filepath}}/{{person.picture_path}}" alt="User Avatar"  width="150" height="150" id="pictureView">
+          </div>
+          {{r.current}}
+          <h4>ต้องการลบ <strong>"{{person.fullname}}"</strong> ออกใช่มั้ย ?</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteMember(person.id)">ยืนยัน</button>
+        <a class="btn btn-default" href="#!room_details?id={{roomId}}" >ยกเลิก</a>
+      </div>
+    </div>

@@ -2,7 +2,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
     var params = $route.current.params;
     $scope.persons = [];
     $scope.origin_address = null;
-    $scope.districts= json_districts;
+    // $scope.districts= json_districts;
     $scope.is_header_family = false;
 
 
@@ -31,7 +31,8 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $scope.reference = $scope.headFamCur.REFERENCE;
             $scope.gender = $scope.headFamCur.GENDER ;
             $scope.birth_date = $scope.headFam.BIRTHDAY;
-            $scope.start_date = family.start_date;
+            $scope.start_date = family.start_date.split(" ")[0];
+            $scope.owner_group_id = $scope.headFam.OWNER_GROUP_ID;
             // $scope.relation = $rootScope.HEAD_FAMILY_TEXT;
             $('#datepicker').datepicker("setDate",new Date($scope.headFam.BIRTHDAY));
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
@@ -137,14 +138,15 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             phone : $("#phone").val(),
             car:$scope.car,
             biker:$scope.biker,
-            reference : $scope.reference,
+            reference : $scope.reference !=null ? $scope.reference : 'ไม่ระบุ',
             picture : $scope.picture,
             start_date:$( "#datepicker2" ).datepicker( "getDate" ),
             is_header_family : $scope.is_header_family,
-            member_status : $scope.relation,
+            member_status : $scope.relation !=null ? $scope.relation:'ไม่ระบุ',
             roomId:params.id,
             person_type:3,
-            family_id:$scope.family_id
+            family_id:$scope.family_id,
+            owner_group_id:$scope.owner_group_id != null ? $scope.owner_group_id : 0
 
         }
         console.log(data);
@@ -184,11 +186,11 @@ app.controller('mbDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
     var params = $route.current.params;
     $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
     .then(function(response) {
-        $scope.districts= json_districts;
+        // $scope.districts= json_districts;
         $scope.person = response.data.data;
         $scope.person.birth_date = $scope.person.birth_date.split(" ")[0]; 
         $scope.person.start_date = $scope.person.start_date.split(" ")[0]; 
-        $scope.person.origin_address = $filter('filter')($scope.districts , {'d_id':$scope.person.origin_address})[0];
+        $scope.person.origin_address = $filter('filter')($rootScope.districts , {'d_id':$scope.person.origin_address})[0];
         
     });
 });
@@ -196,7 +198,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
     var params = $route.current.params;
     $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
     .then(function(response) {
-        $scope.districts= json_districts;
+        // $scope.districts= json_districts;
         $scope.person = response.data.data;
         // $scope.person.birth_date = $scope.person.birth_date.split(" ")[0]; 
         // $scope.person.start_date = $scope.person.start_date.split(" ")[0]; 
@@ -271,7 +273,8 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
             member_status : $scope.person.relation,
             // roomId:params.id,
             person_type:3,
-            family_id:$scope.person.member_id
+            family_id:$scope.person.member_id,
+            owner_group_id : $scope.person.owner_group_id
         }
         console.log(data);
         $rootScope.api({
@@ -288,4 +291,38 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
 
         });
     }
+});
+app.controller('mbDltCtrl', function($rootScope,$http,$scope,$route,$filter) {
+    $rootScope.page_name = "";
+    var params = $route.current.params;
+    $scope.roomId = params.roomId;
+    // $scope.r = $route;
+    $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
+    .then(function(response) {
+        $scope.person = response.data.data;
+    });
+    $scope.deleteMember = (id)=>{
+        $http.get($rootScope.apiUrl+"/person/delete?id="+id)
+        .then(function(response) {
+            window.location.replace(appConfig.httphost+"/ui/#!/room_details?id="+$scope.roomId);
+        });        
+    }
+    
+});
+app.controller('qrCtrl', function($rootScope,$http,$scope,$route,$filter) {
+    var params = $route.current.params;
+    $rootScope.page_name = "ห้อง" + $rootScope.getRoomStatus(params.status);
+    var links = "";
+    switch(params.p){
+        case 'o': links = "?ownerId="+params.id+"&status="+params.status; break;
+        case 'h': links = "?homeId="+params.id+"&status="+params.status; break;
+        case 's': links = "?sectionId="+params.id+"&status="+params.status; break;
+        default : links = "?ownerId="+params.id+"&status="+params.status;  break;
+    }
+    $http.get($rootScope.apiUrl+"/home/roomByStatus"+links)
+    .then(function(response) {
+        $scope.rooms = response.data.data;
+        console.log($scope.rooms);       
+    });
+
 });

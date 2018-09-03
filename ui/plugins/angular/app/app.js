@@ -1,8 +1,12 @@
 var app = angular.module('myApp', ["ngRoute"]);
 
 app.run(function($rootScope,$http,$filter) {
+    $rootScope.page_name = "ระบบจัดการบ้านพัก";
+    $rootScope.page_sub_name = "";
+    $rootScope.host = appConfig.httphost+"/index.php"
     $rootScope.apiUrl = appConfig.httphost+"/index.php"
 	$rootScope.filepath = appConfig.httphost;//"http://localhost:8070/home/"
+    $rootScope.districts= json_districts;
 	$rootScope.masterData ={
     		ownerGroups :[],
     		homeTypes:[]
@@ -41,7 +45,13 @@ app.run(function($rootScope,$http,$filter) {
         var t = $filter('filter')($rootScope.masterData.roomStatus , {'ROOM_STATUS_ID':roomStatusId})
         return t[0].ROOM_STATUS_NAME;
     }
-
+    $rootScope.getOwnerGroup = (id)=>{
+        var t = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':id})
+        return t[0].OWNER_GROUP_DESCR;
+    }
+    $rootScope.setTable=(id)=>{
+        $("#"+id).DataTable(); 
+    }
 });
 
 app.config(function($routeProvider) {
@@ -80,6 +90,18 @@ app.config(function($routeProvider) {
     .when("/member_edits", {
         templateUrl : "template/member_edit.html",
         controller : "mbEdtCtrl"
+    })
+    .when("/reports", {
+        templateUrl : "template/report.html",
+        controller : "rpCtrl"
+    })
+    .when("/quick_rooms", {
+        templateUrl : "template/quick_room.html",
+        controller : "qrCtrl"
+    })
+    .when("/member_deletes", {
+        templateUrl : "template/member_delete.html",
+        controller : "mbDltCtrl"
     });
 });
 

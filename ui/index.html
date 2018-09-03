@@ -115,19 +115,9 @@
               <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> ผู้อยู่อาศัย</a></li>
             </ul> -->
           </li>
-          <li class="treeview">
-            <a id="report" href="" >
-              <i class="fa fa-book"></i>
-              <span>แบบฟอร์มขอบ้านพัก</span>
-            </a>
-            <!-- <ul class="treeview-menu">
-              <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> บ้านพัก</a></li>
-              <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> ผู้อยู่อาศัย</a></li>
-            </ul> -->
-          </li>
-          <li><a href="#"><i class="fa fa-book"></i> <span>ออกรายงาน</span></a></li>
-          <!-- <li class="header">LABELS</li> -->
-          <!-- <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>เพิ่มบ้านพัก</span></a></li> -->
+          <li><a href="#!reports"><i class="fa fa-book"></i> <span>รายงาน</span></a></li>
+          <li class="header">LABELS</li>
+          <li><a id="report" href="" ><i class="fa fa-circle-o text-red"></i> <span>แบบฟอร์มขอบ้านพัก</span></a></li>
           <!-- <li><a href="#!new_persons"><i class="fa fa-circle-o text-yellow"></i> <span>เพิ่มผู้อยู่อาศัย</span></a></li> -->
           <!-- <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>รายงาน</span></a></li> -->
         </ul>
@@ -136,12 +126,12 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" ng-app="myApp">
     <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          Dashboard
-          <small>Control panel</small>
+          {{page_name}}
+          <small> {{page_sub_name}}</small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -370,7 +360,7 @@
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script type="text/javascript">
-  $("#report").attr("href",appConfig.httphost+"/index.php/home/pdf");
+  $("#report").attr("href",appConfig.httphost+"/index.php/report/pdf");
   if(!sessionStorage.getItem("login")) window.location.replace(appConfig.httphost+"/ui/login.html");
 </script>
 <script>
@@ -428,6 +418,7 @@
 <script src="plugins/angular/app/app.js"></script>
 <script src="plugins/angular/app/homeCtrl.js"></script>
 <script src="plugins/angular/app/rmDtlCtrl.js"></script>
+<script src="plugins/angular/app/rpCtrl.js"></script>
 
 </body>
 </html>

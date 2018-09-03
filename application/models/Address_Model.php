@@ -36,7 +36,7 @@ class Address_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
   }
   public function findByColumns($fields=[],$values=[]){
-      return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
+      return $this->general_model->findByColumns($this->TABLE,$fields,$values);      
   }
 
   public function findDistric($key){
@@ -49,7 +49,14 @@ class Address_Model extends CI_Model
       $q = $this->db->query($sql);
       return $q->result_array();
   }
-  
+  public function findDistricById($id){
+      $sql = "SELECT d.id as d_id,d.zip_code,d.name_th as d_name,a.id as a_id,a.name_th as a_name,p.id as p_id,p.name_th as p_name 
+              FROM districts d  
+              INNER join amphures a on a.id = d.amphure_id
+              INNER join provinces p on p.id = a.province_id WHERE d.id='".$id."' ORDER BY p.name_th ";
+      $q = $this->db->query($sql);
+      return $q->row_array();
+  }
 }?>
 
 

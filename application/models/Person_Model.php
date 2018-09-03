@@ -51,7 +51,7 @@ class Person_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
   }
   public function findByColumns($fields=[],$values=[]){
-      return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
+      return $this->general_model->findByColumns($this->TABLE,$fields,$values);      
   }
 
   

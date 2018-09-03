@@ -52,17 +52,44 @@
 	</div> -->
 	<div ng-if="!roomDetail" class="loader"></div>
 	<div class="col-md-12" ng-if="roomDetail">
-		<div ng-if="!roomDetail.find">
-			<h2>ไม่มีผู้อยู่อาศัย ( {{ getRoomStatus(room_detail.ROOM_STATUS_ID) }} )</h2>
-      <button data-toggle="modal" data-target="#changeRoomStatus" class="btn btn-warning btn-md">เปลี่ยนสถานะ <i class="fa fa-edit"></i>
+		<div class="text-left" ng-if="!roomDetail.find">
+      <p class="badge bg-green"> {{room_detail.home.name}} - {{room_detail.section.name}} </p>
+      <p class="badge bg-green"> เลขอาคาร 
+        {{room_detail.home.number}} / {{room_detail.home.sub_number}} / {{numadd(room_detail.section.order,1)}}
+        <span ng-show="room_detail.ROOM_SEQ > 0">({{room_detail.ROOM_SEQ}})</span>
+      </p>
+      <p class="badge bg-green">บ้านเลขที่ {{room_detail.ROOM_ADDRESS}} 
+        <span ng-if="room_detail.ROOM_SUB_ADDRESS > 0"> / {{room_detail.ROOM_SUB_ADDRESS}}</span>
+      </p>
+    </div>
+    <div class="text-left" ng-if="roomDetail.find">
+      <p class="badge bg-green"> {{roomDetail.home.name}} - {{roomDetail.section.name}} </p>
+      <p class="badge bg-green"> เลขอาคาร 
+        {{roomDetail.home.number}} / {{roomDetail.home.sub_number}} / {{numadd(roomDetail.section.order,1)}}
+        <span ng-show="roomDetail.room_seq > 0">({{roomDetail.room_seq}})</span>
+      </p>
+      <p class="badge bg-green">บ้านเลขที่ {{roomDetail.room_address}} 
+        <span ng-if="room_detail.ROOM_SUB_ADDRESS > 0"> / {{roomDetail.room_sub_address}}</span>
+      </p>
+      <p class="badge bg-green">เจ้าของบ้าน {{family_name}}</p>
+      <p class="badge bg-green">สมาชิกจำนวน {{members.length+1}} คน </p>
+      <p class="badge bg-green">เข้าพักเมื่อ {{start_date}}</p>
+    </div>
+    <div ng-if="!roomDetail.find">
+			<h5>ไม่มีผู้อยู่อาศัย ( {{ getRoomStatus(room_detail.ROOM_STATUS_ID) }} )</h5>
+      <button data-toggle="modal" data-target="#changeRoomStatus" class="btn btn-warning btn-sm">เปลี่ยนสถานะ</i>
       </button>
 		</div>
 	</div>
 	<div class="col-md-12" ng-if="roomDetail">
 		<div class="box">
 	        <div class="box-header">
-	          <h3 class="box-title">สมาชิกในบ้าน</h3>
-	          <button ng-disabled="room_detail.ROOM_STATUS_ID == 3" data-toggle="modal" data-target="#addMember" class="btn bg-teal btn-md pull-right" ng-click="addBtn();">เพิ่ม <i class="fa fa-plus"></i>
+	          <h3 class="box-title">สมาชิกในบ้าน 
+              <a href="{{host}}/report/reportByRoom/{{roomDetail.room_id}}" class=" btn btn-sm btn-default"> 
+              <i class="fa fa-print"> รายงาน</i>
+              </a> 
+            </h3>
+	          <button ng-disabled="room_detail.ROOM_STATUS_ID == 3" data-toggle="modal" data-target="#addMember" class="btn bg-green btn-md pull-right" ng-click="addBtn();">เพิ่ม <i class="fa fa-plus"></i>
 	        </div>
 	        <div class="box-body">
 	          <table id="lastTenant" class="table table-bordered table-striped">
@@ -92,7 +119,7 @@
 		              <!-- <th> -->
 		              	<td><a href="#!member_details?h=1&id={{roomDetail.family.FAMILY_ID}}" class="btn btn-sm btn-success pull-right"><i class="fa fa-desktop"></i></a></td>
 	                  	<td><a href="#!member_edits?h=1&id={{roomDetail.family.FAMILY_ID}}" class="btn btn-sm btn-warning pull-right"><i class="fa fa-edit"></i></a></td>
-		              	<td><a href="#!member_deletes?h=1&id={{roomDetail.family.FAMILY_ID}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
+		              	<td><a href="#!member_deletes?h=1&id={{roomDetail.family.FAMILY_ID}}&roomId={{roomDetail.room_id}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
 		              <!-- </th> -->
 		            </tr>
 	                <tr ng-repeat="(i,x) in roomDetail.family.MEMBERS" ng-init="$last && setTable('lastTenant')">
@@ -106,7 +133,7 @@
 	                  <!-- <td> -->
 		              	<td><a href="#!member_details?h=0&id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-success pull-right"><i class="fa fa-desktop"></i></a></td>
 	                  	<td><a href="#!member_edits?h=0&id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-warning pull-right"><i class="fa fa-edit"></i></a></td>
-	                  	<td><a href="#!member_deletes?h=0&id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
+	                  	<td><a href="#!member_deletes?h=0&id={{x.FAMILY_MEMBER_ID}}&roomId={{roomDetail.room_id}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
 	                  <!-- </td> -->
 	                </tr>
 	            </tbody>
@@ -138,9 +165,21 @@
                 <div class="box-body">
                   <div class="form-group col-md-12 text-center">
                      <div class="widget-user-image" ng-click="clickImage()">
-                  <img class="img-circle" src="img/zoro.jpg" alt="User Avatar"  width="150" height="150" id="pictureView">
-                </div>
-                <label for="fullname">รูปถ่าย </label>
+                      <img class="img-circle" src="img/zoro.jpg" alt="User Avatar"  width="150" height="150" id="pictureView">
+                    </div>
+                    <label for="fullname">รูปถ่าย </label>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label>หน่วยงาน</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                          <i class="fa fa-transgender"></i>
+                      </div>
+                      <select ng-model="owner_group_id" class="form-control">
+                        <option ng-repeat="x  in masterData.ownerGroups" value="{{ x.OWNER_GROUP_ID }}">{{ x.OWNER_GROUP_DESCR }}</option>
+                        <option value="0">ไม่มี</option>
+                      </select>
+                    </div>
                   </div>
                   <div class="form-group col-md-4">
                     <label for="fullname">ชื่อ - สกุล </label>
@@ -169,7 +208,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-credit-card"></i>
                       </div>
-                      <input type="text" class="form-control" data-inputmask='"mask": "9-9999-9999-999-9"' data-mask id="idCard" ng-model="idCard">
+                      <input type="text" class="form-control" data-inputmask='"mask": "9999999999999"' data-mask id="idCard" ng-model="idCard">
                     </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -233,7 +272,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-phone"></i>
                       </div>
-                      <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="phone" id="phone">
+                      <input type="text" class="form-control" data-inputmask='"mask": "9999999999"' data-mask ng-model="phone" id="phone">
                     </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -243,7 +282,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-mobile"></i>
                       </div>
-                      <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="mobile" id="mobile">
+                      <input type="text" class="form-control" data-inputmask='"mask": "9999999999"' data-mask ng-model="mobile" id="mobile">
                     </div>
                 </div>
                 <div class="form-group col-md-4">

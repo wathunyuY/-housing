@@ -36,13 +36,37 @@ class Room_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
   }
   public function findByColumns($fields=[],$values=[]){
-      return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
+      return $this->general_model->findByColumns($this->TABLE,$fields,$values);      
   }
 
   public function haveFamily($roomId){
     $sql = "SELECT * FROM  home_rooms c 
             WHERE ROOM_STATUS_ID <> 1 AND c.ROOM_ID = ".$roomId;
     return $this->db->query($sql)->num_rows() > 0;
+  }
+
+  public function search($ownerId,$key="!@#$%"){
+    $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
+            ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
+            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
+            ,htt.HOME_TYPE_ID,htt.HOME_TYPE_NAME
+            ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
+            ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
+            ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี  :  ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
+            ,(SELECT COUNT(*)+1 FROM family_members fm WHERE fm.FAMILY_ID = f.FAMILY_ID AND fm.IS_STAY = true) as MEMBER_COUNT
+            FROM home_rooms hr
+            INNER JOIN home_sections rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
+            INNER JOIN homes h ON h.HOME_ID = rs.HOME_ID
+            INNER JOIN owner_group_tbls own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
+            INNER JOIN home_type_tbls htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
+            INNER JOIN room_status_tbls rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
+            LEFT JOIN family_room_mappings frm ON frm.ROOM_ID = hr.ROOM_ID
+            LEFT JOIN families f ON f.FAMILY_ID = frm.FAMILY_ID 
+            LEFT JOIN person_currents pc ON pc.PERS_ID = f.PERS_ID
+            WHERE rst.ROOM_STATUS_ID = 2 
+            AND (CONCAT(pc.FIRST_NAME," ",pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS) like "%'.$key.'%") 
+            AND own.OWNER_GROUP_ID = '.$ownerId;
+    return $this->db->query($sql)->result_array(); 
   }
   
 }?>

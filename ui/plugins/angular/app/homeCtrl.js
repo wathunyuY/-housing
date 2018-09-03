@@ -1,4 +1,5 @@
 app.controller('ownerGrpCtrl', function($rootScope,$scope,$http,$filter) {
+    $rootScope.page_name = "ระบบจัดการบ้านพัก";
     // console.log($rootScope.masterData);
     // $scope.fel = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':1}) 
     $scope.countRoom = (homes,status)=>{
@@ -29,11 +30,22 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             console.log($scope.homes);
             $scope.homes = $scope.homes.map((h) =>{
                 var links = "";
+                var linkEmpty = "";
+                var linkStay = "";
+                var linkFixed = "";
                 if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4){
                     var room_id = h.sections[0].rooms[0].ROOM_ID;
                     links = "#!room_details?id="+room_id;
-                }else links = "#!sections?id="+h.HOME_ID+"&owner="+params.id;
-                    h["links"]=links;
+                }else {
+                    links = "#!sections?id="+h.HOME_ID+"&owner="+params.id;
+                    linkEmpty = "#!quick_rooms?id="+h.HOME_ID+"&status=1&p=h";
+                    linkStay = "#!quick_rooms?id="+h.HOME_ID+"&status=2&p=h";
+                    linkFixed = "#!quick_rooms?id="+h.HOME_ID+"&status=3&p=h";
+                }
+                h["links"]=links;
+                h["linkEmpty"]=linkEmpty;
+                h["linkStay"]=linkStay;
+                h["linkFixed"]=linkFixed;
                 return h;
             });
         },
@@ -226,6 +238,12 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             $scope.home = res.data.data;
             $scope.sec_name = ($scope.home.HOME_TYPE_ID == 2 ? "ชั้น " : "แถว ") +($scope.home.sections.length+1);
             console.log($scope.home);
+            $scope.home.sections = $scope.home.sections.map((sec)=>{
+                sec["linkEmpty"] = "#!quick_rooms?id="+sec.HOME_SECTION_ID+"&status=1&p=s";
+                sec["linkStay"] =  "#!quick_rooms?id="+sec.HOME_SECTION_ID+"&status=2&p=s";
+                sec["linkFixed"] = "#!quick_rooms?id="+sec.HOME_SECTION_ID+"&status=3&p=s";
+                return sec;
+            });
         },
         fail:function(){
 

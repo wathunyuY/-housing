@@ -51,7 +51,7 @@ class Family_Room_Mappings_Model extends CI_Model
       return $this->general_model->findByColumn($this->TABLE,$field,$value);
   }
   public function findByColumns($fields=[],$values=[]){
-      return $this->general_model->findByColumn($this->TABLE,$fields,$values);      
+      return $this->general_model->findByColumns($this->TABLE,$fields,$values);      
   }
 
   public function findByRoom($roomId){
@@ -74,7 +74,11 @@ class Family_Room_Mappings_Model extends CI_Model
     if($tbl->num_rows() > 0) return $tbl->row_array();
     else return null;
   }
-  
+  public function findLastFamilyByRoom($roomId){
+    $tbl = $this->db->select("*")->from($this->TABLE)->where($this->FK_ROOM,$roomId)->where("END_DATE",null)->get();
+    if($tbl->num_rows() > 0) return $tbl->row_array();
+    else return null;
+  }
 }?>
 
 

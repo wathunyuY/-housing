@@ -1,0 +1,91 @@
+<div class="col-md-4">
+    <div class="box box-primary">
+          <div class="box-header">
+            <h3 class="box-title">เลือกหน่วยงาน</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body" >
+            <button class="btn btn-md btn-block btn-primary" ng-repeat="(i,x) in masterData.ownerGroups" ng-click="ownerClick(x.OWNER_GROUP_ID); ">
+              {{x.OWNER_GROUP_NAME}} - {{x.OWNER_GROUP_DESCR}}
+            </button>
+          </div>
+          <!-- /.box-body -->
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="box box-primary" ng-show="tog">
+          <div class="box-header">
+            <a href="{{host}}/report/report/{{ownerTemp}}" class="btn bg-teal btn-md pull-right" >ทั้งหมด <i class="fa fa-print"></i></a>
+            <h3 class="box-title">เลือกอาคาร</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <a href="{{x.links}}" class="btn btn-md btn-block btn-primary" ng-repeat="(i,x) in homes">
+              {{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})
+            </a>
+          </div>
+          <!-- /.box-body -->
+    </div>
+</div>
+<div class="col-md-4" ng-show="tog">
+    <div class="box box-primary">
+          <div class="box-header">
+            <h3 class="box-title">หรือจะค้นหาห้อง</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <form ng-submit="findRoom()">
+              <div class="form-group">
+                <label>(ชื่อผู้อยู่อาศัย, เลขประจำตัวประชาชน, เลขห้อง)</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                  </div>
+                  <input type="text" class="form-control" id="find_key" placeholder="(นาย... , 9999999999999, 10/1)" ng-model="find_key">
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- /.box-body -->
+    </div>
+</div>
+
+<div class="col-md-12" ng-show="tog2">
+    <div class="box box-primary">
+          <div class="box-header">
+            <h3 class="box-title">ค้นพบ {{roomSearchRs.length}} รายการ</h3>
+          </div>
+          <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>ที่</th>
+                  <th>ชื่อบ้าน</th>
+                  <th>บ้านเลขที่</th>
+                  <th>หมายเลขอาคาร</th>
+                  <th>ชั้น</th>
+                  <th>ห้อง</th>
+                  <th>เจ้าของห้อง</th>
+                  <th>สมาชิก</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(i,x) in roomSearchRs">
+                      <td>{{ i+1 }}</td>
+                      <td>{{x.HOME_NAME}}</td>
+                      <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span> </td>
+                      <td>{{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} / {{numadd(x.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
+                      <td>{{numadd(x.HOME_SECTION_ORDER,1)}}</td>
+                      <th>{{x.ROOM_SEQ}}</th>                  
+                      <td>{{x.FIRST_NAME}}</td>
+                      <td>{{x.MEMBER_COUNT}}</td>
+                      <td class="text-center">
+                        <a href="{{host}}/report/reportByRoom/{{x.ROOM_ID}}" class="btn btn-sm btn-success">พิมพ์ <i class="fa fa-print"></i></a>
+                      </td>
+                    </tr>
+                </tbody>
+              </table>              
+          </div>
+    </div>
+</div>

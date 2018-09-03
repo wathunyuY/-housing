@@ -41,8 +41,8 @@ class Home extends CI_Controller {
         $this->time = $now->format('H:i:s');
         $this->load->helper("url");
 
-        $this->load->library('pdf'); // 
-		$this->pdf->fontpath = 'fonts/'; // Create folder fonts at Codeigniter
+  //       $this->load->library('pdf'); // 
+		// $this->pdf->fontpath = 'fonts/'; // Create folder fonts at Codeigniter
 
         $this->load->model("general_model");
         $this->load->model("families_model");
@@ -84,7 +84,7 @@ class Home extends CI_Controller {
 		$homeTbl['OWNER_GROUP_ID'] = $homeRqType->ownerGroupId;
 		$homeTbl['CREATE_DATE'] =  $this->dt_now;
 		// $homeTbl['sec'] = array();
-		$index = 1;
+		$index = 0;
 		$homeTbl = $this->home_model->merge($homeTbl);
 		if(count($homeRqType->sections)){
 			foreach ($homeRqType->sections as $key => $sections) {
@@ -335,6 +335,20 @@ class Home extends CI_Controller {
 		if(null == $roomMap) {
 			$data["find"] = false;
 			$data["room"] = $this->room_model->findByPk($roomId);
+			$sectionTbl = $this->home_section_model->findByPk($data["room"]["HOME_SECTION_ID"]);
+			$homeTbl = $this->home_model->findByPk($sectionTbl["HOME_ID"]);
+			$data["room"]["section"] = array(
+				"name"=> $sectionTbl["HOME_SECTION_NAME"],
+				"id"=>$sectionTbl["HOME_SECTION_ID"],
+				"order"=>$sectionTbl["HOME_SECTION_ORDER"]
+			);
+			$data["room"]["home"] = array(
+				"name"=> $homeTbl["HOME_NAME"],
+				"id"=>$homeTbl["HOME_ID"],
+				"descr"=>$homeTbl["HOME_DESCR"],
+				"number"=>$homeTbl["HOME_NUMBER"],
+				"sub_number"=>$homeTbl["HOME_SUB_NUMBER"]
+			);
 			$this->return_json($data);
 			return;
 		} 
@@ -350,6 +364,7 @@ class Home extends CI_Controller {
 		$data["room_name"] = $roomTbl["ROOM_NAME"];
 		$data["room_address"] = $roomTbl["ROOM_ADDRESS"];
 		$data["room_sub_address"] = $roomTbl["ROOM_SUB_ADDRESS"];
+		$data["room_seq"] = $roomTbl["ROOM_SEQ"];
 		$data["section"] = array(
 			"name"=> $sectionTbl["HOME_SECTION_NAME"],
 			"id"=>$sectionTbl["HOME_SECTION_ID"],
@@ -358,10 +373,33 @@ class Home extends CI_Controller {
 		$data["home"] = array(
 			"name"=> $homeTbl["HOME_NAME"],
 			"id"=>$homeTbl["HOME_ID"],
-			"descr"=>$homeTbl["HOME_DESCR"]
+			"descr"=>$homeTbl["HOME_DESCR"],
+			"number"=>$homeTbl["HOME_NUMBER"],
+			"sub_number"=>$homeTbl["HOME_SUB_NUMBER"]
 		);
 		$data["family"] = $family;
 		$this->return_json($data);
+	}
+	public function roomByStatus(){
+		$ownerId = $this->input->get("ownerId");
+		$homeId = $this->input->get("homeId");
+		$sectionId = $this->input->get("sectionId");
+		$status = $this->input->get("status");
+		if(null != $ownerId){
+			$rooms = $this->home_model->findRoomByStatusAndOwnerId($status,$ownerId);
+		}elseif (null != $homeId) {
+			$rooms = $this->home_model->findRoomByStatusAndHomeId($status,$homeId);
+		}elseif (null != $sectionId) {
+			$rooms = $this->home_model->findRoomByStatusAndSectionId($status,$sectionId);
+		}
+		$this->return_json($rooms);
+	}
+
+	public function roomSearch(){
+		$key = $this->input->get("key");
+		$ownerId = $this->input->get("owner");
+		$rs  = $this->room_model->search($ownerId,$key);
+		$this->return_json($rs);
 	}
 
 	private function return_json($val){
@@ -370,142 +408,53 @@ class Home extends CI_Controller {
 		echo json_encode($rs);
 	}
 
-	public function pdf(){
-		$fontSize16 = 16;
-		$this->pdf->AddPage();
-		$this->pdf->AddFont('angsa','','angsa.php');
-		$this->pdf->AddFont('angsa','B','angsab.php');
-		$this->pdf->AddFont('angsa','I','angsai.php');
-		$this->pdf->AddFont('angsa','U','angsaz.php');
-		$this->pdf->SetFont('angsa','U',18);
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','แบบรายงานขอบ้านพักอาศัย'),0,1,'C');
-		$this->pdf->SetFont('angsa','',16);	
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','หน่วย'.$this->getDot(70)),0,1,'R');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','วันที่'.$this->getDot().'เดือน'.$this->getDot().'พ.ศ'.$this->getDot()),0,1,'R');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','เรื่อง        ขอบ้านพักอาศัยของทางราชการ'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','เรียน'.$this->getDot(100)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                กระผม/ดิฉัน'.$this->getDot(90).'ตำแหน่ง'.$this->getDot(50)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','สังกัด'.$this->getDot(50).'รับเงินเดือน'.$this->getDot(50).'เดือนละ'.$this->getDot(50)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','กับเงินพิเศษอื่นๆ เดือนละ'.$this->getDot(50).'รวมรายได้'.$this->getDot(50).'บาท'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                ภรรยา/สามี ชื่อ'.$this->getDot(70).'ทำงาน'.$this->getDot(70)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รวมรายได้เดือนละ'.$this->getDot(50).' และมีบุตร จำนวน'.$this->getDot(30).'คน'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                ปัจจุบันกระผม/ดิฉัน อาศัยอยู่บ้านเลขที่'.$this->getDot(55).'หมู่ที่'.$this->getDot(50)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตำบล/แขวง'.$this->getDot(50).'อำเภอ/เขต'.$this->getDot(50).'จังหวัด'.$this->getDot(45)),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตั้งแต่'.$this->getDot(50).'เช่าบ้าน (ถ้ามี) อยู่ที่'.$this->getDot(50).'เดือนละ'.$this->getDot(30).'บาท'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','โดย (เบิกหรือไม่เบิก) '.$this->getDot(50).'เดือนละ'.$this->getDot(30).'บาท'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตามสิทธิ์เบิกได้เดือนละ '.$this->getDot(30).'บาทและได้แนบหลักฐานการเช่าซึ่งผู้บังคับบัญชาเซ็นต์รับรองเรียบร้อยแล้ว.-'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                จำนวนคนในครอบครัวกระผม/ดิฉัน ที่จะเข้าพักอาศัยมีจำนวนทั้งหมด'.$this->getDot(30).'คน ดังนี้'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๑.   '.$this->getDot(90)),0,1,'C');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๒.   '.$this->getDot(90)),0,1,'C');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๓.   '.$this->getDot(90)),0,1,'C');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','๔.   '.$this->getDot(90)),0,1,'C');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                กระผม/ดิฉัน สัญญาว่าจะปฏิบัติตามระเบียบฯ การเข้าพักอาศัยในบ้านพักของทางราชการ ทุกประเภท.-'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','                จึงเรียนมาเพื่อทราบ และพิจารณาดำเนินการต่อไป'),0,1,'L');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ควรมิควรแล้วแต่จะกรุณา               '),0,1,'R');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','               '.$this->getDot(70)),0,1,'R');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','               ('.$this->getDot(70).')'),0,1,'R');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ตำแน่ง'.$this->getDot(80)),0,1,'R');
+
+	public function testCurl(){
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => "https://apitel.co/login",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "GET",
+		  CURLOPT_HTTPHEADER => array(
+		    "cache-control: no-cache",
+		    "postman-token: 08594558-04fd-19e6-6017-cb842b3fc109"
+		  ),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+		  echo "cURL Error #:" . $err;
+		} else {
+		  $s = explode("_csrf", $response)[1];
+		  $token = explode('"', $s)[2];
+
+		  	$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, "https://apitel.co/login");
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, true);
+
+			$data = array(
+			    'username' => 'iron-hry@hotmail.com',
+			    'password' => 'passwords',
+			    '_csrf'=> $token
+			);
+
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+			$output = curl_exec($ch);
+			$info = curl_getinfo($ch);
+			echo($output);
+			curl_close($ch);
 
 
-		$this->pdf->Output("test.pdf","F");
-
-		$this->load->helper('download');
-
-		$data = file_get_contents("test.pdf");
-		$name = "แบบรายงานขอบ้านพักอาศัย/pdf.pdf";
-
-		force_download($name, $data); 
-		//echo anchor('MyPDF/test.pdf', 'Download');
-	}
-
-	public function report(){
-		$fontSize16 = 16;
-		$this->pdf->SetMargins(20,10,20);
-		$this->pdf->AliasNbPages();
-		$this->pdf->AddPage();
-		$this->pdf->AddFont('angsa','','angsa.php');
-		$this->pdf->AddFont('angsa','B','angsab.php');
-		$this->pdf->AddFont('angsa','I','angsai.php');
-		$this->pdf->AddFont('angsa','U','angsaz.php');
-		$this->pdf->SetFont('angsa','U',18);
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รายงานบ้านพักอาศัย'),0,1,'C');
-		$this->pdf->SetFont('angsa','',14);	
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ของอาคาร'.'...'.'รับผิดชอบ'),0,1,'C');
-
-		// Column widths
-		$w = array(10, 20, 30, 40,30,50);
-		// Header
-		$header = ["ลำดับ","บ้านเลขที่","หมายเลขอาคาร","รายชื่อเข้าพักอาศัย","สังกัด","หมายเหตุ"];
-		for($i=0;$i<count($header);$i++)
-		    $this->pdf->Cell($w[$i],7,iconv( 'UTF-8','TIS-620',$header[$i]),1,0,'C');
-		$this->pdf->Ln();
-		$data["detail"] = [
-			"room_count"=>10,
-			"home_number"=> "325/16"
-		];
-		$data["row"] =[
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"],
-				["1","707","139/78(1)","จ.ส.อ.สราวุธ ศรีดวม","มทบ.16","กช.ที่ 116/59 ลง 23 มิ.ย.59"]
-		];
-		$all = [
-				$data,
-				$data,
-				$data,
-				$data,
-				$data
-		];
-		for($f=0; $f<count($all) ; $f++){
-			$detail = $all[$f]["detail"];
-			$this->pdf->Cell($w[0],7,iconv( 'UTF-8','TIS-620',''),1,0,'C');
-			$this->pdf->SetFont('angsa','U',14);	
-			$this->pdf->Cell(120,7,iconv( 'UTF-8','TIS-620','เรือนแถวนายสิบ '.$detail["room_count"].' ห้อง อาคารหมายเลข '.$detail["home_number"]),1,0,'C');
-			$this->pdf->SetFont('angsa','',14);	
-			$this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620',''),1,0,'C');
-			$this->pdf->Ln();
-			$data = $all[$f]["row"];
-
-			for ($g=0; $g < count($data); $g++) { 
-				$header = $data[$g];
-				for($i=0;$i<count($header);$i++)
-				    $this->pdf->Cell($w[$i],7,iconv( 'UTF-8','TIS-620',$header[$i]),1,0,'C');
-				 $this->pdf->Ln();  		
-			} 
 		}
-
-		$this->pdf->Output("report.pdf","F");
-
-		$this->load->helper('download');
-
-		$data = file_get_contents("report.pdf");
-		$name = "รายงาน/pdf.pdf";
-
-		force_download($name, $data); 
-		//echo anchor('MyPDF/test.pdf', 'Download');
 	}
 
-	public function getDot($value=20){
-		$d = "";
-		for ($i=0; $i <$value ; $i++) { 
-			$d .= ".";
-		}
-		return $d;
-	}
 }

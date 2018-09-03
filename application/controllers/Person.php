@@ -85,7 +85,7 @@ class Person extends CI_Controller {
 
 			if(null != $rq->picture)
 				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
-			else $pic = "/assets/picture/default.png";
+			else $pic = "/assets/picture/default.jpg";
 
 			$personCur = array(
 				"PERS_ID"=>$personTbl["PERS_ID"],
@@ -103,7 +103,8 @@ class Person extends CI_Controller {
 				"CAR_NUMBER"=>$rq->car,
 				"BIKER_NUMBER"=>$rq->biker,
 				"REFERENCE"=>$rq->reference,
-				"PICTURE_PATH"=> $pic
+				"PICTURE_PATH"=> $pic,
+				"OWNER_GROUP_ID"=>$rq->owner_group_id
 			);
 			$personCurTbl = $this->person_current_model->merge($personCur);
 
@@ -164,6 +165,7 @@ class Person extends CI_Controller {
 			$personCurTbl["BIKER_NUMBER"]=$rq->biker;
 			$personCurTbl["REFERENCE"]=$rq->reference;
 			$personCurTbl["PICTURE_PATH"]= $pic;
+			$personCurTbl["OWNER_GROUP_ID"] = $rq->owner_group_id;
 			$personCurTbl = $this->person_current_model->merge($personCurTbl);
 
 			if($rq->is_header_family){// head family
@@ -185,6 +187,14 @@ class Person extends CI_Controller {
 			}		
 		// }
 		$this->return_json($rq);
+	}
+	public function delete(){
+		$id = $this->input->get("id");
+		$member = $this->family_members_model->findByPk($id);
+		$member["END_DATE"] = $this->dt_now;
+		$member["IS_STAY"] = false;
+		$this->family_members_model->merge($member);
+		$this->return_json([]);
 	}
 	private function savePicture($base64,$image_name){
 		$sp = explode(",", $base64);
@@ -259,7 +269,10 @@ class Person extends CI_Controller {
             "start_date" => $isH == 1? $roomMap["START_DATE"] : $member["START_DATE"],
             "relation"=> $isH == 1? $this->HEADER_FAM : $member["FAMILY_MEMBER_STATUS"],
             "is_header"=> $isH ==1,
-            "picture_path"=> $cur["PICTURE_PATH"]
+            "picture_path"=> $cur["PICTURE_PATH"],
+            "owner_group_id"=>$cur["OWNER_GROUP_ID"],
+            "id"=>$id,
+            "isH"=>$isH
 		);
 		$this->return_json($rs);
 	}

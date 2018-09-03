@@ -2,8 +2,7 @@
     <!-- Modal content-->
 <div class="modal-content ">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h4 class="modal-title">เพิ่มสมาชิก</h4>
+    <h4 class="modal-title">แก้ไขข้อมูลผู้พักอาศัย</h4>
   </div>
   <div class="modal-body">
     <form role="form">
@@ -13,6 +12,18 @@
               <img class="img-circle" src="{{filepath}}/{{person.picture_path}}" alt="User Avatar"  width="150" height="150" id="pictureView">
             </div>
             <label for="fullname">รูปถ่าย </label>
+              </div>
+              <div class="form-group col-md-12">
+                <label>หน่วยงาน {{person.owner_group_id}}</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                      <i class="fa fa-transgender"></i>
+                  </div>
+                  <select ng-model="person.owner_group_id" class="form-control">
+                    <option ng-repeat="x  in masterData.ownerGroups" value="{{ x.OWNER_GROUP_ID }}">{{ x.OWNER_GROUP_DESCR }}</option>
+                    <option value="0">ไม่มี</option>
+                  </select>
+                </div>
               </div>
               <div class="form-group col-md-4">
                 <label for="fullname">ชื่อ - สกุล </label>
@@ -41,7 +52,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-credit-card"></i>
                   </div>
-                  <input type="text" class="form-control" data-inputmask='"mask": "9-9999-9999-999-9"' data-mask id="idCard" ng-model="person.idCard">
+                  <input type="text" class="form-control" data-inputmask='"mask": "9999999999999"' data-mask id="idCard" ng-model="person.idCard">
                 </div>
             </div>
             <div class="form-group col-md-4">
@@ -105,7 +116,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-phone"></i>
                   </div>
-                  <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="person.phone" id="phone">
+                  <input type="text" class="form-control" data-inputmask='"mask": "9999999999"' data-mask ng-model="person.phone" id="phone">
                 </div>
             </div>
             <div class="form-group col-md-4">
@@ -115,7 +126,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-mobile"></i>
                   </div>
-                  <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask ng-model="person.mobile" id="mobile">
+                  <input type="text" class="form-control" data-inputmask='"mask": "9999999999"' data-mask ng-model="person.mobile" id="mobile">
                 </div>
             </div>
             <div class="form-group col-md-4">
