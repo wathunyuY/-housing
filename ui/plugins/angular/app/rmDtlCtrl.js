@@ -33,6 +33,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $scope.birth_date = $scope.headFam.BIRTHDAY;
             $scope.start_date = family.start_date.split(" ")[0];
             $scope.owner_group_id = $scope.headFam.OWNER_GROUP_ID;
+            $scope.nickname = $scope.headFamCur.PERS_NICKNAME;
             // $scope.relation = $rootScope.HEAD_FAMILY_TEXT;
             $('#datepicker').datepicker("setDate",new Date($scope.headFam.BIRTHDAY));
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
@@ -146,7 +147,8 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             roomId:params.id,
             person_type:3,
             family_id:$scope.family_id,
-            owner_group_id:$scope.owner_group_id != null ? $scope.owner_group_id : 0
+            owner_group_id:$scope.owner_group_id != null ? $scope.owner_group_id : 0,
+            nickname:$scope.nickname
 
         }
         console.log(data);
@@ -274,7 +276,8 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
             // roomId:params.id,
             person_type:3,
             family_id:$scope.person.member_id,
-            owner_group_id : $scope.person.owner_group_id
+            owner_group_id : $scope.person.owner_group_id,
+            nickname : $scope.person.nickname
         }
         console.log(data);
         $rootScope.api({

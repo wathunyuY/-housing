@@ -90,6 +90,7 @@ class Person extends CI_Controller {
 			$personCur = array(
 				"PERS_ID"=>$personTbl["PERS_ID"],
 				"FIRST_NAME"=>$rq->name,
+				"PERS_NICKNAME"=>$rq->nickname,
 				"GENDER" => $rq->gender,
 				"PERS_N_ID"=> $rq->idCard,
 				"NATIONALITY"=> $rq->national,
@@ -151,6 +152,7 @@ class Person extends CI_Controller {
 				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
 			else $pic = $personCurTbl["PICTURE_PATH"];
 			$personCurTbl["FIRST_NAME"]=$rq->name;
+			$personCurTbl["PERS_NICKNAME"]=$rq->nickname;
 			$personCurTbl["GENDER"] = $rq->gender;
 			$personCurTbl["PERS_N_ID"]= $rq->idCard;
 			$personCurTbl["NATIONALITY"]= $rq->national;
@@ -252,6 +254,7 @@ class Person extends CI_Controller {
 			"pers_id"=> $person["PERS_ID"],
 			"member_id"=> $isH == 1 ? $member["FAMILY_ID"] : $member["FAMILY_MEMBER_ID"],
             "fullname" => $cur["FIRST_NAME"],
+            "nickname" => $cur["PERS_NICKNAME"],
             "idCard" => $cur["PERS_N_ID"],
             "national" => $cur["NATIONALITY"],
             "edu" => $cur["EDUCATION"],
