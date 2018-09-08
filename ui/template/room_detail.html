@@ -116,11 +116,9 @@
 		              <th>{{headFamCur.PERS_N_ID}}</th>
 		              <th>เจ้าของบ้าน</th>
 		              <th>{{headFamCur.MOBILE_NBR_1}}</th>
-		              <!-- <th> -->
 		              	<td><a href="#!member_details?h=1&id={{roomDetail.family.FAMILY_ID}}" class="btn btn-sm btn-success pull-right"><i class="fa fa-desktop"></i></a></td>
 	                  	<td><a href="#!member_edits?h=1&id={{roomDetail.family.FAMILY_ID}}" class="btn btn-sm btn-warning pull-right"><i class="fa fa-edit"></i></a></td>
 		              	<td><a href="#!member_deletes?h=1&id={{roomDetail.family.FAMILY_ID}}&roomId={{roomDetail.room_id}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
-		              <!-- </th> -->
 		            </tr>
 	                <tr ng-repeat="(i,x) in roomDetail.family.MEMBERS" ng-init="$last && setTable('lastTenant')">
 	                  <td>{{ i+2 }}</td>
@@ -130,11 +128,9 @@
 	                  <td>{{ x.PERSON.CURRENT.PERS_N_ID }}</td>
 	                  <td>{{ x.FAMILY_MEMBER_STATUS }}</td>
 	                  <td>{{ x.PERSON.CURRENT.MOBILE_NBR_1 }}</td>
-	                  <!-- <td> -->
 		              	<td><a href="#!member_details?h=0&id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-success pull-right"><i class="fa fa-desktop"></i></a></td>
 	                  	<td><a href="#!member_edits?h=0&id={{x.FAMILY_MEMBER_ID}}" class="btn btn-sm btn-warning pull-right"><i class="fa fa-edit"></i></a></td>
 	                  	<td><a href="#!member_deletes?h=0&id={{x.FAMILY_MEMBER_ID}}&roomId={{roomDetail.room_id}}" class="btn btn-sm btn-danger pull-right"><i class="fa fa-remove"></i></a></td>
-	                  <!-- </td> -->
 	                </tr>
 	            </tbody>
 	          </table>
@@ -306,19 +302,37 @@
                   <div class="form-group col-md-12">
                     <label>ที่อยู่</label>
                     <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="origin_address_descr" id="origin_address_descr"></textarea>
                       </div>
-                      <div class="form-group col-md-8">
+                      <div class="form-group col-md-3">
+                        <select id="pv" ng-model="pv" class="form-control" ng-change="getAmphures(pv)">
+                          <option ng-repeat="x in masterData.provinces" value="{{x.id}}">{{x.name_th}}</option>
+                        </select>
+                        <small>จังหวัด</small>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <select id="ap" ng-model="ap" class="form-control" ng-change="getDistricts(ap)">
+                          <option ng-repeat="x in amphures" value="{{x.id}}">{{x.name_th}}</option>
+                        </select>
+                        <small>อำเภอ</small>
+                      </div>
+                      <div class="form-group col-md-3">
+                        <select id="dt" ng-model="dt" class="form-control" >
+                          <option ng-repeat="x in districts" value="{{x.id}}" >{{x.name_th}}</option>
+                        </select>
+                        <small>ตำบล</small>
+                      </div>
+                      <!-- <div class="form-group col-md-8">
                         <div class="input-group">
-                            <div class="input-group-addon">
-                              <i class="fa fa-paper-plane"></i>
-                            </div>
+                          <div class="input-group-addon">
+                            <i class="fa fa-paper-plane"></i>
+                          </div>
                           <select id="addr" ng-model="origin_address" class="form-control select2" style="width: 100%;">
                               <option ng-repeat="x in districts" value="{{x.d_id}}">{{x.p_name}} >> {{ x.a_name}} >> {{ x.d_name }} >> {{ x.zip_code }}</option>
                           </select>
-                      </div>
-                    </div>
+                        </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="form-group col-md-12">

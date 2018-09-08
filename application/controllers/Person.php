@@ -49,6 +49,7 @@ class Person extends CI_Controller {
         $this->load->model("room_model");
         $this->load->model("family_room_mappings_model");
         $this->load->model("room_status_model");
+        $this->load->model("address_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -100,7 +101,9 @@ class Person extends CI_Controller {
 				"PHONE_NBR"=>$rq->phone,
 				"MOBILE_NBR_1"=>$rq->mobile,
 				"ADDRESS_1_TYPE0"=>$rq->origin_address_descr,
-				"DISTRICT_ID_TYPE0"=>$rq->origin_address,
+				"PROVINCE_ID_TYPE0"=>$rq->pv,
+				"AMPHUR_ID_TYPE0"=>$rq->ap,
+				"DISTRICT_ID_TYPE0"=>$rq->dt,
 				"CAR_NUMBER"=>$rq->car,
 				"BIKER_NUMBER"=>$rq->biker,
 				"REFERENCE"=>$rq->reference,
@@ -162,7 +165,9 @@ class Person extends CI_Controller {
 			$personCurTbl["PHONE_NBR"]=$rq->phone;
 			$personCurTbl["MOBILE_NBR_1"]=$rq->mobile;
 			$personCurTbl["ADDRESS_1_TYPE0"]=$rq->origin_address_descr;
-			$personCurTbl["DISTRICT_ID_TYPE0"]=$rq->origin_address;
+			$personCurTbl["PROVINCE_ID_TYPE0"]=$rq->pv;
+			$personCurTbl["AMPHUR_ID_TYPE0"]=$rq->ap;
+			$personCurTbl["DISTRICT_ID_TYPE0"]=$rq->dt;
 			$personCurTbl["CAR_NUMBER"]=$rq->car;
 			$personCurTbl["BIKER_NUMBER"]=$rq->biker;
 			$personCurTbl["REFERENCE"]=$rq->reference;
@@ -263,7 +268,10 @@ class Person extends CI_Controller {
             "mobile" => $cur["MOBILE_NBR_1"],
             "phone" => $cur["PHONE_NBR"],
             "origin_address_descr" => $cur["ADDRESS_1_TYPE0"],
-            "origin_address" => $cur["DISTRICT_ID_TYPE0"],
+            // "origin_address" => $cur["DISTRICT_ID_TYPE0"],
+            "pv"=>$this->address_model->get("provinces",$cur["PROVINCE_ID_TYPE0"]),
+			"ap"=>$this->address_model->get("amphures",$cur["AMPHUR_ID_TYPE0"]),
+			"dt"=>$this->address_model->get("districts",$cur["DISTRICT_ID_TYPE0"]),
             "car" => $cur["CAR_NUMBER"],
             "biker" => $cur["BIKER_NUMBER"],
             "reference" => $cur["REFERENCE"],

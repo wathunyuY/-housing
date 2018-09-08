@@ -150,19 +150,37 @@
               <div class="form-group col-md-12">
                 <label>ที่อยู่</label>
                 <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="person.origin_address_descr" id="origin_address_descr"></textarea>
                   </div>
-                  <div class="form-group col-md-8">
+                  <div class="form-group col-md-3">
+                    <select id="pv" ng-model="person.pv" class="form-control" ng-change="getAmphures(person.pv)">
+                      <option ng-repeat="x in masterData.provinces" value="{{x.id}}">{{x.name_th}}</option>
+                    </select>
+                    <small>จังหวัด</small>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <select id="ap" ng-model="person.ap" class="form-control" ng-change="getDistricts(person.ap)">
+                      <option ng-repeat="x in amphures" value="{{x.id}}">{{x.name_th}}</option>
+                    </select>
+                    <small>อำเภอ</small>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <select id="dt" ng-model="person.dt" class="form-control" >
+                      <option ng-repeat="x in districts" value="{{x.id}}" >{{x.name_th}}</option>
+                    </select>
+                    <small>ตำบล</small>
+                  </div>
+                  <!-- <div class="form-group col-md-8">
                     <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-paper-plane"></i>
-                        </div>
+                      <div class="input-group-addon">
+                        <i class="fa fa-paper-plane"></i>
+                      </div>
                       <select id="addr" ng-model="person.origin_address" class="form-control select2" style="width: 100%;">
                           <option ng-repeat="x in districts" value="{{x.d_id}}">{{x.p_name}} >> {{ x.a_name}} >> {{ x.d_name }} >> {{ x.zip_code }}</option>
                       </select>
-                  </div>
-                </div>
+                    </div>
+                  </div> -->
                 </div>
               </div>
               <div class="form-group col-md-12">

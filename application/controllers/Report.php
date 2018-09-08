@@ -236,7 +236,10 @@ class Report extends CI_Controller {
 		$this->pdf_nohead->Ln();
 		$this->pdf_nohead->Image(base_url().$headFam["CURRENT"]["PICTURE_PATH"],90,null,30);
 		$this->pdf_nohead->Ln();
-		$addr = $this->address_model->findDistricById($headFam["CURRENT"]["DISTRICT_ID_TYPE0"]);
+		// $addr = $this->address_model->findDistricById($headFam["CURRENT"]["DISTRICT_ID_TYPE0"]);
+		$pv=$this->address_model->get("provinces",$headFam["CURRENT"]["PROVINCE_ID_TYPE0"]);
+		$ap=$this->address_model->get("amphures",$headFam["CURRENT"]["AMPHUR_ID_TYPE0"]);
+		$dt=$this->address_model->get("districts",$headFam["CURRENT"]["DISTRICT_ID_TYPE0"]);
 		$header = ["ยศ. ชื่อ-สกุลผู้ร่วมอาศัย" => $headFam["CURRENT"]["FIRST_NAME"]
 					,"เพศ" => $headFam["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $headFam["CURRENT"]["PERS_N_ID"]
@@ -250,7 +253,7 @@ class Report extends CI_Controller {
 					,"เบอร์โทรศัพท์ส่วนตัว" => $headFam["CURRENT"]["MOBILE_NBR_1"]
 					,"เข้าพักเมื่อ" => $roomMap["START_DATE"]
 					,"ออกเมื่อ (สาเหตุ)" => ""
-					,"ภูมิลำเนาปัจจุบัน" => $headFam["CURRENT"]["ADDRESS_1_TYPE0"].' ต.'.$addr["d_name"].' อ.'.$addr["a_name"].' จ.'.$addr["p_name"]
+					,"ภูมิลำเนาปัจจุบัน" => $headFam["CURRENT"]["ADDRESS_1_TYPE0"].' '.($dt != null ? 'ต.'.$dt["name_th"]:'').' '.($ap != null ? 'อ.'.$ap["name_th"]:'').' '.($pv != null ? 'จ.'.$pv["name_th"]:'').' '.($dt != null ? $dt["zip_code"]:'')
 					,"ทะเบียนรถยนต์" => $headFam["CURRENT"]["CAR_NUMBER"]
 					,"ทะเบียนรถจักยานยนต์" => $headFam["CURRENT"]["BIKER_NUMBER"]
 					,"หมายเหตุ" => $headFam["CURRENT"]["REFERENCE"]
@@ -270,7 +273,10 @@ class Report extends CI_Controller {
 			$this->pdf_nohead->Ln();
 			$this->pdf_nohead->Image(base_url().$person["CURRENT"]["PICTURE_PATH"],90,null,30);
 			$this->pdf_nohead->Ln();
-			$addr = $this->address_model->findDistricById($person["CURRENT"]["DISTRICT_ID_TYPE0"]);
+			// $addr = $this->address_model->findDistricById($person["CURRENT"]["DISTRICT_ID_TYPE0"]);
+			$pv=$this->address_model->get("provinces",$person["CURRENT"]["PROVINCE_ID_TYPE0"]);
+			$ap=$this->address_model->get("amphures",$person["CURRENT"]["AMPHUR_ID_TYPE0"]);
+			$dt=$this->address_model->get("districts",$person["CURRENT"]["DISTRICT_ID_TYPE0"]);
 			$detail = ["ยศ. ชื่อ-สกุลผู้ร่วมอาศัย" => $person["CURRENT"]["FIRST_NAME"]
 					,"เพศ" => $person["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $person["CURRENT"]["PERS_N_ID"]
@@ -284,7 +290,7 @@ class Report extends CI_Controller {
 					,"เบอร์โทรศัพท์ส่วนตัว" => $person["CURRENT"]["MOBILE_NBR_1"]
 					,"เข้าพักเมื่อ" => $m["START_DATE"]
 					,"ออกเมื่อ (สาเหตุ)" => ""
-					,"ภูมิลำเนาปัจจุบัน" => $person["CURRENT"]["ADDRESS_1_TYPE0"].' ต.'.$addr["d_name"].' อ.'.$addr["a_name"].' จ.'.$addr["p_name"]
+					,"ภูมิลำเนาปัจจุบัน" => $person["CURRENT"]["ADDRESS_1_TYPE0"].' '.($dt != null ? 'ต.'.$dt["name_th"]:'').' '.($ap != null ? 'อ.'.$ap["name_th"]:'').' '.($pv != null ? 'จ.'.$pv["name_th"]:'').' '.($dt != null ? $dt["zip_code"]:'')
 					,"ทะเบียนรถยนต์" => $person["CURRENT"]["CAR_NUMBER"]
 					,"ทะเบียนรถจักยานยนต์" => $person["CURRENT"]["BIKER_NUMBER"]
 					,"หมายเหตุ" => $person["CURRENT"]["REFERENCE"]

@@ -57,6 +57,10 @@ class Address_Model extends CI_Model
       $q = $this->db->query($sql);
       return $q->row_array();
   }
+  public function get($table, $ID){
+    $this->TABLE = $table;
+    return $this->general_model->findByPk($this->TABLE,$this->PK,$ID);
+  }
 }?>
 
 

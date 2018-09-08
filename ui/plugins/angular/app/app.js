@@ -6,16 +6,29 @@ app.run(function($rootScope,$http,$filter) {
     $rootScope.host = appConfig.httphost+"/index.php"
     $rootScope.apiUrl = appConfig.httphost+"/index.php"
 	$rootScope.filepath = appConfig.httphost;//"http://localhost:8070/home/"
-    $rootScope.districts= json_districts;
+    // $rootScope.districts= json_districts;
 	$rootScope.masterData ={
     		ownerGroups :[],
-    		homeTypes:[]
+    		homeTypes:[],
+            provinces:[]
     }
     $rootScope.HEAD_FAMILY_TEXT = "หัวหน้าครอบครัว";
     $rootScope.genders = [{k:"M",v:"ชาย"},{k:"F",v:"หญิง"}];
     $rootScope.getGender=(g)=>{
        var gd = $filter('filter')($rootScope.genders , {'k':g});
        return gd[0].v;
+    }
+    $rootScope.getAmphures= (id)=>{
+        $http.get($rootScope.apiUrl+"/address/amphures/"+id)
+        .then(function(response) {
+            $rootScope.amphures = response.data.data;    
+        });
+    }
+    $rootScope.getDistricts= (id)=>{
+        $http.get($rootScope.apiUrl+"/address/districts/"+id)
+        .then(function(response) {
+            $rootScope.districts = response.data.data;    
+        });
     }
     $rootScope.numadd = (num_str,add)=>{
         return parseInt(num_str) + parseInt(add);
@@ -29,6 +42,7 @@ app.run(function($rootScope,$http,$filter) {
     .then(function(response) {
         $rootScope.masterData.homeTypes = response.data.data.home_type;
         $rootScope.masterData.roomStatus = response.data.data.room_status;
+        $rootScope.masterData.provinces = response.data.data.provinces;
     });
 
     $rootScope.api =(req)=>{

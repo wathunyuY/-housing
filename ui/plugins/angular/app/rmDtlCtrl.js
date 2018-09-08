@@ -134,7 +134,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             career:$scope.career,
             academy:$scope.academy,
             origin_address_descr:$scope.origin_address_descr,
-            origin_address:$scope.origin_address,
+            // origin_address:$scope.origin_address,
             mobile : $("#mobile").val(),
             phone : $("#phone").val(),
             car:$scope.car,
@@ -148,7 +148,10 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             person_type:3,
             family_id:$scope.family_id,
             owner_group_id:$scope.owner_group_id != null ? $scope.owner_group_id : 0,
-            nickname:$scope.nickname
+            nickname:$scope.nickname,
+            pv:$scope.pv == null ? "0":$scope.pv,
+            ap:$scope.ap == null ? "0":$scope.ap,
+            dt:$scope.dt == null ? "0":$scope.dt
 
         }
         console.log(data);
@@ -181,6 +184,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
 
         });   
     }
+       
     
 });
 
@@ -192,22 +196,23 @@ app.controller('mbDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $scope.person = response.data.data;
         $scope.person.birth_date = $scope.person.birth_date.split(" ")[0]; 
         $scope.person.start_date = $scope.person.start_date.split(" ")[0]; 
-        $scope.person.origin_address = $filter('filter')($rootScope.districts , {'d_id':$scope.person.origin_address})[0];
-        
+        // $scope.person.origin_address = $filter('filter')($rootScope.districts , {'d_id':$scope.person.origin_address})[0];
+        // $scope.person.pv = $scope.person.pv.id;
+        // alert($scope.person.pv);
     });
 });
 app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
     var params = $route.current.params;
     $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
     .then(function(response) {
-        // $scope.districts= json_districts;
         $scope.person = response.data.data;
-        // $scope.person.birth_date = $scope.person.birth_date.split(" ")[0]; 
-        // $scope.person.start_date = $scope.person.start_date.split(" ")[0]; 
         $('#datepicker').datepicker("setDate",new Date($scope.person.birth_date));
         $('#datepicker2').datepicker("setDate",new Date($scope.person.start_date));
-        // $scope.person.origin_address = $filter('filter')($scope.districts , {'d_id':$scope.person.origin_address})[0];
-        
+        $scope.person.pv = $scope.person.pv.id;
+        $rootScope.getAmphures($scope.person.pv);
+        $scope.person.ap = $scope.person.ap.id;
+        $rootScope.getDistricts($scope.person.ap);
+        $scope.person.dt = $scope.person.dt.id;
     });
     $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
@@ -263,7 +268,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
             career:$scope.person.career,
             academy:$scope.person.academy,
             origin_address_descr:$scope.person.origin_address_descr,
-            origin_address:$scope.person.origin_address,
+            // origin_address:$scope.person.origin_address,
             mobile : $("#mobile").val(),
             phone : $("#phone").val(),
             car:$scope.person.car,
@@ -277,7 +282,10 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
             person_type:3,
             family_id:$scope.person.member_id,
             owner_group_id : $scope.person.owner_group_id,
-            nickname : $scope.person.nickname
+            nickname : $scope.person.nickname,
+            pv:$scope.person.pv == null ? "0":$scope.person.pv,
+            ap:$scope.person.ap == null ? "0":$scope.person.ap,
+            dt:$scope.person.dt == null ? "0":$scope.person.dt
         }
         console.log(data);
         $rootScope.api({

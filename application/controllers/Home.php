@@ -54,6 +54,7 @@ class Home extends CI_Controller {
         $this->load->model("owner_group_model");
         $this->load->model("family_room_mappings_model");
         $this->load->model("family_members_model");
+        $this->load->model("address_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -258,9 +259,11 @@ class Home extends CI_Controller {
 	public function masterData(){
 		$home_type = $this->home_type_model->findAll();
 		$room_status = $this->room_status_model->findAll();
+		$provinces = $this->address_model->findAll();
 		$rs = array(
 			"home_type"=>$home_type,
-			"room_status"=>$room_status
+			"room_status"=>$room_status,
+			"provinces"=>$provinces
 		);
 		$this->return_json($rs);
 	}

@@ -43,6 +43,18 @@ class Address extends CI_Controller {
 		}
 		$this->return_json($data);
 	}
+	public function amphures(){
+		$province_id = $this->path_variable;
+		$this->address_model->TABLE = "amphures";
+		$data = $this->address_model->findByColumn("province_id",$province_id);
+		$this->return_json($data);
+	}
+	public function districts(){
+		$amphure_id = $this->path_variable;
+		$this->address_model->TABLE = "districts";
+		$data = $this->address_model->findByColumn("amphure_id",$amphure_id);
+		$this->return_json($data);
+	}
 	public function add(){
 		// $processBean =json_decode(file_get_contents('php://input'));
 		// $familyRqType = $processBean->familyRqType;
