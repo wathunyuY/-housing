@@ -4,7 +4,7 @@ class Home_Model extends CI_Model
   public function __construct()
   {
     parent::__construct();
-    $this->TABLE = "Homes";
+    $this->TABLE = "HOMES";
     $this->PK = "HOME_ID";
     $this->load->model("general_model");
     $this->load->model("home_section_model");

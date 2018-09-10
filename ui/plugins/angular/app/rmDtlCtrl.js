@@ -322,7 +322,7 @@ app.controller('mbDltCtrl', function($rootScope,$http,$scope,$route,$filter) {
 });
 app.controller('qrCtrl', function($rootScope,$http,$scope,$route,$filter) {
     var params = $route.current.params;
-    $rootScope.page_name = "ห้อง" + $rootScope.getRoomStatus(params.status);
+    // $rootScope.page_name = "ห้อง" + $rootScope.getRoomStatus(params.status);
     var links = "";
     switch(params.p){
         case 'o': links = "?ownerId="+params.id+"&status="+params.status; break;
