@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="box box-primary">
           <div class="box-header">
             <h3 class="box-title">เลือกหน่วยงาน</h3>
@@ -12,7 +12,7 @@
           <!-- /.box-body -->
     </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-6">
     <div class="box box-primary" ng-show="tog">
           <div class="box-header">
             <a href="{{host}}/report/report/{{ownerTemp}}" class="btn bg-teal btn-md pull-right" >ทั้งหมด <i class="fa fa-print"></i></a>
@@ -27,7 +27,7 @@
           <!-- /.box-body -->
     </div>
 </div>
-<div class="col-md-4" ng-show="tog">
+<div class="col-md-12" ng-show="tog">
     <div class="box box-primary">
           <div class="box-header">
             <h3 class="box-title">หรือจะค้นหาห้อง</h3>
@@ -35,15 +35,63 @@
           <!-- /.box-header -->
           <div class="box-body">
             <form ng-submit="findRoom()">
-              <div class="form-group">
-                <label>(ชื่อผู้อยู่อาศัย, เลขประจำตัวประชาชน, เลขห้อง)</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-search"></i>
+              <div class="row">
+                <div class="form-group col-md-12">
+                  <label>(ชื่อผู้อยู่อาศัย, เลขประจำตัวประชาชน, เลขห้อง)</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-search"></i>
+                    </div>
+                    <input type="text" class="form-control" id="find_key" placeholder="(นาย... , 9999999999999, 10/1)" ng-model="find_key">
                   </div>
-                  <input type="text" class="form-control" id="find_key" placeholder="(นาย... , 9999999999999, 10/1)" ng-model="find_key">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>เพศ</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-transgender"></i>
+                    </div>
+                    <select ng-model="gender" class="form-control">
+                      <option ng-repeat="x  in genders" value="{{ x.k }}">{{ x.v }}</option>
+                    </select>
+                 </div>
+                </div>
+                <div class="form-group col-md-4" ng-init="showap = false">
+                  <label>จังหวัด</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <select id="pv" ng-model="pv" class="form-control" ng-change=" showap=true; getAmphures(pv);">
+                      <option ng-repeat="x in masterData.provinces" value="{{x.id}}">{{x.name_th}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-3" ng-show="showap" ng-init="showdt = false">
+                  <label>อำเภอ</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <select id="ap" ng-model="ap" class="form-control" ng-change="showdt = true; getDistricts(ap);">
+                      <option ng-repeat="x in amphures" value="{{x.id}}">{{x.name_th}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-3" ng-show="showdt">
+                  <label>ตำบล</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <select id="dt" ng-model="dt" class="form-control">
+                      <option ng-repeat="x in districts" value="{{x.id}}" >{{x.name_th}}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
+
+              <button type="sumit" class="btn btn-block btn-primary">ค้นหา</button>
             </form>
           </div>
           <!-- /.box-body -->

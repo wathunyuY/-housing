@@ -64,7 +64,7 @@ class Room_Model extends CI_Model
             LEFT JOIN families f ON f.FAMILY_ID = frm.FAMILY_ID 
             LEFT JOIN person_currents pc ON pc.PERS_ID = f.PERS_ID
             WHERE rst.ROOM_STATUS_ID = 2 
-            AND (CONCAT(pc.FIRST_NAME," ",pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS) like "%'.$key.'%") 
+            AND (CONCAT(pc.FIRST_NAME," ",pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc.PERS_NICKNAME,pc.CAR_NUMBER,pc.BIKER_NUMBER,pc.CAREER) like "%'.$key.'%") 
             AND own.OWNER_GROUP_ID = '.$ownerId;
     return $this->db->query($sql)->result_array(); 
   }

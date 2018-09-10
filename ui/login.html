@@ -23,44 +23,188 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="index2.html"><b>Admin</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <!-- <p class="login-box-msg">เข้าสู่ระบบ</p> -->
+  <style type="text/css">
 
-    <div class="form-group has-feedback">
-      <input id="username" type="text" class="form-control" placeholder="Username">
-      <span class="glyphicon glyphicon-user form-control-feedback"></span>
+  body
+    {
+        background: url('img/login.png') fixed;
+        background-size: cover;
+        padding: 0;
+        margin: 0;
+    }
+
+    .wrap
+    {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        margin-top: 200px;
+        /*margin-bottom: 100px;
+        margin-right: 150px;*/
+        margin-left: 400px;
+    }
+
+    p.form-title
+    {
+        font-family: 'Open Sans' , sans-serif;
+        font-size: 50px;
+        /*font-weight: 600;*/
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 5%;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
+
+    div
+    {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    div.login input[type="text"], div.login input[type="password"]
+    {
+        width: 100%;
+        margin: 0;
+        padding: 10px 10px;
+        /*background: 0;*/
+        /*border: 0;*/
+        /*border-bottom: 1px solid #FFFFFF;*/
+        /*border-radius: 20%;*/
+        /*outline: 0;*/
+        font-style: italic;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        /*color: #FFFFFF;*/
+        /*outline: 0;*/
+
+        border: 2px ;
+        /*padding*/: 10px;
+        border-radius: 25px;
+        background-color: #D7D9DE;
+        opacity: 0.6;
+    }
+
+    div.login label, div.login a
+    {
+        font-size: 12px;
+        font-weight: 400;
+        color: #FFFFFF;
+    }
+
+    div.login a
+    {
+        transition: color 0.5s ease;
+    }
+
+    div.login a:hover
+    {
+        color: #2ecc71;
+    }
+
+    .pr-wrap
+    {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        display: none;
+    }
+
+    .show-pass-reset
+    {
+        display: block !important;
+    }
+
+    .pass-reset
+    {
+        margin: 0 auto;
+        width: 250px;
+        position: relative;
+        margin-top: 22%;
+        z-index: 999;
+        background: #FFFFFF;
+        padding: 20px 15px;
+    }
+
+    .pass-reset label
+    {
+        font-size: 12px;
+        font-weight: 400;
+        margin-bottom: 15px;
+    }
+    .btn-login{
+        border: 2px ;
+        padding: 10px;
+        border-radius: 25px;
+        background-color: white;
+    }
+    .btn-login:hover{
+        border: 2px ;
+        padding: 10px;
+        border-radius: 25px;
+        background-color: #D7D9DE;
+    }
+  </style>
+</head>
+<body > <!-- class="hold-transition login-page" -->
+<div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="wrap">
+                  <p class="form-title">
+                      Sign In</p>
+                  <div class="login">
+                  <input type="text" name="username" placeholder="Username" id="username" />
+                  <input type="password" name="password" placeholder="Password" id="password" />
+                  <button id="btn-singin" class="btn btn-lg btn-block btn-login"> Login </button>
+                  <!-- <input type="submit" value="Sign In" class="btn btn-lg" id="btnsubmit" /> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- <div class="posted-by">Posted By: <a href="http://www.jquery2dotnet.com">Bhaumik Patel</a></div> -->
+</div>
+  <!-- <div class="login-box">
+    <div class="login-logo">
+      <a href="index2.html"><b>Admin</b></a>
     </div>
-    <div class="form-group has-feedback">
-      <input id="password" type="password" class="form-control" placeholder="Password">
-      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-    </div>
-    <div class="row">
-      <div class="col-xs-8">
-        <div class="checkbox icheck">
-          <label>
-            <!-- <input type="checkbox"> Remember Me -->
-          </label>
+    <div class="login-box-body">
+      <p class="login-box-msg">เข้าสู่ระบบ</p>
+
+      <div class="form-group has-feedback">
+        <input id="username" type="text" class="form-control" placeholder="Username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="password" type="password" class="form-control" placeholder="Password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <button id="btn-singin" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
       </div>
-      <div class="col-xs-4">
-        <button id="btn-singin" class="btn btn-primary btn-block btn-flat">Sign In</button>
-      </div>
     </div>
-  </div>
-</div>
+   </div>  -->
 
-<!-- jQuery 2.2.3 -->
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
-<!-- iCheck -->
 <script src="plugins/iCheck/icheck.min.js"></script>
 <script src="config.js"></script>
 <script type="text/javascript">
