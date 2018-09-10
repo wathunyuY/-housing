@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true ");
-header("Access-Control-Allow-Methods: OPTIONS, GET, GET");
+header("Access-Control-Allow-Methods: OPTIONS, GET, GET ,DELETE,POST");
 header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
 class Address extends CI_Controller {
 

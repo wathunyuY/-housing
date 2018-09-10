@@ -209,7 +209,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
     $scope.deleteHome = (index)=>{
         var h = $scope.homes[index];
         $rootScope.api({
-            method:"delete",
+            method:"GET",
             url: "/home/delete/"+h.HOME_ID,
             data:{},
             success:function(res){

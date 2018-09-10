@@ -42,9 +42,9 @@ class Home_Model extends CI_Model
   }
 
   public function haveFamily($homeId){
-    $sql = "SELECT * FROM homes a 
-            INNER JOIN home_sections b on b.HOME_ID = a.HOME_ID
-            INNER JOIN home_rooms c ON c.HOME_SECTION_ID = b.HOME_SECTION_ID
+    $sql = "SELECT * FROM HOMES a 
+            INNER JOIN HOME_SECTIONS b on b.HOME_ID = a.HOME_ID
+            INNER JOIN HOME_ROOMS c ON c.HOME_SECTION_ID = b.HOME_SECTION_ID
             WHERE ROOM_STATUS_ID = 2 AND a.HOME_ID = ".$homeId;
     return $this->db->query($sql)->num_rows() > 0;
   }
@@ -114,15 +114,15 @@ class Home_Model extends CI_Model
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
             ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี : ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
-            FROM home_rooms hr
-            INNER JOIN home_sections rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
-            INNER JOIN homes h ON h.HOME_ID = rs.HOME_ID
-            INNER JOIN owner_group_tbls own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
-            INNER JOIN home_type_tbls htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
-            INNER JOIN room_status_tbls rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
-            LEFT JOIN family_room_mappings frm ON frm.ROOM_ID = hr.ROOM_ID
-            LEFT JOIN families f ON f.FAMILY_ID = frm.FAMILY_ID 
-            LEFT JOIN person_currents pc ON pc.PERS_ID = f.PERS_ID
+            FROM HOME_ROOMS hr
+            INNER JOIN HOME_SECTIONS rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
+            INNER JOIN HOMES h ON h.HOME_ID = rs.HOME_ID
+            INNER JOIN OWNER_GROUP_TBLS own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
+            INNER JOIN HOME_TYPE_TBLS htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
+            INNER JOIN ROOM_STATUS_TBLS rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
+            LEFT JOIN FAMILY_ROOM_MAPPINGS frm ON frm.ROOM_ID = hr.ROOM_ID
+            LEFT JOIN FAMILIES f ON f.FAMILY_ID = frm.FAMILY_ID 
+            LEFT JOIN PERSON_CURRENTS pc ON pc.PERS_ID = f.PERS_ID
             WHERE rst.ROOM_STATUS_ID = '.$status.' AND own.OWNER_GROUP_ID = '.$ownerId.' ORDER BY h.HOME_ID,rs.HOME_SECTION_ID,hr.ROOM_ID';
     $tbls = $this->db->query($sql)->result_array();
     return $tbls;
@@ -135,15 +135,15 @@ class Home_Model extends CI_Model
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
             ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี : ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
-            FROM home_rooms hr
-            INNER JOIN home_sections rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
-            INNER JOIN homes h ON h.HOME_ID = rs.HOME_ID
-            INNER JOIN owner_group_tbls own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
-            INNER JOIN home_type_tbls htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
-            INNER JOIN room_status_tbls rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
-            LEFT JOIN family_room_mappings frm ON frm.ROOM_ID = hr.ROOM_ID
-            LEFT JOIN families f ON f.FAMILY_ID = frm.FAMILY_ID 
-            LEFT JOIN person_currents pc ON pc.PERS_ID = f.PERS_ID
+            FROM HOME_ROOMS hr
+            INNER JOIN HOME_SECTIONS rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
+            INNER JOIN HOMES h ON h.HOME_ID = rs.HOME_ID
+            INNER JOIN OWNER_GROUP_TBLS own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
+            INNER JOIN HOME_TYPE_TBLS htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
+            INNER JOIN ROOM_STATUS_TBLS rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
+            LEFT JOIN FAMILY_ROOM_MAPPINGS frm ON frm.ROOM_ID = hr.ROOM_ID
+            LEFT JOIN FAMILIES f ON f.FAMILY_ID = frm.FAMILY_ID 
+            LEFT JOIN PERSON_CURRENTS pc ON pc.PERS_ID = f.PERS_ID
             WHERE rst.ROOM_STATUS_ID = '.$status.' AND h.HOME_ID = '.$homeId.' ORDER BY h.HOME_ID,rs.HOME_SECTION_ID,hr.ROOM_ID';
     $tbls = $this->db->query($sql)->result_array();
     return $tbls;
@@ -156,15 +156,15 @@ class Home_Model extends CI_Model
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
             ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี : ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
-            FROM home_rooms hr
-            INNER JOIN home_sections rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
-            INNER JOIN homes h ON h.HOME_ID = rs.HOME_ID
-            INNER JOIN owner_group_tbls own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
-            INNER JOIN home_type_tbls htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
-            INNER JOIN room_status_tbls rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
-            LEFT JOIN family_room_mappings frm ON frm.ROOM_ID = hr.ROOM_ID
-            LEFT JOIN families f ON f.FAMILY_ID = frm.FAMILY_ID 
-            LEFT JOIN person_currents pc ON pc.PERS_ID = f.PERS_ID
+            FROM HOME_ROOMS hr
+            INNER JOIN HOME_SECTIONS rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
+            INNER JOIN HOMES h ON h.HOME_ID = rs.HOME_ID
+            INNER JOIN OWNER_GROUP_TBLS own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
+            INNER JOIN HOME_TYPE_TBLS htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
+            INNER JOIN ROOM_STATUS_TBLS rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
+            LEFT JOIN FAMILY_ROOM_MAPPINGS frm ON frm.ROOM_ID = hr.ROOM_ID
+            LEFT JOIN FAMILIES f ON f.FAMILY_ID = frm.FAMILY_ID 
+            LEFT JOIN PERSON_CURRENTS pc ON pc.PERS_ID = f.PERS_ID
             WHERE rst.ROOM_STATUS_ID = '.$status.' AND rs.HOME_SECTION_ID = '.$sectionId.' ORDER BY h.HOME_ID,rs.HOME_SECTION_ID,hr.ROOM_ID';
     $tbls = $this->db->query($sql)->result_array();
     return $tbls;

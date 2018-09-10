@@ -40,8 +40,8 @@ class Home_Section_Model extends CI_Model
   }
 
   public function haveFamily($secId){
-    $sql = "SELECT * FROM  home_sections b 
-            INNER JOIN home_rooms c ON c.HOME_SECTION_ID = b.HOME_SECTION_ID
+    $sql = "SELECT * FROM  HOME_SECTIONS b 
+            INNER JOIN HOME_ROOMS c ON c.HOME_SECTION_ID = b.HOME_SECTION_ID
             WHERE ROOM_STATUS_ID <> 1 AND b.HOME_SECTION_ID = ".$secId;
     return $this->db->query($sql)->num_rows() > 0;
   }
