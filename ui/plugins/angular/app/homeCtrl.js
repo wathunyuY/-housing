@@ -344,7 +344,7 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
     $scope.deleteSec = (index)=>{
         var h = $scope.home.sections[index];
         $rootScope.api({
-            method:"delete",
+            method:"GET",
             url: "/home/section/delete/"+h.HOME_SECTION_ID,
             data:{},
             success:function(res){
@@ -464,7 +464,7 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
     $scope.deleteRoom = (index)=>{
         var h = $scope.section.rooms[index];
         $rootScope.api({
-            method:"delete",
+            method:"GET",
             url: "/home/room/delete/"+h.ROOM_ID,
             data:{},
             success:function(res){
