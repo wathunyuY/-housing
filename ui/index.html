@@ -55,30 +55,21 @@
 
   <img src="img/headers.png" width="100%">
 <div class="wrapper">
-  <!-- <div style="background: url('img/headers.png') fixed"></div> -->
-  <header class="main-header">
-    <!-- <a  class="logo">
-      <span class="logo-mini"><b>A</b>LT</span>
-      <span class="logo-lg"><b>Admin</b>LTE</span>
-    </a> -->
-    <nav class="navbar navbar-static-top" style="border: 0; background: url('img/backgrounds.png')">
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+  <!-- <header class="main-header"> -->
+    <!-- <nav class="navbar navbar-static-top" style="border: 0; background: url('img/backgrounds.png')"> -->
+      <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
-      </a>
-    </nav>
-  </header>
-  <aside class="main-sidebar">
+      </a> -->
+    <!-- </nav> -->
+  <!-- </header> -->
+  <aside class="main-sidebar" style="padding-top: 0px; border: 0; background: url('img/backgrounds.png')">
     <section class="sidebar">
-        <!-- Sidebar user panel -->
         <div class="user-panel">
-          <div class="pull-left image">
-            <img src="img/zoro.jpg" class="img-circle" alt="User Image">
-          </div>
-          <div class="pull-left info">
-            <p>Admin</p>
-          </div>
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <!-- <span class="sr-only">Toggle navigation</span> -->
+            <img src=" img/admin_header.png" width="100%">
+          </a>
         </div>
-        <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
           <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Search...">
@@ -88,48 +79,28 @@
                 </span>
           </div>
         </form>
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-          <li class="header">MAIN NAVIGATION</li>
-          <li class="active treeview">
+          <li style="padding: 10px 25px 10px 15px; color: #6E6F70"><strong>  MAIN NAVIGATION</strong></li>
+          <li class="treeview">
             <a href="#/!">
-              <i class="fa fa-dashboard"></i> <span>ภาพรวม</span>
+              <img src=" img/menu/home.png" width="100%">
             </a>
           </li>
           <li class="treeview">
             <a href="#!owner_groups">
-              <i class="fa fa-tasks"></i>
-              <span>ข้อมูลบ้านพัก</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">{{masterData.ownerGroups.length}} </small>
-              </span>
+              <img src=" img/menu/manager.png" width="100%">
             </a>
-            <!-- <ul class="treeview-menu">
-              <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> บ้านพัก</a></li>
-              <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> ผู้อยู่อาศัย</a></li>
-            </ul> -->
           </li>
-          <li><a href="#!reports"><i class="fa fa-book"></i> <span>รายงาน</span></a></li>
-          <li class="header">LABELS</li>
-          <li><a id="report" href="" ><i class="fa fa-circle-o text-red"></i> <span>แบบฟอร์มขอบ้านพัก</span></a></li>
-          <li><a id="btn-logout" href="" ><i class="fa fa-circle-o text-yellow"></i> <span>ออกจากระบบ</span></a></li>
-          <!-- <li><a href="#!new_persons"><i class="fa fa-circle-o text-yellow"></i> <span>เพิ่มผู้อยู่อาศัย</span></a></li> -->
-          <!-- <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>รายงาน</span></a></li> -->
+          <li><a href="#!reports"><img src=" img/menu/report.png" width="100%"></a></li>
+          <li style="padding: 10px 25px 10px 15px; color: #6E6F70"><strong>  LABELS</strong></li>
+          <li><a id="report" href="" ><img src=" img/menu/form_request.png" width="100%"></a></li>
+          <li><a id="btn-logout" href="" ><img src=" img/menu/logout.png" width="100%"></a></li>
         </ul>
     </section>
   </aside>
 
   <div class="content-wrapper" ng-app="myApp" style="background: url('img/backgrounds.png')">
       <section class="content-header">
-        <!-- <h1>
-          {{page_name}}
-          <small> {{page_sub_name}}</small>
-        </h1>
-        <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li class="active">Dashboard</li>
-        </ol> -->
       </section>
 
       <section class="content" >
@@ -139,10 +110,9 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.8
+      <b>Version</b> 1.0.0
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-    reserved.
+    <strong>กรมการทหารช่าง ค่ายภาณุรังษี <a href="http://www.engrdept.com/index0753.htm"> Website</a></strong>
   </footer>
   <div class="control-sidebar-bg"></div>
 </div>
