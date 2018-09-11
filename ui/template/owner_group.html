@@ -2,16 +2,16 @@
   <div ng-repeat="x in masterData.ownerGroups">
   <div class="col-md-4">
     <div class="box box-widget widget-user-2">
-      <div class="widget-user-header" style="background: url('img/group/{{x.OWNER_GROUP_ID}}.png');background-repeat: no-repeat;
-    background-size: auto;" >
-    <br>
-    <br>
+      <!-- <div class="widget-user-header" style="background: url('img/group/{{x.OWNER_GROUP_ID}}.png');background-repeat: no-repeat;background-size: auto;" > -->
+        <!-- <br> -->
+        <!-- <br> -->
         <!-- <div class="widget-user-image">
           <img class="img-circle" src="img/zoro.jpg" alt="User Avatar">
         </div> -->
         <!-- <h3 class="widget-user-username">{{x.OWNER_GROUP_NAME}}</h3> -->
         <!-- <h5 class="widget-user-desc">รับผิดชอบ {{x.OWNER_GROUP_DESCR}}</h5> -->
-      </div>
+      <!-- </div> -->
+      <img src=" img/group/{{x.OWNER_GROUP_ID}}.png " width="100%">
       <div class="box-footer no-padding">
         <ul class="nav nav-stacked">
           <li><a href="#!quick_rooms?id={{x.OWNER_GROUP_ID}}&status=1">ว่าง <span class="pull-right badge bg-green">{{ countRoom(x.homes,1)}}</span></a></li>
