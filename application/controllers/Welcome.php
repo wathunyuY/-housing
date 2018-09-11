@@ -47,7 +47,7 @@ class Welcome extends CI_Controller {
     }  
 	public function index()
 	{
-		$this->load->view('login');
+		redirect(base_url().'/ui', 'refresh');
 	}
 	public function owner(){
 		if("get" == $this->method){
