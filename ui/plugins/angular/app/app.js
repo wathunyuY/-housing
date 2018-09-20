@@ -33,6 +33,13 @@ app.run(function($rootScope,$http,$filter) {
     $rootScope.numadd = (num_str,add)=>{
         return parseInt(num_str) + parseInt(add);
     }
+
+    $rootScope.loadOwnerGroup = ()=>{
+        $http.get($rootScope.apiUrl+"/home/ownerGroups")
+        .then(function(response) {
+            $rootScope.masterData.ownerGroups = response.data.data;
+        });    
+    } 
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {
         $rootScope.masterData.ownerGroups = response.data.data;

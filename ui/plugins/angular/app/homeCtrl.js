@@ -2,6 +2,7 @@ app.controller('ownerGrpCtrl', function($rootScope,$scope,$http,$filter) {
     $rootScope.page_name = "ระบบจัดการบ้านพัก";
     // console.log($rootScope.masterData);
     // $scope.fel = $filter('filter')($rootScope.masterData.ownerGroups , {'OWNER_GROUP_ID':1}) 
+    $rootScope.loadOwnerGroup();
     $scope.countRoom = (homes,status)=>{
         var count = 0
         angular.forEach(homes, function(home){

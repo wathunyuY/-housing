@@ -1,139 +1,184 @@
-<div class="col-md-6">
-    <div class="box box-primary">
-          <div class="box-header">
-            <h3 class="box-title">เลือกหน่วยงาน</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body" >
-            <button class="btn btn-md btn-block btn-primary" ng-repeat="(i,x) in masterData.ownerGroups" ng-click="ownerClick(x.OWNER_GROUP_ID); ">
-              {{x.OWNER_GROUP_NAME}} - {{x.OWNER_GROUP_DESCR}}
-            </button>
-          </div>
-          <!-- /.box-body -->
+<div class="row">  
+  <div class="col-md-10 col-md-offset-1" >
+    <div class="box box-success">
+      <div class="box-header">
+        <h3 class="box-title">เลือกหน่วยงาน</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body" >
+       <!--  <button class="btn btn-md btn-block btn-success" ng-repeat="(i,x) in masterData.ownerGroups" ng-click="ownerClick(x.OWNER_GROUP_ID); ">
+          {{x.OWNER_GROUP_NAME}} - {{x.OWNER_GROUP_DESCR}}
+        </button> -->
+        <div class="col-md-4" ng-repeat="(i,x) in masterData.ownerGroups" ng-click="ownerClick(x.OWNER_GROUP_ID);">
+          <img src=" img/group/{{x.OWNER_GROUP_ID}}.png " width="100%">
+        </div>
+      </div>
+      <!-- /.box-body -->
     </div>
+  </div>
 </div>
-<div class="col-md-6">
-    <div class="box box-primary" ng-show="tog">
-          <div class="box-header">
-            <a href="{{host}}/report/report/{{ownerTemp}}" class="btn bg-teal btn-md pull-right" >ทั้งหมด <i class="fa fa-print"></i></a>
-            <h3 class="box-title">เลือกอาคาร</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <a href="{{x.links}}" class="btn btn-md btn-block btn-primary" ng-repeat="(i,x) in homes">
-              {{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})
-            </a>
-          </div>
-          <!-- /.box-body -->
-    </div>
-</div>
-<div class="col-md-12" ng-show="tog">
-    <div class="box box-primary">
-          <div class="box-header">
-            <h3 class="box-title">หรือจะค้นหาห้อง</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <form ng-submit="findRoom()">
-              <div class="row">
-                <div class="form-group col-md-12">
-                  <label>(ชื่อผู้อยู่อาศัย, เลขประจำตัวประชาชน, เลขห้อง)</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-search"></i>
-                    </div>
-                    <input type="text" class="form-control" id="find_key" placeholder="(นาย... , 9999999999999, 10/1)" ng-model="find_key">
-                  </div>
-                </div>
-                <div class="form-group col-md-2">
-                  <label>เพศ</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                        <i class="fa fa-transgender"></i>
-                    </div>
-                    <select ng-model="gender" class="form-control">
-                      <option ng-repeat="x  in genders" value="{{ x.k }}">{{ x.v }}</option>
-                    </select>
-                 </div>
-                </div>
-                <div class="form-group col-md-4" ng-init="showap = false">
-                  <label>จังหวัด</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <select id="pv" ng-model="pv" class="form-control" ng-change=" showap=true; getAmphures(pv);">
-                      <option ng-repeat="x in masterData.provinces" value="{{x.id}}">{{x.name_th}}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group col-md-3" ng-show="showap" ng-init="showdt = false">
-                  <label>อำเภอ</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <select id="ap" ng-model="ap" class="form-control" ng-change="showdt = true; getDistricts(ap);">
-                      <option ng-repeat="x in amphures" value="{{x.id}}">{{x.name_th}}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group col-md-3" ng-show="showdt">
-                  <label>ตำบล</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <select id="dt" ng-model="dt" class="form-control">
-                      <option ng-repeat="x in districts" value="{{x.id}}" >{{x.name_th}}</option>
-                    </select>
-                  </div>
-                </div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="box box-success" ng-show="tog">
+      <div class="box-header">
+        <a href="{{host}}/report/report/{{ownerTemp}}" class="btn bg-green btn-md pull-right" >ดาวน์โหลดทั้งหมด <i class="fa fa-print"></i></a>
+        <h3 class="box-title">เลือกอาคาร</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <!-- <a href="{{x.links}}" class="btn btn-md btn-block btn-success" ng-repeat="(i,x) in homes">
+          {{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})
+        </a> -->
+        <div class="col-md-6" ng-repeat="(i,x) in homes">
+          <div class="box collapsed-box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})</h3>
+              <div class="box-tools pull-right">
+                <a href="{{x.links}}" class="">ดาวน์โหลด<i class="fa fa-print"></i></a>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus  "></i>
+                </button>
               </div>
-
-              <button type="sumit" class="btn btn-block btn-primary">ค้นหา</button>
-            </form>
+            </div>
+            <div class="box-body">
+              <!-- <p>ดาวน์โหลด</p> -->
+              <!-- <a href="{{x.links}}" class="">ดาวน์โหลด</a> -->
+            </div>
           </div>
-          <!-- /.box-body -->
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
-<div class="col-md-12" ng-show="tog2">
-    <div class="box box-primary">
-          <div class="box-header">
-            <h3 class="box-title">ค้นพบ {{roomSearchRs.length}} รายการ</h3>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1" ng-show="tog">
+    <div class="box box-success">
+      <div class="box-header">
+        <h3 class="box-title">หรือจะค้นหาห้อง</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form ng-submit="findRoom()">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>(ชื่อผู้อยู่อาศัย, เลขประจำตัวประชาชน,ข้อมูลส่วนตัว อื่นๆ, เลขห้อง )</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-search"></i>
+                </div>
+                <input type="text" class="form-control" id="find_key" placeholder="(นาย... , 9999999999999, 10/1)" ng-model="find_key">
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <label>เพศ</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-transgender"></i>
+                </div>
+                <select ng-model="gender" class="form-control">
+                  <option ng-repeat="x  in genders" value="{{ x.k }}">{{ x.v }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <label >วัน/เดือน/ปี เกิด: </label>
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="birthday">
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <label >วันที่เข้าพัก: </label>
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="startDate">
+              </div>
+            </div>
+            <div class="form-group col-md-4" ng-init="showap = false">
+              <label>จังหวัด</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <select id="pv" ng-model="pv" class="form-control" ng-change=" showap=true; getAmphures(pv);">
+                  <option value="0">ทั้งหมด</option>
+                  <option ng-repeat="x in masterData.provinces" value="{{x.id}}">{{x.name_th}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4" ng-show="showap && pv != 0" ng-init="showdt = false">
+              <label>อำเภอ</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <select id="ap" ng-model="ap" class="form-control" ng-change="showdt = true; getDistricts(ap);">
+                  <option value="0">ทั้งหมด</option>
+                  <option ng-repeat="x in amphures" value="{{x.id}}">{{x.name_th}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group col-md-4" ng-show="showdt && ap != 0">
+              <label>ตำบล</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <select id="dt" ng-model="dt" class="form-control">
+                  <option value="0">ทั้งหมด</option>
+                  <option ng-repeat="x in districts" value="{{x.id}}" >{{x.name_th}}</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>ที่</th>
-                  <th>ชื่อบ้าน</th>
-                  <th>บ้านเลขที่</th>
-                  <th>หมายเลขอาคาร</th>
-                  <th>ชั้น</th>
-                  <th>ห้อง</th>
-                  <th>เจ้าของห้อง</th>
-                  <th>สมาชิก</th>
-                  <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="(i,x) in roomSearchRs">
-                      <td>{{ i+1 }}</td>
-                      <td>{{x.HOME_NAME}}</td>
-                      <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span> </td>
-                      <td>{{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} / {{numadd(x.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
-                      <td>{{numadd(x.HOME_SECTION_ORDER,1)}}</td>
-                      <th>{{x.ROOM_SEQ}}</th>                  
-                      <td>{{x.FIRST_NAME}}</td>
-                      <td>{{x.MEMBER_COUNT}}</td>
-                      <td class="text-center">
-                        <a href="{{host}}/report/reportByRoom/{{x.ROOM_ID}}" class="btn btn-sm btn-success">พิมพ์ <i class="fa fa-print"></i></a>
-                      </td>
-                    </tr>
-                </tbody>
-              </table>              
-          </div>
+          <button type="sumit" class="btn btn-block btn-success">ค้นหา</button>
+        </form>
+      </div>
+      <!-- /.box-body -->
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1" ng-show="tog2">
+    <div class="box box-success">
+      <div class="box-header">
+        <h3 class="box-title">ค้นพบ {{roomSearchRs.length}} รายการ</h3>
+      </div>
+      <div class="box-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>ที่</th>
+              <th>ชื่อบ้าน</th>
+              <th>บ้านเลขที่</th>
+              <th>หมายเลขอาคาร</th>
+              <th>ชั้น</th>
+              <th>ห้อง</th>
+              <th>เจ้าของห้อง</th>
+              <th>สมาชิก</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(i,x) in roomSearchRs">
+                  <td>{{ i+1 }}</td>
+                  <td>{{x.HOME_NAME}}</td>
+                  <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span> </td>
+                  <td>{{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} / {{numadd(x.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
+                  <td>{{numadd(x.HOME_SECTION_ORDER,1)}}</td>
+                  <th>{{x.ROOM_SEQ}}</th>                  
+                  <td>{{x.FIRST_NAME}}</td>
+                  <td>{{x.MEMBER_COUNT}}</td>
+                  <td class="text-center">
+                    <a href="{{host}}/report/reportByRoom/{{x.ROOM_ID}}" class="btn btn-sm btn-success">ดาวน์โหลด <i class="fa fa-print"></i></a>
+                  </td>
+                </tr>
+            </tbody>
+          </table>              
+      </div>
+    </div>
+  </div>
 </div>

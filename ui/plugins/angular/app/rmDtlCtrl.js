@@ -111,8 +111,29 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
          console.log('Error: ', error);
        };
     }
-
+    $scope.clearForm = ()=>{
+        $scope.fullname = null;
+        $scope.idCard = null;
+        $scope.national = null;
+        $scope.edu = null;
+        $scope.career = null;
+        $scope.academy = null;
+        $scope.mobile = null;
+        $scope.phone = null;
+        $scope.origin_address_descr = null;
+        $scope.origin_address = null;
+        $scope.car = null;
+        $scope.biker = null;
+        $scope.reference = null;
+        $scope.gender = null ;
+        $scope.birth_date = null;
+        $scope.start_date = null;
+        $scope.nickname = null;
+        $('#datepicker').datepicker("setDate",new Date());
+        $('#datepicker2').datepicker("setDate",new Date());
+    }
     $scope.addBtn=()=>{
+        $scope.clearForm();
         if($scope.roomDetail.find){
             $scope.is_header_family = false;  
         }else{
@@ -121,9 +142,27 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $scope.relation = $rootScope.HEAD_FAMILY_TEXT;
         }
     }
-
+    $scope.alertErrors = (text)=>{
+        $scope.errorText = text;
+        $scope.alertError = true;
+    }
     $scope.save=()=>{
-        $scope.getBirthDate();
+        if(!$scope.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
+        if(!$scope.nickname) return $scope.alertErrors("ใส่ชื่อเล่น");
+        if(!$scope.gender) return $scope.alertErrors("เลือกเพศ");
+        if("" == $("#idCard").val()) return $scope.alertErrors("ใส่เลขประจำตัวประชาชน");
+        if(!$scope.relation) return $scope.alertErrors("ใส่ความสัมพันธ์");
+        if($( "#datepicker").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี เกิด");
+        if(!$scope.national) return $scope.alertErrors("ใส่สัญชาติ");
+        if(!$scope.edu) return $scope.alertErrors("ใส่การศึกษา");
+        if(!$scope.career) return $scope.alertErrors("ใส่อาชีพ");
+        if(!$scope.academy) return $scope.alertErrors("ใส่สังกัด โรงเรียน ชื่อหน่วยงาน");
+        if("" == $("#phone").val()) return $scope.alertErrors("ใส่เบอร์โทรศัพท์ที่ทำงาน");
+        if("" == $("#mobile").val()) return $scope.alertErrors("ใส่เบอร์โทรศัพท์มือถือ");
+        if($( "#datepicker2").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี ที่เข้าพัก");
+        if(!$scope.origin_address_descr) return $scope.alertErrors("ใส่ที่อยู่");
+        if(!$scope.pv) return $scope.alertErrors("เลือกจังหวัด");
+        if(!$scope.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");
         var data ={
             name : $scope.fullname,
             gender : $scope.gender,
@@ -161,6 +200,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             data:{personRqType:data},
             success:function(res){
                 console.log(res);
+                $("#btn_tmp_save").click();
                 $route.reload();
             },
             fail:function(){
@@ -255,8 +295,28 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
        };
     }
     $scope.picture = null;
+    $scope.alertErrors = (text)=>{
+        $scope.errorText = text;
+        $scope.alertError = true;
+    }
     $scope.edit=()=>{
         // $scope.getBirthDate();
+        if(!$scope.person.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
+        if(!$scope.person.nickname) return $scope.alertErrors("ใส่ชื่อเล่น");
+        if(!$scope.person.gender) return $scope.alertErrors("เลือกเพศ");
+        if("" == $("#idCard").val()) return $scope.alertErrors("ใส่เลขประจำตัวประชาชน");
+        if(!$scope.person.relation) return $scope.alertErrors("ใส่ความสัมพันธ์");
+        if($( "#datepicker").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี เกิด");
+        if(!$scope.person.national) return $scope.alertErrors("ใส่สัญชาติ");
+        if(!$scope.person.edu) return $scope.alertErrors("ใส่การศึกษา");
+        if(!$scope.person.career) return $scope.alertErrors("ใส่อาชีพ");
+        if(!$scope.person.academy) return $scope.alertErrors("ใส่สังกัด โรงเรียน ชื่อหน่วยงาน");
+        if("" == $("#phone").val()) return $scope.alertErrors("ใส่เบอร์โทรศัพท์ที่ทำงาน");
+        if("" == $("#mobile").val()) return $scope.alertErrors("ใส่เบอร์โทรศัพท์มือถือ");
+        if(!$( "#datepicker2").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี ที่เข้าพัก");
+        if(!$scope.person.origin_address_descr) return $scope.alertErrors("ใส่ที่อยู่");
+        if(!$scope.person.pv) return $scope.alertErrors("เลือกจังหวัด");
+        if(!$scope.person.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");
         var data ={
             pers_id:$scope.person.pers_id,
             name : $scope.person.fullname,
@@ -307,13 +367,14 @@ app.controller('mbDltCtrl', function($rootScope,$http,$scope,$route,$filter) {
     $rootScope.page_name = "";
     var params = $route.current.params;
     $scope.roomId = params.roomId;
+    $scope.h = params.h;
     // $scope.r = $route;
     $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
     .then(function(response) {
         $scope.person = response.data.data;
     });
     $scope.deleteMember = (id)=>{
-        $http.get($rootScope.apiUrl+"/person/delete?id="+id)
+        $http.get($rootScope.apiUrl+"/person/delete?id="+id+"&h="+$scope.h)
         .then(function(response) {
             window.location.replace(appConfig.httphost+"/ui/#!/room_details?id="+$scope.roomId);
         });        

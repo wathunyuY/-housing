@@ -220,6 +220,11 @@
 
             <div class="box-footer">
               <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+              <div class="alert alert-danger alert-dismissible" ng-show="alertError">
+                <button type="button" class="close" ng-click="alertError = false;">&times;</button>
+                <h4><i class="icon fa fa-ban"></i> ผิดพลาด!</h4>
+                กรุณา{{errorText}}
+              </div>
             </div>
           </form>
   </div>

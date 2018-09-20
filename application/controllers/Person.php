@@ -81,10 +81,10 @@ class Person extends CI_Controller {
 			$this->room_model->merge($roomTbl);
 			$person = $this->person_model->_new();
 			$person["TYPE_ID"] = $rq->person_type;
-			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));
+			$person["BIRTHDAY"] = null != $rq->birth_date ? date('Y-m-d H:i:s',strtotime($rq->birth_date)) : null;
 			$personTbl = $this->person_model->merge($person);
 
-			if(null != $rq->picture)
+			if(isset($rq->picture))
 				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
 			else $pic = "/assets/picture/default.jpg";
 
@@ -148,10 +148,10 @@ class Person extends CI_Controller {
 			$person = $this->person_model->findByPk($rq->pers_id);
 			// $person["TYPE_ID"] = $rq->person_type;
 			unset($person["CURRENT"]); 
-			$person["BIRTHDAY"] = date('Y-m-d H:i:s',strtotime($rq->birth_date));
+			$person["BIRTHDAY"] = null != $rq->birth_date ? date('Y-m-d H:i:s',strtotime($rq->birth_date)) : null;
 			$personTbl = $this->person_model->merge($person);
 			$personCurTbl = $personTbl["CURRENT"];
-			if(null != $rq->picture)
+			if(isset($rq->picture))
 				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
 			else $pic = $personCurTbl["PICTURE_PATH"];
 			$personCurTbl["FIRST_NAME"]=$rq->name;
@@ -197,10 +197,27 @@ class Person extends CI_Controller {
 	}
 	public function delete(){
 		$id = $this->input->get("id");
-		$member = $this->family_members_model->findByPk($id);
-		$member["END_DATE"] = $this->dt_now;
-		$member["IS_STAY"] = false;
-		$this->family_members_model->merge($member);
+		$is_header = $this->input->get("h") == 1;
+		if($is_header){
+			$family = $this->families_model->findByPk($id);
+			$map = $this->family_room_mappings_model->findLastFamily($id);
+			$room = $this->room_model->findByPk($map["ROOM_ID"]);
+			$room["ROOM_STATUS_ID"] = 1;
+			$this->room_model->merge($room);
+			$map["END_DATE"] = $this->dt_now;
+			$this->family_room_mappings_model->merge($map);
+			$members = $this->family_members_model->findByFamily($id);
+			foreach ($members as $key => $member) {
+				$member["END_DATE"] = $this->dt_now;
+				$member["IS_STAY"] = false;
+				$this->family_members_model->merge($member);
+			}
+		}else{
+			$member = $this->family_members_model->findByPk($id);
+			$member["END_DATE"] = $this->dt_now;
+			$member["IS_STAY"] = false;
+			$this->family_members_model->merge($member);
+		}
 		$this->return_json([]);
 	}
 	private function savePicture($base64,$image_name){

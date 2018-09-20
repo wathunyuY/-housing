@@ -45,7 +45,14 @@ class Room_Model extends CI_Model
     return $this->db->query($sql)->num_rows() > 0;
   }
 
-  public function search($ownerId,$key="!@#$%"){
+  public function search($ownerId,$key='',$provinceId=0,$amphurId=0,$districtId=0){
+
+    $p = $provinceId ==0 ? '': ' OR pc.PROVINCE_ID_TYPE0 = '.$provinceId;
+    $a = $amphurId ==0 ? '': ' AND pc.AMPHUR_ID_TYPE0 = '.$amphurId;
+    $d = $districtId ==0 ? '': ' AND pc.DISTRICT_ID_TYPE0 = '.$districtId;
+
+    $key = $key == '' ? '' : '%'.$key.'%';
+
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
             ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
@@ -60,12 +67,28 @@ class Room_Model extends CI_Model
             INNER JOIN OWNER_GROUP_TBLS own ON own.OWNER_GROUP_ID = h.OWNER_GROUP_ID
             INNER JOIN HOME_TYPE_TBLS htt ON htt.HOME_TYPE_ID = h.HOME_TYPE_ID
             INNER JOIN ROOM_STATUS_TBLS rst ON rst.ROOM_STATUS_ID = hr.ROOM_STATUS_ID
-            LEFT JOIN FAMILY_ROOM_MAPPINGS frm ON frm.ROOM_ID = hr.ROOM_ID
-            LEFT JOIN FAMILIES f ON f.FAMILY_ID = frm.FAMILY_ID 
-            LEFT JOIN PERSON_CURRENTS pc ON pc.PERS_ID = f.PERS_ID
-            WHERE rst.ROOM_STATUS_ID = 2 
-            AND (CONCAT(pc.FIRST_NAME," ",pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc.PERS_NICKNAME,pc.CAR_NUMBER,pc.BIKER_NUMBER,pc.CAREER) like "%'.$key.'%") 
-            AND own.OWNER_GROUP_ID = '.$ownerId;
+            INNER JOIN FAMILY_ROOM_MAPPINGS frm ON frm.ROOM_ID = hr.ROOM_ID
+            INNER JOIN FAMILIES f ON f.FAMILY_ID = frm.FAMILY_ID 
+            INNER JOIN PERSONS p ON p.PERS_ID = f.PERS_ID
+            INNER JOIN PERSON_CURRENTS pc ON pc.PERS_ID = p.PERS_ID
+            LEFT JOIN FAMILY_MEMBERS fmb ON fmb.FAMILY_ID = f.FAMILY_ID AND fmb.IS_STAY = true
+            LEFT JOIN PERSONS p2 ON p2.PERS_ID = fmb.PERS_ID
+            LEFT JOIN PERSON_CURRENTS pc2 ON pc2.PERS_ID = p2.PERS_ID
+            WHERE rst.ROOM_STATUS_ID = 2
+            AND ( (CONCAT(pc.FIRST_NAME," ",h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER,pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc.PERS_NICKNAME,pc.CAREER) like "'.$key.'") 
+                  OR CONCAT(pc.REFERENCE,pc.EDUCATION,pc.ACADEMY) like "'.$key.'"
+                  OR CONCAT(pc.PHONE_NBR,pc.MOBILE_NBR_1) like "'.$key.'" 
+                  OR CONCAT(pc.CAR_NUMBER,pc.BIKER_NUMBER) like "'.$key.'"
+                  '.$p.$a.$d.'
+
+                  OR (CONCAT(pc2.FIRST_NAME," ",h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER,pc2.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc2.PERS_NICKNAME,pc2.CAREER) like "'.$key.'") 
+                  OR CONCAT(pc2.REFERENCE,pc2.EDUCATION,pc2.ACADEMY) like "'.$key.'"
+                  OR CONCAT(pc2.PHONE_NBR,pc2.MOBILE_NBR_1) like "'.$key.'" 
+                  OR CONCAT(pc2.CAR_NUMBER,pc2.BIKER_NUMBER) like "'.$key.'"
+                  '.$p.$a.$d.'
+            )
+            AND own.OWNER_GROUP_ID = '.$ownerId.' ORDER BY hr.ROOM_ID';
+            // return ["a"=>$sql];
     return $this->db->query($sql)->result_array(); 
   }
   

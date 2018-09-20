@@ -401,7 +401,10 @@ class Home extends CI_Controller {
 	public function roomSearch(){
 		$key = $this->input->get("key");
 		$ownerId = $this->input->get("owner");
-		$rs  = $this->room_model->search($ownerId,$key);
+		$pv = $this->input->get("pv");
+		$ap = $this->input->get("ap");
+		$dt = $this->input->get("dt");
+		$rs  = $this->room_model->search($ownerId,$key,$pv,$ap,$dt);
 		$this->return_json($rs);
 	}
 
