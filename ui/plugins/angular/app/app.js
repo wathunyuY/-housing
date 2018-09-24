@@ -42,7 +42,7 @@ app.run(function($rootScope,$http,$filter) {
     } 
     $rootScope.dateStr = (date)=>{
         var d = new Date(date);
-        // return d.getDate() + " " + month_th[d.getMonth()] + " " + d.getFullYear();
+        return d.getDate() + " " + month_th[d.getMonth()] + " " + d.getFullYear();
     }
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {
