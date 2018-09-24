@@ -40,6 +40,10 @@ app.run(function($rootScope,$http,$filter) {
             $rootScope.masterData.ownerGroups = response.data.data;
         });    
     } 
+    $rootScope.dateStr = (date)=>{
+        var d = new Date(date);
+        // return d.getDate() + " " + month_th[d.getMonth()] + " " + d.getFullYear();
+    }
     $http.get($rootScope.apiUrl+"/home/ownerGroups")
     .then(function(response) {
         $rootScope.masterData.ownerGroups = response.data.data;

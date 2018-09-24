@@ -147,7 +147,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $scope.alertError = true;
     }
     $scope.save=()=>{
-        if(!$scope.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
+        /*if(!$scope.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
         if(!$scope.nickname) return $scope.alertErrors("ใส่ชื่อเล่น");
         if(!$scope.gender) return $scope.alertErrors("เลือกเพศ");
         if("" == $("#idCard").val()) return $scope.alertErrors("ใส่เลขประจำตัวประชาชน");
@@ -162,7 +162,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         if($( "#datepicker2").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี ที่เข้าพัก");
         if(!$scope.origin_address_descr) return $scope.alertErrors("ใส่ที่อยู่");
         if(!$scope.pv) return $scope.alertErrors("เลือกจังหวัด");
-        if(!$scope.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");
+        if(!$scope.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");*/
         var data ={
             name : $scope.fullname,
             gender : $scope.gender,
@@ -301,7 +301,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
     }
     $scope.edit=()=>{
         // $scope.getBirthDate();
-        if(!$scope.person.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
+        /*if(!$scope.person.fullname) return $scope.alertErrors("ใส่ชื่อ - สกุล");
         if(!$scope.person.nickname) return $scope.alertErrors("ใส่ชื่อเล่น");
         if(!$scope.person.gender) return $scope.alertErrors("เลือกเพศ");
         if("" == $("#idCard").val()) return $scope.alertErrors("ใส่เลขประจำตัวประชาชน");
@@ -316,7 +316,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
         if(!$( "#datepicker2").datepicker( "getDate" ) == "Invalid Date") return $scope.alertErrors("เลือก วัน/เดือน/ปี ที่เข้าพัก");
         if(!$scope.person.origin_address_descr) return $scope.alertErrors("ใส่ที่อยู่");
         if(!$scope.person.pv) return $scope.alertErrors("เลือกจังหวัด");
-        if(!$scope.person.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");
+        if(!$scope.person.ap) return $scope.alertErrors("เลือกอำเภอ/เขต");*/
         var data ={
             pers_id:$scope.person.pers_id,
             name : $scope.person.fullname,
