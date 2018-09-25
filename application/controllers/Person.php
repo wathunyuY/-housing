@@ -180,16 +180,17 @@ class Person extends CI_Controller {
 				$family["FAMILY_NAME"]="ครอบครัว ".$personCurTbl["FIRST_NAME"];
 				$familyTbl = $this->families_model->merge($family);
 
-				// $frMapping = $this->family_room_mappings_model->_new();
+				$frMapping = $this->family_room_mappings_model->findLastFamily($rq->family_id);
 				// $frMapping["ROOM_ID"] = $roomTbl["ROOM_ID"];
 				// $frMapping["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
-				// $frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
 				// $frMapping["END_DATE"] = null;
-				// $this->family_room_mappings_model->merge($frMapping);
+				$this->family_room_mappings_model->merge($frMapping);
 			}else{
 				// $familyTbl = $this->families_model->findByPk($rq->family_id);
 				$familyMember = $this->family_members_model->findByPk($rq->family_id);
 				$familyMember["FAMILY_MEMBER_STATUS"] = $rq->member_status;
+				$familyMember["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
 				$this->family_members_model->merge($familyMember);
 			}		
 		// }
