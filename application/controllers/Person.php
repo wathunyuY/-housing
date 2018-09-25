@@ -121,7 +121,7 @@ class Person extends CI_Controller {
 				$frMapping = $this->family_room_mappings_model->_new();
 				$frMapping["ROOM_ID"] = $roomTbl["ROOM_ID"];
 				$frMapping["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
-				$frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$frMapping["START_DATE"] = $rq->start_date != null ? date('Y-m-d H:i:s',strtotime($rq->start_date)) : null;
 				$frMapping["END_DATE"] = null;
 				$this->family_room_mappings_model->merge($frMapping);
 			}else{
@@ -131,7 +131,7 @@ class Person extends CI_Controller {
 				$familyMember["PERS_ID"] = $personTbl["PERS_ID"];
 				$familyMember["FAMILY_MEMBER_STATUS"] = $rq->member_status;
 				$familyMember["IS_STAY"] = true;
-				$familyMember["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$familyMember["START_DATE"] = $rq->start_date != null ? date('Y-m-d H:i:s',strtotime($rq->start_date)) : null;
 				$this->family_members_model->merge($familyMember);
 			}		
 		}
@@ -183,14 +183,14 @@ class Person extends CI_Controller {
 				$frMapping = $this->family_room_mappings_model->findLastFamily($rq->family_id);
 				// $frMapping["ROOM_ID"] = $roomTbl["ROOM_ID"];
 				// $frMapping["FAMILY_ID"] = $familyTbl["FAMILY_ID"];
-				$frMapping["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$frMapping["START_DATE"] = $rq->start_date != null ? date('Y-m-d H:i:s',strtotime($rq->start_date)) : null;
 				// $frMapping["END_DATE"] = null;
 				$this->family_room_mappings_model->merge($frMapping);
 			}else{
 				// $familyTbl = $this->families_model->findByPk($rq->family_id);
 				$familyMember = $this->family_members_model->findByPk($rq->family_id);
 				$familyMember["FAMILY_MEMBER_STATUS"] = $rq->member_status;
-				$familyMember["START_DATE"] = date('Y-m-d H:i:s',strtotime($rq->start_date));
+				$familyMember["START_DATE"] = $rq->start_date != null ? date('Y-m-d H:i:s',strtotime($rq->start_date)) : null;
 				$this->family_members_model->merge($familyMember);
 			}		
 		// }

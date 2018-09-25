@@ -129,8 +129,8 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $scope.birth_date = null;
         $scope.start_date = null;
         $scope.nickname = null;
-        $('#datepicker').datepicker("setDate",new Date());
-        $('#datepicker2').datepicker("setDate",new Date());
+        $('#datepicker').datepicker("setDate",null);
+        $('#datepicker2').datepicker("setDate",null);
     }
     $scope.addBtn=()=>{
         $scope.clearForm();
@@ -246,8 +246,8 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
     $http.get($rootScope.apiUrl+"/person/memberDetail?id="+params.id+"&h="+params.h)
     .then(function(response) {
         $scope.person = response.data.data;
-        $('#datepicker').datepicker("setDate",new Date($scope.person.birth_date));
-        $('#datepicker2').datepicker("setDate",new Date($scope.person.start_date));
+        $('#datepicker').datepicker("setDate",null == $scope.person.birth_date ? null : new Date($scope.person.birth_date));
+        $('#datepicker2').datepicker("setDate",null == $scope.person.start_date ? null : new Date($scope.person.start_date));
         $scope.person.pv = $scope.person.pv.id;
         $rootScope.getAmphures($scope.person.pv);
         $scope.person.ap = $scope.person.ap.id;

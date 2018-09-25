@@ -17,10 +17,12 @@
       </div>
       <div class="form-group col-md-4">
         <label for="fullname">ชื่อ - สกุล: </label>
+          <span ng-if="!person.fullname">{{unkownTh}}</span>
           <span>{{person.fullname}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="nickname">ชื่อเล่น: </label>
+          <span ng-if="!person.nickname">{{unkownTh}}</span>
           <span>{{person.nickname}}</span>
       </div>
       <div class="form-group col-md-4">
@@ -29,10 +31,12 @@
       </div>
       <div class="form-group col-md-4">
         <label >เลขประจำตัวประชาชน: </label>
+        <span ng-if="!person.idCard">{{unkownTh}}</span>
         <span>{{person.idCard}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="fullname">ความสำพันธ์: </label>
+        <span ng-if="!person.relation">{{unkownTh}}</span>
         <span>{{person.relation}}</span>
       </div>
       <div class="form-group col-md-4">
@@ -41,26 +45,32 @@
      </div>
       <div class="form-group col-md-4">
         <label for="national">สัญชาติ: </label>
+        <span ng-if="!person.national">{{unkownTh}}</span>
         <span>{{person.national}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="edu">การศึกษา: </label>
+        <span ng-if="!person.edu">{{unkownTh}}</span>
         <span>{{person.edu}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="career">อาชีพ: </label>
+        <span ng-if="!person.career">{{unkownTh}}</span>
         <span>{{person.career}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="academy">สังกัด โรงเรียน ชื่อหน่วยงาน: </label>
+        <span ng-if="!person.academy">{{unkownTh}}</span>
         <span>{{person.academy}}</span>
       </div>
       <div class="form-group col-md-4">
         <label>เบอร์โทร์ศัพท์ที่ทำงาน: </label>
+        <span ng-if="!person.phone">{{unkownTh}}</span>
         <span>{{person.phone}}</span>
       </div>
       <div class="form-group col-md-4">
         <label>เบอร์โทร์ศัพท์มือถือ: </label>
+        <span ng-if="!person.mobile">{{unkownTh}}</span>
         <span>{{person.mobile}}</span>
       </div>
       <div class="form-group col-md-4">
@@ -77,10 +87,12 @@
       </div>
       <div class="form-group col-md-4">
         <label for="car">ทะเบียนรถยนต์: </label>
+        <span ng-if="!person.car">{{unkownTh}}</span>
         <span>{{person.car}}</span>
       </div>
       <div class="form-group col-md-4">
         <label for="biker">ทะเบียนรถจักรยานยนต์: </label>
+          <span ng-if="!person.biker">{{unkownTh}}</span>
           <span>{{person.biker}}</span>
       </div>
       <div class="form-group col-md-12">

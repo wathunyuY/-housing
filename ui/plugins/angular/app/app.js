@@ -7,6 +7,7 @@ app.run(function($rootScope,$http,$filter) {
     $rootScope.apiUrl = appConfig.httphost+"/index.php"
 	$rootScope.filepath = appConfig.httphost;//"http://localhost:8070/home/"
     // $rootScope.districts= json_districts;
+    $rootScope.unkownTh = 'ไม่ระบุ';
 	$rootScope.masterData ={
     		ownerGroups :[],
     		homeTypes:[],
@@ -15,6 +16,7 @@ app.run(function($rootScope,$http,$filter) {
     $rootScope.HEAD_FAMILY_TEXT = "หัวหน้าครอบครัว";
     $rootScope.genders = [{k:"M",v:"ชาย"},{k:"F",v:"หญิง"}];
     $rootScope.getGender=(g)=>{
+        if(null == g) return $rootScope.unkownTh;
        var gd = $filter('filter')($rootScope.genders , {'k':g});
        return gd[0].v;
     }
@@ -41,6 +43,7 @@ app.run(function($rootScope,$http,$filter) {
         });    
     } 
     $rootScope.dateStr = (date)=>{
+        if(null == date) return $rootScope.unkownTh;
         var d = new Date(date);
         return d.getDate() + " " + month_th[d.getMonth()] + " " + d.getFullYear();
     }
