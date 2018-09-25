@@ -183,7 +183,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="fullname" placeholder="ยศ. ชื่อ สกุล" ng-model="fullname">
+                <input type="text" class="form-control" id="fullname" ng-model="fullname">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -192,7 +192,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="nickname" placeholder="ปอย" ng-model="nickname">
+                <input type="text" class="form-control" id="nickname" ng-model="nickname">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -222,7 +222,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input ng-disabled="is_header_family" type="text" class="form-control" id="relation" placeholder="ลูกสาว" ng-model="relation">
+                <input ng-disabled="is_header_family" type="text" class="form-control" id="relation" ng-model="relation">
               </div>
             </div>
           <div class="form-group col-md-4">
@@ -240,7 +240,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="national" placeholder="สัญชาติ" ng-model="national">
+                <input type="text" class="form-control" id="national" ng-model="national">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -249,7 +249,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="edu" placeholder="การศึกษา" ng-model="edu">
+                <input type="text" class="form-control" id="edu" ng-model="edu">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -258,7 +258,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="career" placeholder="อาชีพ" ng-model="career">
+                <input type="text" class="form-control" id="career" ng-model="career">
               </div>
             </div>
             <div class="form-group col-md-4">
@@ -267,7 +267,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="academy" placeholder="สังกัด" ng-model="academy">
+                <input type="text" class="form-control" id="academy" ng-model="academy">
               </div>
             </div>
           <div class="form-group col-md-4">
@@ -303,7 +303,7 @@
               <label>ที่อยู่</label>
               <div class="row">
                 <div class="col-md-3">
-                  <textarea class="form-control" rows="2" placeholder="123/45 ..." ng-model="origin_address_descr" id="origin_address_descr"></textarea>
+                  <textarea class="form-control" rows="2" ng-model="origin_address_descr" id="origin_address_descr"></textarea>
                 </div>
                 <div class="form-group col-md-3">
                   <select id="pv" ng-model="pv" class="form-control" ng-change="getAmphures(pv)">
@@ -344,7 +344,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-car"></i>
                     </div>
-                    <input type="text" class="form-control" id="car" placeholder="กข 123" ng-model="car">
+                    <input type="text" class="form-control" id="car" ng-model="car">
                   </div>
                 </div>
                 <div class="form-group col-md-4">
@@ -353,14 +353,14 @@
                     <div class="input-group-addon">
                       <i class="fa fa-motorcycle"></i>
                     </div>
-                    <input type="text" class="form-control" id="biker" placeholder="กข 123" ng-model="biker">
+                    <input type="text" class="form-control" id="biker"  ng-model="biker">
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-group col-md-12">
               <label>หมายเหตุ</label>
-              <textarea class="form-control" rows="3" placeholder="หมายเหตุ.." ng-model="reference" id="real_address"></textarea>
+              <textarea class="form-control" rows="3" ng-model="reference" id="real_address"></textarea>
             </div>
             <div class="form-group col-md-4" ng-hide="true">
               <label for="exampleInputFile">รูปถ่าย</label>
