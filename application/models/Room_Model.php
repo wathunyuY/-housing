@@ -76,16 +76,34 @@ class Room_Model extends CI_Model
             LEFT JOIN PERSONS p2 ON p2.PERS_ID = fmb.PERS_ID
             LEFT JOIN PERSON_CURRENTS pc2 ON pc2.PERS_ID = p2.PERS_ID
             WHERE rst.ROOM_STATUS_ID = 2
-            AND ( (CONCAT(pc.FIRST_NAME," ",h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER,pc.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc.PERS_NICKNAME,pc.CAREER) like "'.$key.'") 
-                  OR CONCAT(pc.REFERENCE,pc.EDUCATION,pc.ACADEMY) like "'.$key.'"
-                  OR CONCAT(pc.PHONE_NBR,pc.MOBILE_NBR_1) like "'.$key.'" 
-                  OR CONCAT(pc.CAR_NUMBER,pc.BIKER_NUMBER) like "'.$key.'"
+            AND ( 
+                  pc.FIRST_NAME like "'.$key.'" 
+                  OR CONCAT(h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER) like "'.$key.'"
+                  OR CONCAT(hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS) like "'.$key.'"
+                  OR pc.PERS_N_ID like "'.$key.'"
+                  OR pc.PERS_NICKNAME like "'.$key.'"
+                  OR pc.CAREER like "'.$key.'"
+                  OR pc.REFERENCE like "'.$key.'"
+                  OR pc.EDUCATION like "'.$key.'"
+                  OR pc.ACADEMY like "'.$key.'"
+                  OR pc.PHONE_NBR like "'.$key.'"
+                  OR pc.MOBILE_NBR_1 like "'.$key.'"
+                  OR pc.CAR_NUMBER like "'.$key.'"
+                  OR pc.BIKER_NUMBER like "'.$key.'"
                   '.$p.$a.$d.'
 
-                  OR (CONCAT(pc2.FIRST_NAME," ",h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER,pc2.PERS_N_ID," ",hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS,pc2.PERS_NICKNAME,pc2.CAREER) like "'.$key.'") 
-                  OR CONCAT(pc2.REFERENCE,pc2.EDUCATION,pc2.ACADEMY) like "'.$key.'"
-                  OR CONCAT(pc2.PHONE_NBR,pc2.MOBILE_NBR_1) like "'.$key.'" 
-                  OR CONCAT(pc2.CAR_NUMBER,pc2.BIKER_NUMBER) like "'.$key.'"
+
+                  OR pc2.FIRST_NAME like "'.$key.'"
+                  OR pc2.PERS_N_ID like "'.$key.'"
+                  OR pc2.PERS_NICKNAME like "'.$key.'"
+                  OR pc2.CAREER like "'.$key.'"
+                  OR pc2.REFERENCE like "'.$key.'"
+                  OR pc2.EDUCATION like "'.$key.'"
+                  OR pc2.ACADEMY like "'.$key.'"
+                  OR pc2.PHONE_NBR like "'.$key.'"
+                  OR pc2.MOBILE_NBR_1 like "'.$key.'"
+                  OR pc2.CAR_NUMBER like "'.$key.'"
+                  OR pc2.BIKER_NUMBER like "'.$key.'"
                   '.$p.$a.$d.'
             )
             AND own.OWNER_GROUP_ID = '.$ownerId.' GROUP BY hr.ROOM_ID ORDER BY hr.ROOM_ID';

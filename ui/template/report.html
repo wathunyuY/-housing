@@ -29,7 +29,7 @@
         <!-- <a href="{{x.links}}" class="btn btn-md btn-block btn-success" ng-repeat="(i,x) in homes">
           {{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})
         </a> -->
-        <div class="col-md-10 col-md-offset-1" ng-repeat="(i,x) in homes">
+        <!-- <div class="col-md-10 col-md-offset-1" ng-repeat="(i,x) in homes">
           <div class="box collapsed-box box-success">
             <div class="box-header with-border">
               <h3 class="box-title">{{x.HOME_NAME}}  ({{x.HOME_NUMBER}}/{{x.HOME_SUB_NUMBER}})</h3>
@@ -40,11 +40,27 @@
               </div>
             </div>
             <div class="box-body">
-              <!-- <p>ดาวน์โหลด</p> -->
-              <!-- <a href="{{x.links}}" class="">ดาวน์โหลด</a> -->
             </div>
           </div>
-        </div>
+        </div> -->
+        <table id="home_report" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>ที่</th>
+                <th>ชื่อบ้าน</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="(i,x) in homes" ng-init="$last && setTable('home_report')">
+                    <td>{{ i+1 }}</td>
+                    <td>{{x.HOME_NAME}}</td>
+                    <td class="text-center">
+                      <a href="{{x.links}}" class="">ดาวน์โหลด<i class="fa fa-print"></i></a>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
       </div>
     </div>
   </div>
@@ -174,6 +190,7 @@
                   <td>{{x.MEMBER_COUNT}}</td>
                   <td class="text-center">
                     <a href="{{host}}/report/reportByRoom/{{x.ROOM_ID}}" class="btn btn-sm btn-success">ดาวน์โหลด <i class="fa fa-print"></i></a>
+                    <a target="_blank" rel="noopener noreferrer" href="#!room_details?id={{x.ROOM_ID}}" class="btn btn-sm btn-primary">ดู <i class="fa fa-desktop"></i></a>
                   </td>
                 </tr>
             </tbody>
