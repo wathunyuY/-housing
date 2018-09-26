@@ -50,8 +50,11 @@ class Room_Model extends CI_Model
     $p = $provinceId ==0 ? '': ' OR pc.PROVINCE_ID_TYPE0 = '.$provinceId;
     $a = $amphurId ==0 ? '': ' AND pc.AMPHUR_ID_TYPE0 = '.$amphurId;
     $d = $districtId ==0 ? '': ' AND pc.DISTRICT_ID_TYPE0 = '.$districtId;
+    $p2 = $provinceId ==0 ? '': ' OR pc2.PROVINCE_ID_TYPE0 = '.$provinceId;
+    $a2 = $amphurId ==0 ? '': ' AND pc2.AMPHUR_ID_TYPE0 = '.$amphurId;
+    $d2 = $districtId ==0 ? '': ' AND pc2.DISTRICT_ID_TYPE0 = '.$districtId;
 
-    $key = $key == '' ? '' : '%'.$key.'%';
+    $key = $key == '' || $key == null ? '!@#$%^' : '%'.$key.'%';
 
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
@@ -104,7 +107,7 @@ class Room_Model extends CI_Model
                   OR pc2.MOBILE_NBR_1 like "'.$key.'"
                   OR pc2.CAR_NUMBER like "'.$key.'"
                   OR pc2.BIKER_NUMBER like "'.$key.'"
-                  '.$p.$a.$d.'
+                  '.$p2.$a2.$d2.'
             )
             AND own.OWNER_GROUP_ID = '.$ownerId.' GROUP BY hr.ROOM_ID ORDER BY hr.ROOM_ID';
             // return ["a"=>$sql];
