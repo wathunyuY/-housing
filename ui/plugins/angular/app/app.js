@@ -78,7 +78,7 @@ app.run(function($rootScope,$http,$filter) {
         return t[0].OWNER_GROUP_DESCR;
     }
     $rootScope.setTable=(id)=>{
-        $("#"+id).DataTable(); 
+        $("#"+id).DataTable({"autoWidth": false}); 
     }
 });
 
