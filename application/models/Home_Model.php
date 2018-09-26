@@ -62,6 +62,8 @@ class Home_Model extends CI_Model
             ,f.FIRST_NAME
             ,f.REFERENCE 
             ,ow.OWNER_GROUP_DESCR
+            ,if(owp.OWNER_GROUP_DESCR is null ,"",owp.OWNER_GROUP_DESCR) as OWNER_GROUP_DESCR_2
+            ,d.START_DATE as REFERENCE_DATE
           FROM HOMES a  
           INNER JOIN OWNER_GROUP_TBLS ow on ow.OWNER_GROUP_ID = a.OWNER_GROUP_ID  
           INNER JOIN HOME_SECTIONS b on b.HOME_ID = a.HOME_ID
@@ -70,6 +72,7 @@ class Home_Model extends CI_Model
           LEFT JOIN FAMILY_ROOM_MAPPINGS d ON d.ROOM_ID = c.ROOM_ID AND d.END_DATE IS NULL
           LEFT JOIN FAMILIES e on e.FAMILY_ID = d.FAMILY_ID
           LEFT JOIN PERSON_CURRENTS f ON f.PERS_ID = e.PERS_ID
+          LEFT JOIN OWNER_GROUP_TBLS owp on owp.OWNER_GROUP_ID = f.OWNER_GROUP_ID
           WHERE ow.OWNER_GROUP_ID ='.$owId;
     if(NULL != $homeId) $sql.=' AND a.HOME_ID='.$homeId;
     $sql .=' ORDER BY a.HOME_ID,b.HOME_SECTION_ORDER,c.ROOM_SUB_ADDRESS';
@@ -100,7 +103,8 @@ class Home_Model extends CI_Model
       $room["HOME_NUMBER"] = $h["HOME_NUMBER"];
       $room["FIRST_NAME"] = $h["FIRST_NAME"];
       $room["REFERENCE"] = $h["REFERENCE"];
-      $room["OWNER"] = "Wait..";//$h["OWNER"];
+      $room["OWNER"] = $h["OWNER_GROUP_DESCR_2"];
+      $room["REFERENCE_DATE"] = $h["REFERENCE_DATE"];
       array_push($homes[$index]["SECS"][count($homes[$index]["SECS"])-1]["ROOMS"],$room);
     }
     return $homes;

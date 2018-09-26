@@ -185,7 +185,7 @@ class Report extends CI_Controller {
 					 else
 					 	$this->pdf->Cell($w[3],7,iconv( 'UTF-8','TIS-620',$room["FIRST_NAME"]),1,0,'C');
 					 $this->pdf->Cell($w[4],7,iconv( 'UTF-8','TIS-620',$room["OWNER"]),1,0,'C');
-					 $this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620',$room["REFERENCE"]),1,0,'C');
+					 $this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620','ลง '.explode(" ",$room["REFERENCE_DATE"])[0]),1,0,'C');
 					 $this->pdf->Ln();  		
 				} 
 			}
@@ -244,14 +244,14 @@ class Report extends CI_Controller {
 					,"เพศ" => $headFam["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $headFam["CURRENT"]["PERS_N_ID"]
 					,"ความสัมพันธ์" => "เจ้าบ้าน"
-					,"วัน.เดือน.ปี เกิด" => $headFam["BIRTHDAY"]
+					,"วัน.เดือน.ปี เกิด" => $this->dateStrTh(explode(" ", $headFam["BIRTHDAY"])[0])
 					,"สัญชาติ" => $headFam["CURRENT"]["NATIONALITY"]
 					,"การศึกษา" => $headFam["CURRENT"]["EDUCATION"]
 					,"อาชีพ" => $headFam["CURRENT"]["CAREER"]
 					,"สังกัด โรงเรียน ชื่อหน่วนงาน" => $headFam["CURRENT"]["ACADEMY"]
 					,"เบอร์โทรศัพท์ที่ทำงาน" => $headFam["CURRENT"]["PHONE_NBR"]
 					,"เบอร์โทรศัพท์ส่วนตัว" => $headFam["CURRENT"]["MOBILE_NBR_1"]
-					,"เข้าพักเมื่อ" => $roomMap["START_DATE"]
+					,"เข้าพักเมื่อ" =>$this->dateStrTh(explode(" ",  $roomMap["START_DATE"])[0])
 					,"ออกเมื่อ (สาเหตุ)" => ""
 					,"ภูมิลำเนาปัจจุบัน" => $headFam["CURRENT"]["ADDRESS_1_TYPE0"].' '.($dt != null ? 'ต.'.$dt["name_th"]:'').' '.($ap != null ? 'อ.'.$ap["name_th"]:'').' '.($pv != null ? 'จ.'.$pv["name_th"]:'').' '.($dt != null ? $dt["zip_code"]:'')
 					,"ทะเบียนรถยนต์" => $headFam["CURRENT"]["CAR_NUMBER"]
@@ -281,14 +281,14 @@ class Report extends CI_Controller {
 					,"เพศ" => $person["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $person["CURRENT"]["PERS_N_ID"]
 					,"ความสัมพันธ์" => $m["FAMILY_MEMBER_STATUS"]
-					,"วัน.เดือน.ปี เกิด" => $person["BIRTHDAY"]
+					,"วัน.เดือน.ปี เกิด" => $this->dateStrTh(explode(" ", $person["BIRTHDAY"])[0])
 					,"สัญชาติ" => $person["CURRENT"]["NATIONALITY"]
 					,"การศึกษา" => $person["CURRENT"]["EDUCATION"]
 					,"อาชีพ" => $person["CURRENT"]["CAREER"]
 					,"สังกัด โรงเรียน ชื่อหน่วนงาน" => $person["CURRENT"]["ACADEMY"]
 					,"เบอร์โทรศัพท์ที่ทำงาน" => $person["CURRENT"]["PHONE_NBR"]
 					,"เบอร์โทรศัพท์ส่วนตัว" => $person["CURRENT"]["MOBILE_NBR_1"]
-					,"เข้าพักเมื่อ" => $m["START_DATE"]
+					,"เข้าพักเมื่อ" => $this->dateStrTh(explode(" ", $m["START_DATE"])[0])
 					,"ออกเมื่อ (สาเหตุ)" => ""
 					,"ภูมิลำเนาปัจจุบัน" => $person["CURRENT"]["ADDRESS_1_TYPE0"].' '.($dt != null ? 'ต.'.$dt["name_th"]:'').' '.($ap != null ? 'อ.'.$ap["name_th"]:'').' '.($pv != null ? 'จ.'.$pv["name_th"]:'').' '.($dt != null ? $dt["zip_code"]:'')
 					,"ทะเบียนรถยนต์" => $person["CURRENT"]["CAR_NUMBER"]
@@ -325,5 +325,24 @@ class Report extends CI_Controller {
 			$d .= ".";
 		}
 		return $d;
+	}
+	public function dateStrTh($date){
+		if(empty($date)) return 'ไม่ระบุ';
+		$month_th= [
+			    "มกราคม",
+			    "กุมภาพันธ์",
+			    "มีนาคม",
+			    "เมษายน",
+			    "พฤษภาคม",
+			    "มิถุนายน",
+			    "กรกฎาคม",
+			    "สิงหาคม",
+			    "กันยายน",
+			    "ตุลาคม",
+			    "พฤศจิกายน",
+			    "ธันวาคม"
+			];
+		$d = new DateTime($date, new DateTimeZone('Asia/Bangkok')); 
+		return intval($d->format('d'))." ".$month_th[intval($d->format('m'))]." ".$d->format('Y');
 	}
 }
