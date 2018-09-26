@@ -61,6 +61,7 @@ class Room_Model extends CI_Model
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
             ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี  :  ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
             ,(SELECT COUNT(*)+1 FROM FAMILY_MEMBERS fm WHERE fm.FAMILY_ID = f.FAMILY_ID AND fm.IS_STAY = true) as MEMBER_COUNT
+            ,GROUP_CONCAT(pc2.FIRST_NAME) as MEMBER_FIRST_NAMES
             FROM HOME_ROOMS hr
             INNER JOIN HOME_SECTIONS rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
             INNER JOIN HOMES h ON h.HOME_ID = rs.HOME_ID
@@ -87,7 +88,7 @@ class Room_Model extends CI_Model
                   OR CONCAT(pc2.CAR_NUMBER,pc2.BIKER_NUMBER) like "'.$key.'"
                   '.$p.$a.$d.'
             )
-            AND own.OWNER_GROUP_ID = '.$ownerId.' ORDER BY hr.ROOM_ID';
+            AND own.OWNER_GROUP_ID = '.$ownerId.' GROUP BY hr.ROOM_ID ORDER BY hr.ROOM_ID';
             // return ["a"=>$sql];
     return $this->db->query($sql)->result_array(); 
   }
