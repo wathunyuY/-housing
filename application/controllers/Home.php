@@ -399,12 +399,8 @@ class Home extends CI_Controller {
 	}
 
 	public function roomSearch(){
-		$key = $this->input->get("key");
-		$ownerId = $this->input->get("owner");
-		$pv = $this->input->get("pv");
-		$ap = $this->input->get("ap");
-		$dt = $this->input->get("dt");
-		$rs  = $this->room_model->search($ownerId,$key,$pv,$ap,$dt);
+		$processBean =json_decode(file_get_contents('php://input'));
+		$rs  = $this->room_model->search($processBean->owner,$processBean->key,$processBean->pv,$processBean->ap,$processBean->dt);
 		$this->return_json($rs);
 	}
 

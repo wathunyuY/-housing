@@ -40,18 +40,18 @@ app.controller('rpCtrl', function($rootScope,$scope,$http,$filter) {
 	}
 	$scope.roomSearchRs = [];
 	$scope.findRoom=()=>{
-		// alert($scope.ownerTemp);
-		var prm = "&key="+ ($scope.find_key == null ? '':$scope.find_key);
-		prm += "&pv="+ ($scope.pv == null ? '0' : $scope.pv);
-		prm += "&ap="+ ($scope.ap == null ? '0' : $scope.ap);
-		prm += "&dt="+ ($scope.dt == null ? '0' : $scope.dt);
-		prm += "&bd="+ ($( "#birthday").datepicker( "getDate" ) == 'Invalid Date' ? null : $( "#birthday").datepicker( "getDate" ));
-		prm += "&sd="+ ($( "#startDate").datepicker( "getDate" )  == 'Invalid Date' ? null :$( "#startDate").datepicker( "getDate" ));
-		// +"&key="+$scope.find_key
 		$rootScope.api({
-	        method:"GET",
-	        url: "/home/roomSearch?owner="+$scope.ownerTemp+prm,
-	        data:{},
+	        method:"POST",
+	        url: "/home/roomSearch",
+	        data:{	
+	        		owner:$scope.ownerTemp,
+	        		key:($scope.find_key == null ? '':$scope.find_key),
+					pv:($scope.pv == null ? '0' : $scope.pv),
+					ap:($scope.ap == null ? '0' : $scope.ap),
+					dt:($scope.dt == null ? '0' : $scope.dt),
+					bd:($( "#birthday").datepicker( "getDate" ) == 'Invalid Date' ? null : $( "#birthday").datepicker( "getDate" )),
+					sd:($( "#startDate").datepicker( "getDate" )  == 'Invalid Date' ? null :$( "#startDate").datepicker( "getDate" ))
+				},
 	        success:function(res){
 	            $scope.roomSearchRs = res.data.data;
 	            console.log($scope.roomSearchRs);
