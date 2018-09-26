@@ -90,7 +90,7 @@ class Person extends CI_Controller {
 
 			$personCur = array(
 				"PERS_ID"=>$personTbl["PERS_ID"],
-				"FIRST_NAME"=>$rq->name,
+				"FIRST_NAME"=>$this->trimm($rq->name),
 				"PERS_NICKNAME"=>$rq->nickname,
 				"GENDER" => $rq->gender,
 				"PERS_N_ID"=> $rq->idCard,
@@ -154,7 +154,7 @@ class Person extends CI_Controller {
 			if(isset($rq->picture))
 				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
 			else $pic = $personCurTbl["PICTURE_PATH"];
-			$personCurTbl["FIRST_NAME"]=$rq->name;
+			$personCurTbl["FIRST_NAME"]=$this->trimm($rq->name);
 			$personCurTbl["PERS_NICKNAME"]=$rq->nickname;
 			$personCurTbl["GENDER"] = $rq->gender;
 			$personCurTbl["PERS_N_ID"]= $rq->idCard;
@@ -310,5 +310,19 @@ class Person extends CI_Controller {
 		$rs['code'] = 0;
 		$rs['data'] = $val;
 		echo json_encode($rs);
+	}
+
+	private function trimm($str){
+		if(is_null($str)) return null;
+		$strs = explode(' ', $str);
+		$rs = "";
+		foreach ($strs as $key => $s) {
+			if($s)
+				if($s!='')
+					if($s!= ' ')
+						$rs.= $s.' ';
+		}
+		echo($rs);
+		return trim($rs);
 	}
 }
