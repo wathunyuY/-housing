@@ -34,7 +34,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 var linkEmpty = "";
                 var linkStay = "";
                 var linkFixed = "";
-                if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4){
+                if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4 || h.HOME_TYPE_ID==6){
                     var room_id = h.sections[0].rooms[0].ROOM_ID;
                     links = "#!room_details?id="+room_id;
                 }else if(h.HOME_TYPE_ID == 2 || h.HOME_TYPE_ID==3){
@@ -116,7 +116,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 }
                 secs.push(sec);
             }
-        }else if($scope.home_type == 1 || $scope.home_type == 4 ){
+        }else if($scope.home_type == 1 || $scope.home_type == 4 || $scope.home_type == 6 ){
             secs = [
                     {
                         sectionId: null,

@@ -171,6 +171,9 @@ class Report extends CI_Controller {
 					case '5':
 						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
 					break;
+					case '6':
+						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
+					break;
 					default:
 						break;
 				}
@@ -186,7 +189,7 @@ class Report extends CI_Controller {
 					 if($home["HOME_TYPE_ID"] == 2 || $home["HOME_TYPE_ID"] == 3){
 						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS"]),1,0,'C');
 						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER"]),1,0,'C');
-					}else if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4){
+					}else if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4 || $home["HOME_TYPE_ID"] == 6){
 						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"]),1,0,'C');
 						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$home["HOME_NUMBER3"]),1,0,'C');
 					}else{
