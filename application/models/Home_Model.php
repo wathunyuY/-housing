@@ -143,6 +143,7 @@ class Home_Model extends CI_Model
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
             ,IF(rst.ROOM_STATUS_ID = 2,pc.FIRST_NAME,CONCAT("ไม่มี : ",rst.ROOM_STATUS_NAME)) as FIRST_NAME
+            ,(SELECT COUNT(*)+1 FROM FAMILY_MEMBERS fm WHERE fm.FAMILY_ID = f.FAMILY_ID AND fm.IS_STAY = true) as MEMBER_COUNT
             FROM HOME_ROOMS hr
             INNER JOIN HOME_SECTIONS rs ON hr.HOME_SECTION_ID = rs.HOME_SECTION_ID
             INNER JOIN HOMES h ON h.HOME_ID = rs.HOME_ID

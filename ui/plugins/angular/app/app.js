@@ -78,7 +78,10 @@ app.run(function($rootScope,$http,$filter) {
         return t[0].OWNER_GROUP_DESCR;
     }
     $rootScope.setTable=(id)=>{
-        $("#"+id).DataTable({"autoWidth": false}); 
+        if ( ! $.fn.DataTable.isDataTable( "#"+id ) ) {
+          $("#"+id).DataTable({"autoWidth": false}); 
+        }
+        
     }
 });
 

@@ -9,8 +9,10 @@ app.controller('rpCtrl', function($rootScope,$scope,$http,$filter) {
 	$scope.ap =0;
 	$scope.dt =0;
 	$scope.ownerClick = (id)=>{
-		if($scope.ownerTemp == id)
+		if($scope.ownerTemp == id){
 			$scope.tog = !$scope.tog;
+			$scope.tog2 = false;
+		}
 		else{
 			$scope.tog = true;
 			$scope.ownerTemp = id;
@@ -39,29 +41,53 @@ app.controller('rpCtrl', function($rootScope,$scope,$http,$filter) {
 	    });
 	}
 	$scope.roomSearchRs = [];
-	$scope.findRoom=()=>{
-		$rootScope.api({
-	        method:"POST",
-	        url: "/home/roomSearch",
-	        data:{	
-	        		owner:$scope.ownerTemp,
-	        		key:($scope.find_key == null ? '':$scope.find_key),
-					pv:($scope.pv == null ? '0' : $scope.pv),
-					ap:($scope.ap == null ? '0' : $scope.ap),
-					dt:($scope.dt == null ? '0' : $scope.dt),
-					bd:($( "#birthday").datepicker( "getDate" ) == 'Invalid Date' ? null : $( "#birthday").datepicker( "getDate" )),
-					sd:($( "#startDate").datepicker( "getDate" )  == 'Invalid Date' ? null :$( "#startDate").datepicker( "getDate" ))
-				},
-	        success:function(res){
-	            $scope.roomSearchRs = res.data.data;
-	            console.log($scope.roomSearchRs);
-	            $scope.tog2 = true;
-	        },
-	        fail:function(){
+	$scope.findRoom=(home_id)=>{
+		if(home_id){
+			$rootScope.api({
+		        method:"GET",
+		        url: "/home/roomByStatus?homeId="+home_id+"&status="+"2",
+		        data:{},
+		        success:function(res){
+		            $scope.roomSearchRs = res.data.data;
+		            console.log($scope.roomSearchRs);
+		            if($scope.roomSearchRs.length > 0){
+		            	$scope.tog2 = true;
+		            	$('html,body').animate({
+			            scrollTop: $("#tog2").offset().top},
+			            'slow');
+		            }else{
+		            	$scope.tog2 = false;
+		             	alert("ไม่มีผู้อยู่อาศัย");
+		         	}
+		        },
+		        fail:function(){
 
-	        }
+		        }
+		    });
+			
+		}else{
+			$rootScope.api({
+		        method:"POST",
+		        url: "/home/roomSearch",
+		        data:{	
+		        		owner:$scope.ownerTemp,
+		        		key:($scope.find_key == null ? '':$scope.find_key),
+						pv:($scope.pv == null ? '0' : $scope.pv),
+						ap:($scope.ap == null ? '0' : $scope.ap),
+						dt:($scope.dt == null ? '0' : $scope.dt),
+						bd:($( "#birthday").datepicker( "getDate" ) == 'Invalid Date' ? null : $( "#birthday").datepicker( "getDate" )),
+						sd:($( "#startDate").datepicker( "getDate" )  == 'Invalid Date' ? null :$( "#startDate").datepicker( "getDate" ))
+					},
+		        success:function(res){
+		            $scope.roomSearchRs = res.data.data;
+		            console.log($scope.roomSearchRs);
+		            $scope.tog2 = true;
+		        },
+		        fail:function(){
 
-	    });
+		        }
+		    });
+		}
 	}
 	
 	$('#birthday').datepicker({

@@ -54,7 +54,7 @@
               <tbody>
                   <tr ng-repeat="(i,x) in homes" ng-init="$last && setTable('home_report')">
                     <td>{{ i+1 }}</td>
-                    <td>{{x.HOME_NAME}}</td>
+                    <td>{{x.HOME_NAME}} <a ng-click="findRoom(x.HOME_ID)" class="pull-right"><i class="fa fa-desktop"></i></a></td>
                     <td class="text-center">
                       <a href="{{x.links}}" class="">ดาวน์โหลด<i class="fa fa-print"></i></a>
                     </td>
@@ -65,6 +65,7 @@
     </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-10 col-md-offset-1" ng-show="tog">
     <div class="box box-success">
@@ -157,7 +158,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" id="tog2">
   <div class="col-md-10 col-md-offset-1" ng-show="tog2">
     <div class="box box-success">
       <div class="box-header">
@@ -183,8 +184,16 @@
                   <td>{{ i+1 }}</td>
                   <td>{{x.HOME_NAME}}</td>
                   <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span> </td>
-                  <td>{{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} / {{numadd(x.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
-                  <td>{{numadd(x.HOME_SECTION_ORDER,1)}}</td>
+                  <td>
+                    {{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} 
+                    <span ng-if="x.HOME_TYPE_ID == 2 || x.HOME_TYPE_ID == 3">
+                      / {{numadd(x.HOME_SECTION_ORDER,1)}}
+                    </span>
+                    <span ng-show="x.ROOM_SEQ > 0 && (x.HOME_TYPE_ID == 2 || x.HOME_TYPE_ID == 3 || x.HOME_TYPE_ID == 5)">
+                      ({{x.ROOM_SEQ}})
+                    </span>
+                  </td>
+                  <td><span ng-if="x.HOME_TYPE_ID == 2 || x.HOME_TYPE_ID == 3">{{numadd(x.HOME_SECTION_ORDER,1)}}</span></td>
                   <th>{{x.ROOM_SEQ}}</th>                  
                   <td>{{x.FIRST_NAME}}</td>
                   <td>{{x.MEMBER_COUNT}}</td>
@@ -199,3 +208,4 @@
     </div>
   </div>
 </div>
+
