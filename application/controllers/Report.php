@@ -136,11 +136,12 @@ class Report extends CI_Controller {
 		$this->pdf->AddFont('angsa','U','angsaz.php');
 		$this->pdf->SetFont('angsa','U',18);
 		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รายงานบ้านพักอาศัย'),0,1,'C');
-		
+		$this->pdf->SetFont('angsa','',14);	
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
 		foreach ($all as $key => $home) {
 			$secs = $home["SECS"];
 			$this->pdf->SetFont('angsa','',14);	
-			$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
+			// $this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
 			$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ของอาคาร '.$home["OWNER_GROUP_DESCR"].' รับผิดชอบ'),0,1,'C');
 			$w = array(10, 20, 30, 40,30,50);
 			$header = ["ลำดับ","บ้านเลขที่","หมายเลขอาคาร","รายชื่อเข้าพักอาศัย","สังกัด","หมายเหตุ"];
@@ -167,6 +168,9 @@ class Report extends CI_Controller {
 					case '4':
 						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
 						break;
+					case '5':
+						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
+					break;
 					default:
 						break;
 				}
@@ -178,14 +182,24 @@ class Report extends CI_Controller {
 				foreach ($rooms as $key_room => $room) { 
 					// for($i=0;$i<count($header);$i++)
 					 $this->pdf->Cell($w[0],7,iconv( 'UTF-8','TIS-620',$key_room+1),1,0,'C');
-					 $this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS"]),1,0,'C');
-					 $this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER"]),1,0,'C');
+
+					 if($home["HOME_TYPE_ID"] == 2 || $home["HOME_TYPE_ID"] == 3){
+						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS"]),1,0,'C');
+						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER"]),1,0,'C');
+					}else if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4){
+						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"]),1,0,'C');
+						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$home["HOME_NUMBER3"]),1,0,'C');
+					}else{
+						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"]),1,0,'C');
+						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER4"]),1,0,'C');
+					}
+
 					 if($room["ROOM_STATUS_ID"] != 2)
 					 	$this->pdf->Cell($w[3],7,iconv( 'UTF-8','TIS-620',$room["ROOM_STATUS_NAME"]),1,0,'C');
 					 else
 					 	$this->pdf->Cell($w[3],7,iconv( 'UTF-8','TIS-620',$room["FIRST_NAME"]),1,0,'C');
 					 $this->pdf->Cell($w[4],7,iconv( 'UTF-8','TIS-620',$room["OWNER"]),1,0,'C');
-					 $this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620','ลง '.explode(" ",$room["REFERENCE_DATE"])[0]),1,0,'C');
+					 $this->pdf->Cell($w[5],7,iconv( 'UTF-8','TIS-620',explode(" ",$room["REFERENCE_DATE"])[0]),1,0,'C');
 					 $this->pdf->Ln();  		
 				} 
 			}

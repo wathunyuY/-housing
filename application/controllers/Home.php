@@ -101,8 +101,8 @@ class Home extends CI_Controller {
 						$roomTbl['HOME_SECTION_ID'] = $sectionTbl['HOME_SECTION_ID'];
 						$roomTbl['ROOM_NAME'] = $room->roomName;
 						$roomTbl['ROOM_ORDER'] = $room->roomOrder;
-						$roomTbl['ROOM_ADDRESS'] = $homeTbl['HOME_ADDR'];//$room->roomAddress;
-						$roomTbl['ROOM_SUB_ADDRESS'] = $index++;//$room->roomSubAddress;
+						$roomTbl['ROOM_ADDRESS'] = isset($room->roomAddress) ? $room->roomAddress : $homeTbl['HOME_ADDR'];//$room->roomAddress;
+						$roomTbl['ROOM_SUB_ADDRESS'] = isset($room->roomSubAddress) ? $room->roomSubAddress: $index++;//$room->roomSubAddress;
 						$roomTbl['ROOM_SEQ'] = $room->roomSeq;
 						$roomTbl['ROOM_STATUS_ID'] = $room->roomStatusId;
 						$roomTbl['OWNER_GROUP_ID'] = $room->ownerGroupId;

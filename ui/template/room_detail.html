@@ -55,7 +55,8 @@
 		<div class="text-left" ng-if="!roomDetail.find">
       <p class="badge bg-green"> {{room_detail.home.name}} - {{room_detail.section.name}} </p>
       <p class="badge bg-green"> เลขอาคาร 
-        {{room_detail.home.number}} / {{room_detail.home.sub_number}} / {{numadd(room_detail.section.order,1)}}
+        {{room_detail.home.number}} / {{room_detail.home.sub_number}} 
+        <span ng-show="home.HOME_TYPE_ID == 2 || home.HOME_TYPE_ID == 3">/ {{numadd(room_detail.section.order,1)}}</span> 
         <span ng-show="room_detail.ROOM_SEQ > 0">({{room_detail.ROOM_SEQ}})</span>
       </p>
       <p class="badge bg-green">บ้านเลขที่ {{room_detail.ROOM_ADDRESS}} 
@@ -85,7 +86,7 @@
 		<div class="box">
 	        <div class="box-header">
 	          <h3 class="box-title">สมาชิกในบ้าน 
-              <a href="{{host}}/report/reportByRoom/{{roomDetail.room_id}}" class=" btn btn-sm btn-default"> 
+              <a ng-disabled="!roomDetail.find" href="{{host}}/report/reportByRoom/{{roomDetail.room_id}}" class=" btn btn-sm btn-default"> 
               <i class="fa fa-print"> รายงาน</i>
               </a> 
             </h3>

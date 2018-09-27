@@ -37,11 +37,14 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 if(h.HOME_TYPE_ID == 1 || h.HOME_TYPE_ID==4){
                     var room_id = h.sections[0].rooms[0].ROOM_ID;
                     links = "#!room_details?id="+room_id;
-                }else {
+                }else if(h.HOME_TYPE_ID == 2 || h.HOME_TYPE_ID==3){
                     links = "#!sections?id="+h.HOME_ID+"&owner="+params.id;
                     linkEmpty = "#!quick_rooms?id="+h.HOME_ID+"&status=1&p=h";
                     linkStay = "#!quick_rooms?id="+h.HOME_ID+"&status=2&p=h";
                     linkFixed = "#!quick_rooms?id="+h.HOME_ID+"&status=3&p=h";
+                }else{
+                    var sec_id = h.sections[0].HOME_SECTION_ID;
+                    links = "#!rooms?id="+sec_id+"&owner="+params.id+"&home="+h.HOME_ID;
                 }
                 h["links"]=links;
                 h["linkEmpty"]=linkEmpty;
@@ -113,7 +116,27 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                 }
                 secs.push(sec);
             }
-        }else{
+        }else if($scope.home_type == 1 || $scope.home_type == 4 ){
+            secs = [
+                    {
+                        sectionId: null,
+                        sectionName: "",
+                        sectionOrder : 0,
+                        rooms:[
+                            {
+                                roomId: null,
+                                roomName: "",
+                                roomOrder: 0,
+                                roomAddress: $scope.home_addr_one,
+                                roomSubAddress: $scope.home_sub_addr_one,
+                                roomSeq: 1,
+                                roomStatusId: 1,
+                                ownerGroupId: $scope.owner_group
+                            }
+                        ]
+                    }
+                ];
+        }else{//บ้านแฝด
             secs = [
                     {
                         sectionId: null,
@@ -122,11 +145,21 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
                         rooms:[
                             {
                                 roomId: null,
-                                roomName: "-",
+                                roomName: "บ้านแฝดห้อง 1",
                                 roomOrder: 0,
-                                // roomAddress: $scope.add_main,
-                                // roomSubAddress: $scope.add_sub,
+                                roomAddress: $scope.home_addr_duo1,
+                                roomSubAddress: $scope.home_sub_addr_duo1,
                                 roomSeq: 1,
+                                roomStatusId: 1,
+                                ownerGroupId: $scope.owner_group
+                            },
+                            {
+                                roomId: null,
+                                roomName: "บ้านแฝดห้อง 2",
+                                roomOrder: 1,
+                                roomAddress: $scope.home_addr_duo2,
+                                roomSubAddress: $scope.home_sub_addr_duo2,
+                                roomSeq: 2,
                                 roomStatusId: 1,
                                 ownerGroupId: $scope.owner_group
                             }

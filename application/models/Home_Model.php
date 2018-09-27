@@ -52,9 +52,11 @@ class Home_Model extends CI_Model
   public function findHomeReport($owId,$homeId =NULL){
     $sql = 'SELECT a.HOME_ID,b.HOME_SECTION_ID,c.ROOM_ID ,b.HOME_SECTION_ORDER+1 as HOME_SECTION_ORDER,a.HOME_TYPE_ID
             ,CONCAT(a.HOME_ADDR,IF(c.ROOM_SUB_ADDRESS > 0,CONCAT("/",c.ROOM_SUB_ADDRESS),"")) as ROOM_ADDRESS
+            ,CONCAT(c.ROOM_ADDRESS,IF(c.ROOM_SUB_ADDRESS > 0,CONCAT("/",c.ROOM_SUB_ADDRESS),"")) ROOM_ADDRESS2
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER,"/",b.HOME_SECTION_ORDER+1," (",c.ROOM_SEQ,")") as HOME_NUMBER
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER,"/",b.HOME_SECTION_ORDER+1) as HOME_NUMBER2
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER) as HOME_NUMBER3
+            ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER," (",c.ROOM_SEQ,")") as HOME_NUMBER4
             ,cc.ROOM_STATUS_ID,cc.ROOM_STATUS_NAME
             ,a.HOME_NAME
             ,b.HOME_SECTION_NAME
@@ -100,7 +102,9 @@ class Home_Model extends CI_Model
       $room["ROOM_STATUS_ID"] = $h["ROOM_STATUS_ID"];
       $room["ROOM_STATUS_NAME"] = $h["ROOM_STATUS_NAME"];
       $room["ROOM_ADDRESS"] = $h["ROOM_ADDRESS"];
+      $room["ROOM_ADDRESS2"] = $h["ROOM_ADDRESS2"];
       $room["HOME_NUMBER"] = $h["HOME_NUMBER"];
+      $room["HOME_NUMBER4"] = $h["HOME_NUMBER4"];
       $room["FIRST_NAME"] = $h["FIRST_NAME"];
       $room["REFERENCE"] = $h["REFERENCE"];
       $room["OWNER"] = $h["OWNER_GROUP_DESCR_2"];

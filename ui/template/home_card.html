@@ -162,13 +162,49 @@
                 </div>
               </div>
             </div>
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12" ng-show="home_type == 2 || home_type == 3">
               <label>บ้านเลขที่ </label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-user"></i>
                 </div>
-                <input type="text" class="form-control" id="home_addr_front" placeholder="(ไม่ต้องใส่ /..) เช่น 111" ng-model="home_addr_front">
+                <input type="text" class="form-control" id="home_addr_front" placeholder="เช่น 111 " ng-model="home_addr_front">
+              </div>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 1 || home_type == 4">
+              <label>บ้านเลขที่ </label>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" id="home_addr_one" ng-model="home_addr_one">
+                </div>
+                <div class="col-md-1">/</div>
+                <div class="form-group col-md-5">
+                  <input type="number" class="form-control" id="home_sub_addr_one" ng-model="home_sub_addr_one">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 5">
+              <label>บ้านเลขที่ บ้านแฝดห้อง1 </label>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" id="home_addr_duo1" ng-model="home_addr_duo1">
+                </div>
+                <div class="col-md-1">/</div>
+                <div class="form-group col-md-5">
+                  <input type="number" class="form-control" id="home_sub_addr_duo1" ng-model="home_sub_addr_duo1">
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12" ng-show="home_type == 5">
+              <label>บ้านเลขที่ บ้านแฝดห้อง2 </label>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <input type="number" class="form-control" id="home_addr_duo2" ng-model="home_addr_duo2">
+                </div>
+                <div class="col-md-1">/</div>
+                <div class="form-group col-md-5">
+                  <input type="number" class="form-control" id="home_sub_addr_duo2" ng-model="home_sub_addr_duo2">
+                </div>
               </div>
             </div>
             <div class="form-group col-md-12">

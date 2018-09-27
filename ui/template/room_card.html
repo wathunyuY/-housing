@@ -45,7 +45,11 @@
                     <td>{{ i+1 }}</td>
                     <td>{{x.ROOM_NAME}}</td>
                     <td>{{x.ROOM_ADDRESS}} <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span> </td>
-                    <td>{{section.home.HOME_NUMBER}} / {{section.home.HOME_SUB_NUMBER}} / {{numadd(section.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
+                    <td>
+                        {{section.home.HOME_NUMBER}} / {{section.home.HOME_SUB_NUMBER}} 
+                        <span ng-show="home.HOME_TYPE_ID == 2 || home.HOME_TYPE_ID == 3">/ {{numadd(section.HOME_SECTION_ORDER,1)}}</span> 
+                        <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span>
+                    </td>
                     <td>
                       {{getRoomStatus(x.ROOM_STATUS_ID);}}
                       <a href="#!room_details?id={{x.ROOM_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a>
