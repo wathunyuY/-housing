@@ -69,9 +69,15 @@
                     <td>{{ x.HOME_NUMBER }} / {{x.HOME_SUB_NUMBER}}</td>
                     <td>{{ getHomeType(x.HOME_TYPE_ID) }}</td>
                     <td>{{ countRoom(x,0) }} <a href="{{x.links}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td class="bg-info">{{ countRoom(x,2) }} <a href="{{x.linkStay}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td class="bg-success">{{ countRoom(x,1) }} <a href="{{x.linkEmpty}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
-                    <td class="bg-danger">{{ countRoom(x,3) }} <a href="{{x.linkFixed}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a></td>
+                    <td class="bg-info">{{ countRoom(x,2) }} 
+                      <a ng-if="x.linkStay != '' && countRoom(x,2) > 0" href="{{x.linkStay}}" class="pull-right"><i class="fa fa-desktop"></i></a>
+                    </td>
+                    <td class="bg-success">{{ countRoom(x,1) }} 
+                      <a ng-if="x.linkEmpty != '' && countRoom(x,1) > 0" href="{{x.linkEmpty}}" class="pull-right"><i class="fa fa-desktop"></i></a>
+                    </td>
+                    <td class="bg-danger">{{ countRoom(x,3) }} 
+                      <a ng-if="x.linkFixed != '' && countRoom(x,3) > 0" href="{{x.linkFixed}}" class="pull-right"><i class="fa fa-desktop"></i></a>
+                    </td>
                     <td class="text-center">
                       <button class="btn btn-sm btn-success " data-toggle="modal" data-target="#detailHome" ng-click="homeDetail(i)"><i class="fa fa-desktop"></i></button>
                       <button class="btn btn-sm btn-warning " data-toggle="modal" data-target="#editHome" ng-click="editHomePre(i)"><i class="fa fa-edit"></i></button>
