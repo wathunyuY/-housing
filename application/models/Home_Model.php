@@ -65,7 +65,7 @@ class Home_Model extends CI_Model
             ,f.REFERENCE 
             ,ow.OWNER_GROUP_DESCR
             ,if(owp.OWNER_GROUP_DESCR is null ,"",owp.OWNER_GROUP_DESCR) as OWNER_GROUP_DESCR_2
-            ,d.START_DATE as REFERENCE_DATE
+            ,DATE_FORMAT(d.START_DATE,"%d-%m-%Y") as REFERENCE_DATE
           FROM HOMES a  
           INNER JOIN OWNER_GROUP_TBLS ow on ow.OWNER_GROUP_ID = a.OWNER_GROUP_ID  
           INNER JOIN HOME_SECTIONS b on b.HOME_ID = a.HOME_ID
