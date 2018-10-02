@@ -151,8 +151,15 @@ class Person extends CI_Controller {
 			$person["BIRTHDAY"] = null != $rq->birth_date ? date('Y-m-d H:i:s',strtotime($rq->birth_date)) : null;
 			$personTbl = $this->person_model->merge($person);
 			$personCurTbl = $personTbl["CURRENT"];
-			if(isset($rq->picture))
-				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"]);
+			if(isset($rq->picture)){
+				$pic = $this->savePicture($rq->picture,"profile_".$personTbl["PERS_ID"].$this->ymdHis);
+				$delete_path = $personCurTbl["PICTURE_PATH"];
+				if (is_readable($delete_path) && unlink($delete_path)) {
+ 					//The file has been deleted
+                } else {
+                    //The file was not found or not readable and could not be deleted;
+                }
+			}
 			else $pic = $personCurTbl["PICTURE_PATH"];
 			$personCurTbl["FIRST_NAME"]=$this->trimm($rq->name);
 			$personCurTbl["PERS_NICKNAME"]=$rq->nickname;
@@ -322,7 +329,7 @@ class Person extends CI_Controller {
 					if($s!= ' ')
 						$rs.= $s.' ';
 		}
-		echo($rs);
+		// echo($rs);
 		return trim($rs);
 	}
 }
