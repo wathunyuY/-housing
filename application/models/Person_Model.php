@@ -15,7 +15,9 @@ class Person_Model extends CI_Model
     return array(
       "PERS_ID"=>$ID,
       "TYPE_ID"=>NULL,
-      "BIRTHDAY"=>NULL
+      "BIRTHDAY"=>NULL,
+      "CREATE_DATE"=>NULL,
+      "LAST_UPDATE"=>NULL
     );
   }
 

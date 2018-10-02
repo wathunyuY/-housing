@@ -80,6 +80,7 @@ class Person extends CI_Controller {
 			$roomTbl["ROOM_STATUS_ID"] = $this->room_status_model->STAY;
 			$this->room_model->merge($roomTbl);
 			$person = $this->person_model->_new();
+			$person["CREATE_DATE"]=$this->dt_now;
 			$person["TYPE_ID"] = $rq->person_type;
 			$person["BIRTHDAY"] = null != $rq->birth_date ? date('Y-m-d H:i:s',strtotime($rq->birth_date)) : null;
 			$personTbl = $this->person_model->merge($person);
@@ -146,8 +147,8 @@ class Person extends CI_Controller {
 		// 	if(null == $roomTbl) return;
 
 			$person = $this->person_model->findByPk($rq->pers_id);
-			// $person["TYPE_ID"] = $rq->person_type;
 			unset($person["CURRENT"]); 
+			$person["LAST_UPDATE"] = $this->dt_now;
 			$person["BIRTHDAY"] = null != $rq->birth_date ? date('Y-m-d H:i:s',strtotime($rq->birth_date)) : null;
 			$personTbl = $this->person_model->merge($person);
 			$personCurTbl = $personTbl["CURRENT"];
