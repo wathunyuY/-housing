@@ -229,7 +229,17 @@ class Report extends CI_Controller {
 		// $homeId = $this->input->get("home");
 		$roomMap = $this->family_room_mappings_model->findLastFamilyByRoom($roomId);
 		$room = $this->room_model->findByPk($roomMap["ROOM_ID"]);
-		
+
+		$sec = $this->home_section_model->findByPk($room["HOME_SECTION_ID"]);
+		$home = $this->home_model->findByPk($sec["HOME_ID"]);
+		$building_number = $home["HOME_NUMBER"]."/".$home["HOME_SUB_NUMBER"];
+		if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4 || $home["HOME_TYPE_ID"] == 6){
+
+		}else if($home["HOME_TYPE_ID"] == 2 || $home["HOME_TYPE_ID"] == 3 || $home["HOME_TYPE_ID"] == 5){
+			$building_number.= "/".(intval($sec["HOME_SECTION_ORDER"])+1)." (".$room["ROOM_SEQ"].")";
+		}else{
+
+		}
 		$this->pdf_nohead->SetMargins(20,10,20);
 		$this->pdf_nohead->AliasNbPages();
 		$this->pdf_nohead->AddPage();
@@ -240,7 +250,7 @@ class Report extends CI_Controller {
 		$this->pdf_nohead->SetFont('angsa','U',18);
 		$this->pdf_nohead->Cell(0,10,iconv( 'UTF-8','TIS-620','รายงานบ้านพักอาศัย'),0,1,'C');
 		$this->pdf_nohead->Ln();
-		$this->pdf_nohead->Cell(0,10,iconv( 'UTF-8','TIS-620','อาคารหมายเลข '.$room["ROOM_ADDRESS"]),0,1,'C');
+		$this->pdf_nohead->Cell(0,10,iconv( 'UTF-8','TIS-620','อาคารหมายเลข '.$building_number),0,1,'C');
 
 
 		$familyId = $roomMap["FAMILY_ID"];
