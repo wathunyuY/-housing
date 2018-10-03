@@ -268,6 +268,7 @@ class Report extends CI_Controller {
 		$ap=$this->address_model->get("amphures",$headFam["CURRENT"]["AMPHUR_ID_TYPE0"]);
 		$dt=$this->address_model->get("districts",$headFam["CURRENT"]["DISTRICT_ID_TYPE0"]);
 		$header = ["ยศ. ชื่อ-สกุลผู้ร่วมอาศัย" => $headFam["CURRENT"]["FIRST_NAME"]
+					,"ชื่อเล่น" =>  $headFam["CURRENT"]["PERS_NICKNAME"]
 					,"เพศ" => $headFam["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $headFam["CURRENT"]["PERS_N_ID"]
 					,"ความสัมพันธ์" => "เจ้าบ้าน"
@@ -305,6 +306,7 @@ class Report extends CI_Controller {
 			$ap=$this->address_model->get("amphures",$person["CURRENT"]["AMPHUR_ID_TYPE0"]);
 			$dt=$this->address_model->get("districts",$person["CURRENT"]["DISTRICT_ID_TYPE0"]);
 			$detail = ["ยศ. ชื่อ-สกุลผู้ร่วมอาศัย" => $person["CURRENT"]["FIRST_NAME"]
+					,"ชื่อเล่น" => $person["CURRENT"]["PERS_NICKNAME"]
 					,"เพศ" => $person["CURRENT"]["GENDER"] =='M' ? "ชาย" : "หญิง"
 					,"เลขประจำตัวประชาชน" => $person["CURRENT"]["PERS_N_ID"]
 					,"ความสัมพันธ์" => $m["FAMILY_MEMBER_STATUS"]
