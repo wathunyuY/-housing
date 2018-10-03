@@ -61,7 +61,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $('#datepicker2_'+id).datepicker("setDate",new Date(date));
     }
     console.log(params);
-    $("[data-mask]").inputmask();
+    // $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
       dateFormat: 'dd-mm-yy',
       autoclose: true
@@ -254,7 +254,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $rootScope.getDistricts($scope.person.ap);
         $scope.person.dt = $scope.person.dt.id;
     });
-    $("[data-mask]").inputmask();
+    // $("[data-mask]").inputmask();
     $('#datepicker').datepicker({
       dateFormat: 'dd-mm-yy',
       autoclose: true
