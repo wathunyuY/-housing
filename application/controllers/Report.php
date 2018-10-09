@@ -34,6 +34,7 @@ class Report extends CI_Controller {
         date_default_timezone_set('Asia/Bangkok');
         $now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
         $this->dt_now = $now->format('Y-m-d H:i:s');
+        $this->dt_now_ii = $now->format('Y_m_d H:i:s');
         $this->day_now = $now->format('d/m/Y'); 
         $this->ymdHis   = $now->format('ymdHis');
         $this->dmyHis   = $now->format('d-m-Y H:i:s');
@@ -216,7 +217,9 @@ class Report extends CI_Controller {
 		$this->load->helper('download');
 
 		$data = file_get_contents("report.pdf");
-		$name = "รายงาน/pdf.pdf";
+		if(null == $homeId) $name = "รายงานบ้านพัก/".$home["OWNER_GROUP_DESCR"]." ".$this->dt_now_ii.".pdf";
+		else
+			$name = "รายงาน/".$home["HOME_NAME"]." [".$home["HOME_NUMBER3"].$home["HOME_SUB_NUMBER_SEQ"]."] ".$this->dt_now_ii.".pdf";
 
 		force_download($name, $data); 
 		//echo anchor('MyPDF/test.pdf', 'Download');
@@ -342,7 +345,7 @@ class Report extends CI_Controller {
 		$this->load->helper('download');
 
 		$data = file_get_contents("report.pdf");
-		$name = "รายงาน/pdf.pdf";
+		$name = "รายงาน อาคารหมายเลข [".$building_number."] ".$this->dt_now_ii.".pdf";
 
 		force_download($name, $data); 
 		//echo anchor('MyPDF/test.pdf', 'Download');
