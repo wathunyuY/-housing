@@ -192,6 +192,9 @@
                     <span ng-show="x.ROOM_SEQ > 0 && (x.HOME_TYPE_ID == 2 || x.HOME_TYPE_ID == 3 || x.HOME_TYPE_ID == 5)">
                       ({{x.ROOM_SEQ}})
                     </span>
+                    <span ng-if="x.HOME_TYPE_ID == 1 || x.HOME_TYPE_ID == 4 || x.HOME_TYPE_ID == 6">
+                      {{x.HOME_SUB_NUMBER_SEQ}}
+                    </span>
                   </td>
                   <td><span ng-if="x.HOME_TYPE_ID == 2 || x.HOME_TYPE_ID == 3">{{numadd(x.HOME_SECTION_ORDER,1)}}</span></td>
                   <th>{{x.ROOM_SEQ}}</th>                  

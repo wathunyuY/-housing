@@ -56,8 +56,10 @@
       <p class="badge bg-green"> {{room_detail.home.name}} - {{room_detail.section.name}} </p>
       <p class="badge bg-green"> เลขอาคาร 
         {{room_detail.home.number}} / {{room_detail.home.sub_number}} 
-        <span ng-show="home.HOME_TYPE_ID == 2 || home.HOME_TYPE_ID == 3">/ {{numadd(room_detail.section.order,1)}}</span> 
-        <span ng-show="room_detail.ROOM_SEQ > 0">({{room_detail.ROOM_SEQ}})</span>
+        <span ng-show="home.home_type_id == 2 || home.home_type_id == 3">/ {{numadd(room_detail.section.order,1)}}</span> 
+        <span ng-show="home.home_type_id == 2 || home.home_type_id == 3">({{room_detail.ROOM_SEQ}})</span>
+        <span ng-show="home.home_type_id == 5">({{room_detail.ROOM_SEQ}})</span>
+        <span ng-show="home.home_type_id == 1 || home.home_type_id == 4 || home.home_type_id == 6">{{room_detail.home.sub_number_seq}}</span>
       </p>
       <p class="badge bg-green">บ้านเลขที่ {{room_detail.ROOM_ADDRESS}} 
         <span ng-if="room_detail.ROOM_SUB_ADDRESS > 0"> / {{room_detail.ROOM_SUB_ADDRESS}}</span>
@@ -66,11 +68,14 @@
     <div class="text-left" ng-if="roomDetail.find">
       <p class="badge bg-green"> {{roomDetail.home.name}} - {{roomDetail.section.name}} </p>
       <p class="badge bg-green"> เลขอาคาร 
-        {{roomDetail.home.number}} / {{roomDetail.home.sub_number}} / {{numadd(roomDetail.section.order,1)}}
-        <span ng-show="roomDetail.room_seq > 0">({{roomDetail.room_seq}})</span>
+        {{roomDetail.home.number}} / {{roomDetail.home.sub_number}} 
+        <span ng-show="home.home_type_id == 2 || home.home_type_id == 3"> / {{numadd(roomDetail.section.order,1)}}</span>
+        <span ng-show="home.home_type_id == 2 || home.home_type_id == 3">({{roomDetail.room_seq}})</span>
+        <span ng-show="home.home_type_id == 5">({{roomDetail.room_seq}})</span>
+        <span ng-show="home.home_type_id == 1 || home.home_type_id == 4 || home.home_type_id == 6">{{roomDetail.home.sub_number_seq}}</span>
       </p>
       <p class="badge bg-green">บ้านเลขที่ {{roomDetail.room_address}} 
-        <span ng-if="room_detail.ROOM_SUB_ADDRESS > 0"> / {{roomDetail.room_sub_address}}</span>
+        <span ng-if="roomDetail.room_sub_address > 0"> / {{roomDetail.room_sub_address}}</span>
       </p>
       <p class="badge bg-green">เจ้าของบ้าน {{family_name}}</p>
       <p class="badge bg-green">สมาชิกจำนวน {{members.length+1}} คน </p>

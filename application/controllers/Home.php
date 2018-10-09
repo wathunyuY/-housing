@@ -81,6 +81,7 @@ class Home extends CI_Controller {
 		$homeTbl['HOME_ADDR'] = $homeRqType->homeAddr;
 		$homeTbl['HOME_NUMBER'] = $homeRqType->homeNumber;
 		$homeTbl['HOME_SUB_NUMBER'] = $homeRqType->homeSubNumber;
+		$homeTbl['HOME_SUB_NUMBER_SEQ'] = $homeRqType->homeSubNumberSeq;
 		$homeTbl['HOME_DESCR'] = $homeRqType->homeDescr;
 		$homeTbl['HOME_TYPE_ID'] = $homeRqType->homeTypeId;
 		$homeTbl['OWNER_GROUP_ID'] = $homeRqType->ownerGroupId;
@@ -347,9 +348,11 @@ class Home extends CI_Controller {
 			$data["room"]["home"] = array(
 				"name"=> $homeTbl["HOME_NAME"],
 				"id"=>$homeTbl["HOME_ID"],
+				"home_type_id"=>$homeTbl["HOME_TYPE_ID"],
 				"descr"=>$homeTbl["HOME_DESCR"],
 				"number"=>$homeTbl["HOME_NUMBER"],
-				"sub_number"=>$homeTbl["HOME_SUB_NUMBER"]
+				"sub_number"=>$homeTbl["HOME_SUB_NUMBER"],
+				"sub_number_seq"=>$homeTbl["HOME_SUB_NUMBER_SEQ"]
 			);
 			$this->return_json($data);
 			return;
@@ -375,9 +378,11 @@ class Home extends CI_Controller {
 		$data["home"] = array(
 			"name"=> $homeTbl["HOME_NAME"],
 			"id"=>$homeTbl["HOME_ID"],
+			"home_type_id"=>$homeTbl["HOME_TYPE_ID"],
 			"descr"=>$homeTbl["HOME_DESCR"],
 			"number"=>$homeTbl["HOME_NUMBER"],
-			"sub_number"=>$homeTbl["HOME_SUB_NUMBER"]
+			"sub_number"=>$homeTbl["HOME_SUB_NUMBER"],
+			"sub_number_seq"=>$homeTbl["HOME_SUB_NUMBER_SEQ"]
 		);
 		$data["family"] = $family;
 		$this->return_json($data);

@@ -157,7 +157,7 @@ class Report extends CI_Controller {
 				$text_t = $home["HOME_NAME"];	
 				switch ($home["HOME_TYPE_ID"]) {
 					case '1':
-						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
+						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"].$home["HOME_SUB_NUMBER_SEQ"];
 						break;
 					case '2':
 						$text_t .= ' '.count($secs).' ชั้น ชั้น '.$sec["HOME_SECTION_ORDER"].' จำนวน '.count($rooms).' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
@@ -166,13 +166,13 @@ class Report extends CI_Controller {
 						$text_t .= ' จำนวน '.count($rooms).' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
 						break;
 					case '4':
-						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
+						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"].$home["HOME_SUB_NUMBER_SEQ"];
 						break;
 					case '5':
 						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
 					break;
 					case '6':
-						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"];
+						$text_t .= ' ห้องอาคารหมายเลข '.$home["HOME_NUMBER3"].$home["HOME_SUB_NUMBER_SEQ"];
 					break;
 					default:
 						break;
@@ -190,8 +190,8 @@ class Report extends CI_Controller {
 						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS"]),1,0,'C');
 						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER"]),1,0,'C');
 					}else if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4 || $home["HOME_TYPE_ID"] == 6){
-						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"]),1,0,'C');
-						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$home["HOME_NUMBER3"]),1,0,'C');
+						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"].$home["HOME_SUB_NUMBER_SEQ"]),1,0,'C');
+						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$home["HOME_NUMBER3"].$home["HOME_SUB_NUMBER_SEQ"]),1,0,'C');
 					}else{
 						$this->pdf->Cell($w[1],7,iconv( 'UTF-8','TIS-620',$room["ROOM_ADDRESS2"]),1,0,'C');
 						$this->pdf->Cell($w[2],7,iconv( 'UTF-8','TIS-620',$room["HOME_NUMBER4"]),1,0,'C');
@@ -234,7 +234,7 @@ class Report extends CI_Controller {
 		$home = $this->home_model->findByPk($sec["HOME_ID"]);
 		$building_number = $home["HOME_NUMBER"]."/".$home["HOME_SUB_NUMBER"];
 		if($home["HOME_TYPE_ID"] == 1 || $home["HOME_TYPE_ID"] == 4 || $home["HOME_TYPE_ID"] == 6){
-
+			$building_number.=$home["HOME_SUB_NUMBER_SEQ"];
 		}else if($home["HOME_TYPE_ID"] == 2 || $home["HOME_TYPE_ID"] == 3 || $home["HOME_TYPE_ID"] == 5){
 			$building_number.= "/".(intval($sec["HOME_SECTION_ORDER"])+1)." (".$room["ROOM_SEQ"].")";
 		}else{

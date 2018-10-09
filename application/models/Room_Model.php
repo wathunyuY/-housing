@@ -58,7 +58,7 @@ class Room_Model extends CI_Model
 
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
-            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
+            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME,HOME_SUB_NUMBER_SEQ
             ,htt.HOME_TYPE_ID,htt.HOME_TYPE_NAME
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
@@ -81,6 +81,7 @@ class Room_Model extends CI_Model
             WHERE rst.ROOM_STATUS_ID = 2
             AND ( 
                   pc.FIRST_NAME like "'.$key.'" 
+                  OR h.HOME_NAME like "'.$key.'"
                   OR CONCAT(h.HOME_NUMBER,"/",h.HOME_SUB_NUMBER) like "'.$key.'"
                   OR CONCAT(hr.ROOM_ADDRESS,"/",hr.ROOM_SUB_ADDRESS) like "'.$key.'"
                   OR pc.PERS_N_ID like "'.$key.'"

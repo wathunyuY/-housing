@@ -172,6 +172,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             homeName: $scope.home_name,
             homeNumber: $scope.add_main,
             homeSubNumber: $scope.add_sub,
+            homeSubNumberSeq: $scope.add_sub_seq,
             homeAddr: $scope.home_addr_front,
             homeDescr: $scope.home_descr != null ? $scope.home_descr : "-",
             homeTypeId: $scope.home_type,

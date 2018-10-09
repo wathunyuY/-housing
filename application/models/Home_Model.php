@@ -57,6 +57,7 @@ class Home_Model extends CI_Model
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER,"/",b.HOME_SECTION_ORDER+1) as HOME_NUMBER2
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER) as HOME_NUMBER3
             ,CONCAT(a.HOME_NUMBER,"/",a.HOME_SUB_NUMBER," (",c.ROOM_SEQ,")") as HOME_NUMBER4
+            ,a.HOME_SUB_NUMBER_SEQ
             ,cc.ROOM_STATUS_ID,cc.ROOM_STATUS_NAME
             ,a.HOME_NAME
             ,b.HOME_SECTION_NAME
@@ -87,6 +88,7 @@ class Home_Model extends CI_Model
         $home["OWNER_GROUP_DESCR"] = $h["OWNER_GROUP_DESCR"];
         $home["HOME_NAME"] = $h["HOME_NAME"];
         $home["HOME_NUMBER3"] = $h["HOME_NUMBER3"];
+        $home["HOME_SUB_NUMBER_SEQ"] = $h["HOME_SUB_NUMBER_SEQ"];
         $home["HOME_TYPE_ID"] = $h["HOME_TYPE_ID"];
         $home["SECS"] = [];
         $homes[++$index] = $home;
@@ -117,7 +119,7 @@ class Home_Model extends CI_Model
   public function findRoomByStatusAndOwnerId($status,$ownerId){
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
-            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
+            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME,HOME_SUB_NUMBER_SEQ
             ,htt.HOME_TYPE_ID,htt.HOME_TYPE_NAME
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
@@ -138,7 +140,7 @@ class Home_Model extends CI_Model
   public function findRoomByStatusAndHomeId($status,$homeId){
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
-            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
+            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME,HOME_SUB_NUMBER_SEQ
             ,htt.HOME_TYPE_ID,htt.HOME_TYPE_NAME
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR
@@ -160,7 +162,7 @@ class Home_Model extends CI_Model
   public function findRoomByStatusAndSectionId($status,$sectionId){
     $sql = 'SELECT hr.ROOM_ID,hr.ROOM_NAME,hr.ROOM_SEQ,hr.ROOM_ORDER,hr.ROOM_ADDRESS,hr.ROOM_SUB_ADDRESS
             ,rs.HOME_SECTION_ID,rs.HOME_SECTION_ORDER,rs.HOME_SECTION_NAME
-            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME
+            ,h.HOME_ID,HOME_ADDR,h.HOME_NUMBER,h.HOME_SUB_NUMBER,HOME_NAME,HOME_SUB_NUMBER_SEQ
             ,htt.HOME_TYPE_ID,htt.HOME_TYPE_NAME
             ,rst.ROOM_STATUS_ID,rst.ROOM_STATUS_NAME
             ,own.OWNER_GROUP_ID,own.OWNER_GROUP_NAME,own.OWNER_GROUP_DESCR

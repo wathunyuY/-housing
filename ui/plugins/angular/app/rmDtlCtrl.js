@@ -11,6 +11,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
         $scope.roomDetail = response.data.data;
         if($scope.roomDetail.find){
             var family = $scope.roomDetail.family;
+            $scope.home = $scope.roomDetail.home;
             $scope.family_id = family.FAMILY_ID
             $scope.family_name = family.FAMILY_NAME;
             $scope.members = family.MEMBERS;
@@ -39,6 +40,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             $('#datepicker2').datepicker("setDate",new Date(family.start_date));
         }else{
             $scope.room_detail = $scope.roomDetail.room;
+            $scope.home = $scope.room_detail.home;
             $scope.family_id = null;
             $scope.is_header_family = false;            
         }
