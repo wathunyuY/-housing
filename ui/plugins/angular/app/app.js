@@ -79,7 +79,7 @@ app.run(function($rootScope,$http,$filter) {
     }
     $rootScope.setTable=(id)=>{
         if ( ! $.fn.DataTable.isDataTable( "#"+id ) ) {
-          $("#"+id).DataTable({"autoWidth": false}); 
+          $("#"+id).DataTable({"autoWidth": false,"searching": false}); 
         }
         
     }
@@ -133,6 +133,10 @@ app.config(function($routeProvider) {
     .when("/member_deletes", {
         templateUrl : "template/member_delete.html",
         controller : "mbDltCtrl"
+    })
+    .when("/dashboards", {
+        templateUrl : "template/dashboard_card.html",
+        controller : "dbCtrl"
     });
 });
 

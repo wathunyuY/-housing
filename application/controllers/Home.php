@@ -55,6 +55,7 @@ class Home extends CI_Controller {
         $this->load->model("family_room_mappings_model");
         $this->load->model("family_members_model");
         $this->load->model("address_model");
+        $this->load->model("pers_account_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -271,12 +272,10 @@ class Home extends CI_Controller {
 	public function login(){
 		$u = $this->input->post("username");
 		$p = $this->input->post("password");
-		// if( ($u == "admin" && $p == "@1234")){
-		// 	$this->load->view('home_index');
-		// }else{
-		// 	// $this->load->view('login');
-		// }
-		$this->return_json(array("result"=>$u == "admin" && $p == "@1234"));
+		$accounts = $this->pers_account_model->findByColumns([$this->pers_account_model->USERNAME,$this->pers_account_model->PASSWORD],[$u,md5($p)]);
+		if(count($accounts) > 0){
+			$this->return_json(array("result"=>true,"data"=>[]));
+		}else $this->return_json(array("result"=>false));
 	}
 
 	public function ownerGroups(){

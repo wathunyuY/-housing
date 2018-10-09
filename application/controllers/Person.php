@@ -50,6 +50,7 @@ class Person extends CI_Controller {
         $this->load->model("family_room_mappings_model");
         $this->load->model("room_status_model");
         $this->load->model("address_model");
+        $this->load->model("pers_account_model");
 
         $this->controller = $this->uri->segment(2);
         $this->path_variable = $this->uri->segment(3);
@@ -312,6 +313,46 @@ class Person extends CI_Controller {
             "isH"=>$isH
 		);
 		$this->return_json($rs);
+	}
+
+	public function admin(){
+		$processBean =json_decode(file_get_contents('php://input'));
+		$rq = $processBean->personRqType;
+
+		if(is_null($rq->pers_id)){
+			$person = $this->person_model->_new();
+			$person["CREATE_DATE"]=$this->dt_now;
+			$person["TYPE_ID"] = $rq->person_type;
+			$personTbl = $this->person_model->merge($person);
+
+			$personCur = array(
+				"PERS_ID"=>$personTbl["PERS_ID"],
+				"FIRST_NAME"=>$this->trimm($rq->name),
+				"PERS_NICKNAME"=>$rq->nickname,
+				"GENDER" => $rq->gender,
+				"OWNER_GROUP_ID"=>$rq->owner_group_id
+			);
+			$personCurTbl = $this->person_current_model->merge($personCur);
+			$per = $personTbl[$this->person_model->PK];
+		}else{
+			$per = $rq->pers_id;
+		}
+		$data = [
+				"PERS_ID" => $per,
+				"USERNAME" => $rq->user,
+				"PASSWORD" => $rq->password,
+				"CREATE_DATE" => $this->dt_now
+			];
+		$this->pers_account_model->merge($data,true);
+		$this->return_json(["result"=>true]);
+	}
+
+	public function getaccount(){
+		$sql = '
+			SELECT PERS_ID,FIRST_NAME,PERS_NICKNAME,PERS_N_ID FROM PERSON_CURRENTS WHERE PERS_ID NOT IN(SELECT PERS_ID FROM PERS_ACCOUNTS)';
+		$tbl = $this->db->query("$sql")->result_array();
+		$this->return_json($tbl);
+
 	}
 
 	private function return_json($val){
