@@ -180,6 +180,31 @@ class Home_Model extends CI_Model
     $tbls = $this->db->query($sql)->result_array();
     return $tbls;
   }
+
+  public function roomstat(){
+    $sql = 'SELECT 
+            SUM(1) as _all,
+            SUM(CASE ROOM_STATUS_ID WHEN 1 THEN 1 ELSE 0 END) as _empty ,
+            SUM(CASE ROOM_STATUS_ID WHEN 2 THEN 1 ELSE 0 END) as _stay,
+            SUM(CASE ROOM_STATUS_ID WHEN 3 THEN 1 ELSE 0 END) as _fix
+            FROM HOME_ROOMS';
+    $tbls = $this->db->query($sql)->row_array();
+    return $tbls;
+  }
+  public function personstat(){
+    $sql = 'SELECT SUM(_all) as _all ,SUM(_nomal) as _nomal ,SUM(_owner) as _owner FROM(
+            SELECT SUM(1) as _all,SUM(IF(p.OWNER_GROUP_ID =0,1,0)) as _nomal , SUM(IF(p.OWNER_GROUP_ID <>0,1,0)) as _owner FROM PERSON_CURRENTS p
+            INNER JOIN FAMILY_MEMBERS fm ON fm.PERS_ID = p.PERS_ID 
+            WHERE fm.IS_STAY = TRUE
+            UNION
+            SELECT SUM(1) as _all,SUM(IF(p.OWNER_GROUP_ID =0,1,0)) as _nomal , SUM(IF(p.OWNER_GROUP_ID <>0,1,0)) as _owner FROM PERSON_CURRENTS p
+            INNER JOIN FAMILIES fm ON fm.PERS_ID = p.PERS_ID 
+            INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+            WHERE fp.END_DATE IS NULL
+            ) as rs';
+    $tbls = $this->db->query($sql)->row_array();
+    return $tbls;
+  }
 }?>
 
 

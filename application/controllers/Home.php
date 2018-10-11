@@ -235,11 +235,13 @@ class Home extends CI_Controller {
 				break;
 			case 'edit':
 					$id = $this->input->get("id");
+					$name = $this->input->get("name");
 					$tbl = $this->home_type_model->findByPk($id);
 					if(null !==$tbl){
-						$tbl["HOME_TYPE_NAME"] = $this->uri->segment(4);
-						$tbl["HOME_TYPE_DESCR"] = $this->uri->segment(5);
-						$this->home_type_model->merge($tbl);
+						$tbl["HOME_TYPE_NAME"] = $name;
+						// $tbl["HOME_TYPE_DESCR"] = $this->uri->segment(5);
+						$val = $this->home_type_model->merge($tbl);
+						$this->return_json($val);
 					}
 				break;
 			case 'delete':
@@ -254,6 +256,24 @@ class Home extends CI_Controller {
 						$data = $this->home_type_model->findAll();
 					}
 					$this->return_json($data);
+				break;
+		}
+	}
+	public function owner(){
+		switch ($this->path_variable) {
+
+			case 'edit':
+					$id = $this->input->get("id");
+					$name = $this->input->get("name");
+					$tbl = $this->owner_group_model->findByPk($id);
+					if(null !==$tbl){
+						$tbl["OWNER_GROUP_DESCR"] = $name;
+						$val = $this->owner_group_model->merge($tbl);
+						$this->return_json($val);
+						return;
+					}
+				break;
+			default:
 				break;
 		}
 	}
@@ -405,6 +425,14 @@ class Home extends CI_Controller {
 	public function roomSearch(){
 		$processBean =json_decode(file_get_contents('php://input'));
 		$rs  = $this->room_model->search($processBean->owner,$processBean->key,$processBean->pv,$processBean->ap,$processBean->dt);
+		$this->return_json($rs);
+	}
+
+	public function dashboard(){
+		$rs = [
+			"roomstat" =>$this->home_model->roomstat(),
+			"personstat"=>$this->home_model->personstat()
+		];
 		$this->return_json($rs);
 	}
 

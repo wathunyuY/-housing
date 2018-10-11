@@ -59,6 +59,15 @@ app.run(function($rootScope,$http,$filter) {
         $rootScope.masterData.provinces = response.data.data.provinces;
     });
 
+    $rootScope.getMasterData = function(){
+        $http.get($rootScope.apiUrl+"/home/masterData")
+        .then(function(response) {
+            $rootScope.masterData.homeTypes = response.data.data.home_type;
+            $rootScope.masterData.roomStatus = response.data.data.room_status;
+            $rootScope.masterData.provinces = response.data.data.provinces;
+        });
+    }
+
     $rootScope.api =(req)=>{
     	$http.defaults.headers.post["Content-Type"] = "application/json";
     	$http({

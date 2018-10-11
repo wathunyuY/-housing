@@ -1,6 +1,125 @@
+<style type="text/css">
+  .box.box-teal{
+        border-top-color: #39cccc;
+  }
+</style>
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header with-border">
+        <h3 class="box-title">ห้องพัก</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered">
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Task</th>
+            <th>Progress</th>
+            <th style="width: 40px">Label</th>
+          </tr>
+          <tr>
+            <td>1.</td>
+            <td>ห้องทั้งหมด <small class="pull-right">{{stat._all}} ห้อง</small></td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-primary" style="width: {{_all}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-light-blue">{{_all}}%</span></td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>ห้องที่มีคนพักอาศัย <small class="pull-right">{{stat._stay}} ห้อง</small></td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-yellow" style="width: {{_stay}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-yellow">{{_stay}}%</span></td>
+          </tr>
+          <tr>
+            <td>3.</td>
+            <td>ห้องว่าง <small class="pull-right">{{stat._empty}} ห้อง</small></td>
+            <td>
+              <div class="progress progress-xs progress-striped active">
+                <div class="progress-bar progress-bar-success" style="width: {{_empty}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-green">{{_empty}}%</span></td>
+          </tr>
+          <tr>
+            <td>4.</td>
+            <td>ห้องรอซ่อมแซม <small class="pull-right">{{stat._fix}} ห้อง</small></td>
+            <td>
+              <div class="progress progress-xs progress-striped active">
+                <div class="progress-bar progress-bar-danger" style="width: {{_fix}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-red">{{_fix}}%</span></td>
+          </tr>
+        </table>
+      </div>
+      <!-- /.box-body
+      <div class="box-footer clearfix">
+      </div>-->
+    </div> 
+  </div>
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header with-border">
+        <h3 class="box-title">ผู้อาศัย</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <table class="table table-bordered">
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Task</th>
+            <th>Progress</th>
+            <th style="width: 40px">Label</th>
+          </tr>
+          <tr>
+            <td>1.</td>
+            <td>ผู้พักอาศัยทั้งหมด <small class="pull-right"> {{personstat._all}} คน</small></td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-primary" style="width: {{_all}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-light-blue">{{_all}}%</span></td>
+          </tr>
+          <tr>
+            <td>2.</td>
+            <td>ผู้พักอาศัยในสังกัด <small class="pull-right"> {{personstat._owner}} คน</small></td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-success" style="width: {{_owner}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-green">{{_owner}}%</span></td>
+          </tr>
+          <tr>
+            <td>3.</td>
+            <td>ผู้พักอาศัยทั่วไป <small class="pull-right"> {{personstat._nomal}} คน</small></td>
+            <td>
+              <div class="progress progress-xs progress-striped active">
+                <div class="progress-bar progress-bar-yellow" style="width: {{_nomal}}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-yellow">{{_nomal}}%</span></td>
+          </tr>
+        </table>
+      </div>
+      <!-- /.box-body
+      <div class="box-footer clearfix">
+      </div>-->
+    </div> 
+  </div>
+</div>
 <div class="row">
   <div class="col-md-12">
-    <div class="modal-content">
+    <div class="box box-teal">
       <div class="box-header">
         <p>เพิ่มแอดมิน</p>
       </div>
@@ -35,11 +154,103 @@
             </div>
         </div>
         <div class="box-footer">
-          <button type="sumit" class="btn btn-success pull-right">เพิ่ม</button>
+          <button type="sumit" class="btn bg-teal pull-right">เพิ่ม</button>
         </div>
       </form>
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header">
+        <p>ชื่อหน่วย</p>
+      </div> 
+      <div class="box-body">
+          <table id="own" class="table table-bordered table-striped medium-text">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>ชื่อหน่วย</th>
+              <th>/*/</th>
+            </tr>
+            </thead>
+            <tbody id="own_tr">
+              <tr ng-repeat="x in masterData.ownerGroups"> 
+                  <td>{{x.OWNER_GROUP_NAME}}</td>
+                  <td>{{x.OWNER_GROUP_DESCR}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning pull-right" data-toggle="modal" data-target="#editmasterdata" ng-click="editmasterdata(x.OWNER_GROUP_ID,'owner')">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header">
+        <p>ประเภทบ้าน</p>
+      </div> 
+      <div class="box-body">
+          <table id="own" class="table table-bordered table-striped medium-text">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>ชื่อหน่วย</th>
+              <th>/*/</th>
+            </tr>
+            </thead>
+            <tbody id="own_tr">
+              <tr ng-repeat="x in masterData.homeTypes"> 
+                  <td>{{x.HOME_TYPE_ID}}</td>
+                  <td>{{x.HOME_TYPE_NAME}}</td>
+                  <td>
+                    <button class="btn btn-sm btn-warning pull-right" data-toggle="modal" data-target="#editmasterdata" ng-click="editmasterdata(x.HOME_TYPE_ID,'type')">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+
+<div class="modal modal-wide  fade" id="editmasterdata" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">แก้ไข</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group">
+              <label>ชื่อ</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="nameedit" ng-model="nameedit">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="savemasterdata() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
