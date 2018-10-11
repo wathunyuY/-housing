@@ -355,9 +355,58 @@ class Person extends CI_Controller {
 
 	}
 
+	public function addadmin(){
+		$processBean =json_decode(file_get_contents('php://input'));
+		$rq = $processBean->adminRqType;
+		if(!(isset($rq->user))){
+			$this->return_fail([],"Username เป็นค่าว่าง");
+			return;
+		}
+		$account = $this->pers_account_model->findByColumn($this->pers_account_model->USERNAME,$rq->user);
+		if(count($account) > 0) {
+			$this->return_fail([],"Username ซ้ำ");
+			return;
+		}
+		$account = $this->pers_account_model->_new();
+		$account["USERNAME"] = $rq->user;
+		$account["PASSWORD"] = MD5($rq->password);
+		$account["STAT"] = 1;
+		$account["CREATE_DATE"] =$this->dt_now;
+		$tbl = $this->pers_account_model->merge($account);
+		$tbl[$this->pers_account_model->PASSWORD] = $rq->password;
+		$this->return_json($tbl);
+	}
+	public function fogotpassword(){
+		$processBean =json_decode(file_get_contents('php://input'));
+		$rq = $processBean->adminRqType;
+		if(!(isset($rq->user))){
+			$this->return_fail([],"Username เป็นค่าว่าง");
+			return;
+		}
+		$account = $this->pers_account_model->findByColumn($this->pers_account_model->USERNAME,$rq->user);
+		if(count($account) == 0) {
+			$this->return_fail([],"ไม่พบ Username : [".$rq->user."]");
+			return;
+		}
+		$account = $account[0];
+		$account["USERNAME"] = $rq->user;
+		$account["PASSWORD"] = MD5($rq->password);
+		$account["STAT"] = 1;
+		$account["CREATE_DATE"] =$this->dt_now;
+		$tbl = $this->pers_account_model->merge($account);
+		$tbl[$this->pers_account_model->PASSWORD] = $rq->password;
+		$this->return_json($tbl);
+	}
+
 	private function return_json($val){
 		$rs['code'] = 0;
 		$rs['data'] = $val;
+		echo json_encode($rs);
+	}
+	private function return_fail($val,$message){
+		$rs['code'] = 400;
+		$rs['data'] = $val;
+		$rs['message'] = $message;
 		echo json_encode($rs);
 	}
 

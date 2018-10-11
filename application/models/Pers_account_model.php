@@ -8,25 +8,25 @@ class Pers_Account_Model extends CI_Model
     $this->USERNAME = "USERNAME";
     $this->PASSWORD = "PASSWORD";
     // $this->TABLE_PERSON_CURRENT = "PERSON_CURRENTS";
-    $this->PK = "PERS_ID";
+    $this->PK = "ACCOUNT_ID";
     $this->load->model("general_model");
     // $this->load->model("person_current_model");
   }
 
   public function _new($ID=NULL){
     return array(
-      "PERS_ID"=>$ID,
-      "TYPE_ID"=>NULL,
-      "BIRTHDAY"=>NULL,
+      "ACCOUNT_ID"=>$ID,
+      "USERNAME"=>NULL,
+      "PASSWORD"=>NULL,
       "CREATE_DATE"=>NULL,
-      "LAST_UPDATE"=>NULL
+      "CREATE_BY"=>NULL
     );
   }
 
   // ADD
-  public function merge($data,$is_add)
+  public function merge($data)
   {
-      if($is_add){
+      if(NULL === $data[$this->PK]){
         $id = $this->general_model->addData($data,$this->TABLE);
         return $this->findByPk($id);
       }
