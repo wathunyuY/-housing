@@ -146,6 +146,10 @@ app.config(function($routeProvider) {
     .when("/dashboards", {
         templateUrl : "template/dashboard_card.html",
         controller : "dbCtrl"
+    })
+    .when("/quick_searchs", {
+        templateUrl : "template/quick_search.html",
+        controller : "qsearchCtrl2"
     });
 });
 
@@ -222,6 +226,38 @@ app.controller('newPersCtrl', function($scope,$rootScope) {
 	     console.log('Error: ', error);
 	   };
 	}
+
+});
+
+
+app.controller('qsearchCtrl', function($scope,$rootScope) {
+    console.log("Hello Controller");
+   $scope.searchnomal = function(){
+        $('#btn-quicksearch').click();
+    }
+});
+app.controller('qsearchCtrl2', function($scope,$rootScope,$route) {
+    var params = $route.current.params;
+    $rootScope.api({
+        method:"POST",
+        url: "/home/roomSearch",
+        data:{  
+                owner:'1',
+                key:(params.key == null ? '':params.key),
+                pv:0,
+                ap:0,
+                dt:0,
+                bd:null,
+                sd:null
+            },
+        success:function(res){
+            $scope.rooms = res.data.data;
+            console.log($scope.rooms);
+        },
+        fail:function(){
+
+        }
+    });
 
 });
 

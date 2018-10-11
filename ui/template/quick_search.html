@@ -1,0 +1,132 @@
+<div class="col-md-12">
+    <div class="box box-teal">
+          <div class="box-header">
+            <h3 class="box-title">ตารางข้อมูล</h3>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <table datatable="ng" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>ที่</th>
+                <th>ชื่อบ้าน</th>
+                <th>บ้านเลขที่</th>
+                <th>หมายเลขอาคาร</th>
+                <th>ชั้น</th>
+                <th>ห้อง</th>
+                <th>เจ้าของห้อง</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="(i,x) in rooms">
+                    <td>{{ i+1 }}</td>
+                    <td>{{x.HOME_NAME}}</td>
+                    <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span></td>
+                    <td>{{x.HOME_NUMBER}} / {{x.HOME_SUB_NUMBER}} / {{numadd(x.HOME_SECTION_ORDER,1)}} <span ng-show="x.ROOM_SEQ > 0">({{x.ROOM_SEQ}})</span></td>
+                    <td>{{numadd(x.HOME_SECTION_ORDER,1)}}</td>
+                    <td>{{x.ROOM_SEQ}}</td>
+                    <td>{{x.FIRST_NAME}}</td>
+                    <td class="text-center">
+                      <a href="#!room_details?id={{x.ROOM_ID}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-desktop"></i></a>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+</div>
+
+<div class="modal modal-wide  fade" id="addRoom" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">เพิ่มห้อง</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8">
+              <label>ชื่อห้อง </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="room_name" placeholder="ชื่อชั้น" ng-model="room_name">
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+
+          <div class="box-footer">
+            <!-- <p>จำนวนห้องพักรวม : {{column * _row}} ห้อง</p> -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addRoom() " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="editRoom" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">แก้ไขห้อง</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box-body">
+            <div class="form-group col-md-8">
+              <label>ชื่อห้อง </label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-user"></i>
+                </div>
+                <input type="text" class="form-control" id="room_name" placeholder="ชื่อชั้น" ng-model="room_name">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="editRoom(room_index) " data-dismiss="modal" >บันทึก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="modal modal-wide  fade" id="deleteRoom" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{room_name}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <h4>ต้องการลบ <strong>"{{room_name}}"</strong> ออกใช่มั้ย ?</h4>
+          <p> <strong>หมายเหตุ </strong> สามรถลบได้เฉพาะที่ยังไม่มีคนอยู่เท่านั้น</p>        
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteRoom(room_index) " data-dismiss="modal" >ยืนยัน</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" >ยกเลิก</button>
+      </div>
+    </div>
+    
+  </div>
+</div>

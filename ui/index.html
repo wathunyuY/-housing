@@ -73,12 +73,13 @@
             <img src=" img/admin_header.png" width="100%">
           </a>
         </div>
-        <form class="sidebar-form" style="border-radius: 10px;">
+        <form ng-controller="qsearchCtrl" ng-submit="searchnomal()" class="sidebar-form" style="border-radius: 10px;">
           <div class="input-group" >
-            <input type="text" name="q" class="form-control" placeholder="Search..." >
+            <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="find_key">
                 <span class="input-group-btn">
                   <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                   </button>
+                  <a href="#!quick_searchs?key={{find_key}}" ng-show="false" id="btn-quicksearch"> </a>
                 </span>
           </div>
         </form>
