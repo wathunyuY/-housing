@@ -282,10 +282,12 @@ class Home extends CI_Controller {
 		$home_type = $this->home_type_model->findAll();
 		$room_status = $this->room_status_model->findAll();
 		$provinces = $this->address_model->findAll();
+		$ownerGroups = $this->owner_group_model->findAll();
 		$rs = array(
 			"home_type"=>$home_type,
 			"room_status"=>$room_status,
-			"provinces"=>$provinces
+			"provinces"=>$provinces,
+			"ownerGroups"=> $ownerGroups
 		);
 		$this->return_json($rs);
 	}

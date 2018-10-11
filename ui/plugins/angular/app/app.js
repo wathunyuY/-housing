@@ -65,6 +65,7 @@ app.run(function($rootScope,$http,$filter) {
             $rootScope.masterData.homeTypes = response.data.data.home_type;
             $rootScope.masterData.roomStatus = response.data.data.room_status;
             $rootScope.masterData.provinces = response.data.data.provinces;
+            $rootScope.masterData.ownerGroups = response.data.data.ownerGroups;
         });
     }
 
