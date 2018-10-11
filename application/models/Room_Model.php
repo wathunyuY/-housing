@@ -45,7 +45,13 @@ class Room_Model extends CI_Model
     return $this->db->query($sql)->num_rows() > 0;
   }
 
-  public function search($ownerId,$key='',$provinceId=0,$amphurId=0,$districtId=0){
+  public function search($ownerId,$key='',$provinceId=0,$amphurId=0,$districtId=0,$birthday=nulll,$statdate=null){
+    if(null != $birthday){
+      $birthday = date('Y-m-d H:i:s',strtotime($birthday));
+    }
+    if(null != $statdate){
+      $statdate = date('Y-m-d H:i:s',strtotime($statdate));
+    }
 
     $p = $provinceId ==0 ? '': ' OR pc.PROVINCE_ID_TYPE0 = '.$provinceId;
     $a = $amphurId ==0 ? '': ' AND pc.AMPHUR_ID_TYPE0 = '.$amphurId;
@@ -53,6 +59,10 @@ class Room_Model extends CI_Model
     $p2 = $provinceId ==0 ? '': ' OR pc2.PROVINCE_ID_TYPE0 = '.$provinceId;
     $a2 = $amphurId ==0 ? '': ' AND pc2.AMPHUR_ID_TYPE0 = '.$amphurId;
     $d2 = $districtId ==0 ? '': ' AND pc2.DISTRICT_ID_TYPE0 = '.$districtId;
+    $bd = $birthday == null ? '' : 'OR DATE(p.BIRTHDAY) = DATE("'.$birthday.'")';
+    $bd2 = $birthday == null ? '' : 'OR DATE(p2.BIRTHDAY) = DATE("'.$birthday.'")';
+    $std = $statdate == null ? '' : 'OR DATE(frm.START_DATE) = DATE("'.$statdate.'")';
+    $std2 = $statdate == null ? '' : 'OR DATE(fmb.START_DATE) = DATE("'.$statdate.'")';
 
     $key = $key == '' || $key == null ? '!@#$%^' : '%'.$key.'%';
 
@@ -94,7 +104,7 @@ class Room_Model extends CI_Model
                   OR pc.MOBILE_NBR_1 like "'.$key.'"
                   OR pc.CAR_NUMBER like "'.$key.'"
                   OR pc.BIKER_NUMBER like "'.$key.'"
-                  '.$p.$a.$d.'
+                  '.$p.$a.$d.$bd.$std.'
 
 
                   OR pc2.FIRST_NAME like "'.$key.'"
@@ -108,7 +118,7 @@ class Room_Model extends CI_Model
                   OR pc2.MOBILE_NBR_1 like "'.$key.'"
                   OR pc2.CAR_NUMBER like "'.$key.'"
                   OR pc2.BIKER_NUMBER like "'.$key.'"
-                  '.$p2.$a2.$d2.'
+                  '.$p2.$a2.$d2.$bd2.$std2.'
             )
             AND own.OWNER_GROUP_ID = '.$ownerId.' GROUP BY hr.ROOM_ID ORDER BY hr.ROOM_ID';
             // return ["a"=>$sql];

@@ -424,7 +424,7 @@ class Home extends CI_Controller {
 
 	public function roomSearch(){
 		$processBean =json_decode(file_get_contents('php://input'));
-		$rs  = $this->room_model->search($processBean->owner,$processBean->key,$processBean->pv,$processBean->ap,$processBean->dt);
+		$rs  = $this->room_model->search($processBean->owner,$processBean->key,$processBean->pv,$processBean->ap,$processBean->dt,$processBean->bd,$processBean->sd);
 		$this->return_json($rs);
 	}
 
