@@ -1,11 +1,11 @@
 <div class="col-md-12">
-    <div class="box">
+    <div class="box box-teal">
           <div class="box-header">
             <h3 class="box-title">ตารางข้อมูล</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <table id="quickroomTable" class="table table-bordered table-striped">
+            <table datatable="ng" class="table table-bordered table-striped">
               <thead>
               <tr>
                 <th>ที่</th>
@@ -19,7 +19,7 @@
               </tr>
               </thead>
               <tbody>
-                  <tr ng-repeat="(i,x) in rooms" ng-init="$last && setTable('quickroomTable')">
+                  <tr ng-repeat="(i,x) in rooms">
                     <td>{{ i+1 }}</td>
                     <td>{{x.HOME_NAME}}</td>
                     <td>{{x.ROOM_ADDRESS}}  <span ng-if="x.ROOM_SUB_ADDRESS > 0">/ {{x.ROOM_SUB_ADDRESS}}</span></td>

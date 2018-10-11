@@ -34,6 +34,8 @@
 
   <link rel="stylesheet" href="plugins/jQueryUI/jquery-ui.css" />
   <link rel="stylesheet" href="plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="dist/css/mycss.css">
+  <!-- <link rel="stylesheet" href="plugins/angular/src/css/angular-datatables.css"> -->
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -117,17 +119,13 @@
   </footer>
   <div class="control-sidebar-bg"></div>
 </div>
-<!-- ./wrapper -->
 <script src="config.js"></script>
-<!-- angular -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="plugins/angular/vendor/backtotop/backtotop.min.js"></script>
 <script src="plugins/angular/angular.js"></script>
 <script src="plugins/angular/angular-route.js"></script>
-
-<!-- jQuery 2.2.3 -->
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="plugins/angular/vendor/datatables/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
   $("#report").attr("href",appConfig.httphost+"/index.php/report/pdf");
   if(!sessionStorage.getItem("login")) window.location.replace(appConfig.httphost+"/ui/login.html");
@@ -138,7 +136,7 @@
   });
 </script>
 <script>
-  $.widget.bridge('uibutton', $.ui.button);
+  // $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -188,6 +186,7 @@
 <!-- json -->
 <script src="dist/js/districts.js"></script>
 <!-- iCheck 1.0.1 -->
+
 <script src="plugins/iCheck/icheck.min.js"></script>
 <script src="plugins/angular/app/app.js"></script>
 <script src="plugins/angular/app/homeCtrl.js"></script>
@@ -195,5 +194,13 @@
 <script src="plugins/angular/app/rpCtrl.js"></script>
 <script src="plugins/angular/app/dbCtrl.js"></script>
 
+<script src="plugins/angular/src/angular-datatables.js"></script>
+<script src="plugins/angular/src/angular-datatables.util.js"></script>
+<script src="plugins/angular/src/angular-datatables.options.js"></script>
+<script src="plugins/angular/src/angular-datatables.instances.js"></script>
+<script src="plugins/angular/src/angular-datatables.factory.js"></script>
+<script src="plugins/angular/src/angular-datatables.renderer.js"></script>
+<script src="plugins/angular/src/angular-datatables.directive.js"></script>
+<script src="plugins/angular/src/plugins/bootstrap/angular-datatables.bootstrap.options.js"></script>
 </body>
 </html>

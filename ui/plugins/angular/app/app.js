@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ["ngRoute"]);
+var app = angular.module('myApp', ["ngRoute","datatables"]);
 
 app.run(function($rootScope,$http,$filter) {
     $rootScope.page_name = "ระบบจัดการบ้านพัก";
