@@ -1,3 +1,15 @@
-  .box.box-teal{
+.box.box-teal{
         border-top-color: #39cccc;
   }
+.box.box-solid.box-teal {
+  border: 1px solid #3c8dbc;
+}
+.box.box-solid.box-teal > .box-header {
+  color: #ffffff;
+  background: #3c8dbc;
+  background-color: #3c8dbc;
+}
+.box.box-solid.box-teal > .box-header a,
+.box.box-solid.box-teal > .box-header .btn {
+  color: #ffffff;
+}
