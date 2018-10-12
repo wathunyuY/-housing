@@ -233,6 +233,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{homeRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("editHome");
                 $route.reload();
             },
             fail:function(err){
@@ -250,6 +251,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
+                $rootScope.clearModalBlackDrop("deleteHome");
                 $route.reload();
             },
             fail:function(err){
@@ -331,6 +333,7 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{secRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("addSection");
                 $route.reload();
             },
             fail:function(){
@@ -368,6 +371,7 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{secRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("editSec");
                 $route.reload();
             },
             fail:function(){
@@ -385,6 +389,7 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
+                $rootScope.clearModalBlackDrop("delateSec");
                 $route.reload();
             },
             fail:function(err){
@@ -457,6 +462,7 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{roomRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("addRoom");
                 $route.reload();
             },
             fail:function(){
@@ -488,6 +494,7 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{roomRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("editRoom");
                 $route.reload();
             },
             fail:function(){
@@ -505,6 +512,7 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
+                $rootScope.clearModalBlackDrop("deleteRoom");
                 $route.reload();
             },
             fail:function(err){

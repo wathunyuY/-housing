@@ -93,6 +93,11 @@ app.run(function($rootScope,$http,$filter) {
         }
         
     }
+    $rootScope.clearModalBlackDrop = function(id){
+        $('#'+id).modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    }
 });
 
 app.config(function($routeProvider) {

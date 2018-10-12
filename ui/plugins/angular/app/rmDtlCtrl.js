@@ -203,6 +203,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 $("#btn_tmp_save").click();
+                $rootScope.clearModalBlackDrop("addMember");
                 $route.reload();
             },
             fail:function(){
@@ -218,6 +219,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             data:{},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("changeRoomStatus");
                 $route.reload();
             },
             fail:function(){
