@@ -203,8 +203,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 $("#btn_tmp_save").click();
-                // $route.reload();
-                location.reload();
+                $route.reload();
             },
             fail:function(){
 
@@ -219,8 +218,7 @@ app.controller('rmDtlCtrl', function($rootScope,$http,$scope,$route,$filter) {
             data:{},
             success:function(res){
                 console.log(res);
-                // $route.reload();
-                location.reload();
+                $route.reload();
             },
             fail:function(){
 
@@ -358,8 +356,7 @@ app.controller('mbEdtCtrl', function($rootScope,$http,$scope,$route,$filter) {
             data:{personRqType:data},
             success:function(res){
                 console.log(res);
-                // $route.reload();
-                location.reload();
+                $route.reload();
             },
             fail:function(){
 

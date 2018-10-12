@@ -43,8 +43,7 @@ app.controller('dbCtrl', function($rootScope,$scope,$http,$filter,$route) {
                 	alert(res.data.message);
                 }else{
                 	alert("เพิ่ม Admin เรียบร้อย (Username : ["+res.data.data.USERNAME+"] password : ["+ res.data.data.PASSWORD+"])");
-                	// $route.reload();
-                    location.reload();
+                	$route.reload();
                 }
             },
             fail:function(){
@@ -69,10 +68,9 @@ app.controller('dbCtrl', function($rootScope,$scope,$http,$filter,$route) {
     }
     $scope.savemasterdata = function(){
 		 $http.get($rootScope.apiUrl+"/home/"+$scope.typeedit+"/edit?id="+$scope.idedit+"&name="+$scope.nameedit)
-	    .then(/*async*/ function(response) {
-	    	// await $rootScope.getMasterData();
-	    	// $route.reload();
-            location.reload();
+	    .then(async function(response) {
+	    	await $rootScope.getMasterData();
+	    	$route.reload();
 	    });
     }
 
