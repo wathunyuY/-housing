@@ -186,7 +186,8 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{homeRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(err){
                 console.log(err);
@@ -233,7 +234,8 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{homeRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(err){
                 console.log(err);
@@ -250,7 +252,8 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(err){
                 console.log(err);
@@ -331,7 +334,8 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{secRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(){
 
@@ -368,7 +372,8 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{secRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(){
 
@@ -385,7 +390,8 @@ app.controller('secCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(err){
                 console.log(err);
@@ -457,7 +463,8 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{roomRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(){
 
@@ -488,7 +495,8 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{roomRqType:data},
             success:function(res){
                 console.log(res);
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(){
 
@@ -505,7 +513,8 @@ app.controller('rmCrdCtrl', function($rootScope,$scope,$route,$filter) {
             success:function(res){
                 console.log(res);
                 if(res.data.data) alert("ไม่สามารถลบได้");
-                $route.reload();
+                // $route.reload();
+                location.reload();
             },
             fail:function(err){
                 console.log(err);
