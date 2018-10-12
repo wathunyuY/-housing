@@ -70,7 +70,7 @@ app.controller('dbCtrl', function($rootScope,$scope,$http,$filter,$route) {
 		 $http.get($rootScope.apiUrl+"/home/"+$scope.typeedit+"/edit?id="+$scope.idedit+"&name="+$scope.nameedit)
 	    .then(async function(response) {
 	    	await $rootScope.getMasterData();
-	    	$route.reload();
+	    	// $route.reload();
 	    });
     }
 
