@@ -186,6 +186,7 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
             data:{homeRqType:data},
             success:function(res){
                 console.log(res);
+                $rootScope.clearModalBlackDrop("addHome");
                 $route.reload();
             },
             fail:function(err){
