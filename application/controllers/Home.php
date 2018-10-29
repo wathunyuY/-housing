@@ -123,6 +123,9 @@ class Home extends CI_Controller {
 		$homeTbl['HOME_ID'] = $homeRqType->homeId;
 		$homeTbl['HOME_NAME'] = $homeRqType->homeName;
 		$homeTbl['HOME_DESCR'] = $homeRqType->homeDescr;
+		$homeTbl['HOME_NUMBER'] = $homeRqType->homeNumber;
+		$homeTbl['HOME_SUB_NUMBER'] = $homeRqType->homeSubNumber;
+		$homeTbl['HOME_SUB_NUMBER_SEQ'] = $homeRqType->homeSubNumberSeq;
 		$homeTbl = $this->home_model->merge($homeTbl);
 		$this->return_json($homeTbl);
 	}

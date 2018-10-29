@@ -219,13 +219,20 @@ app.controller('homeCrdCtrl', function($rootScope,$scope,$route,$filter) {
         $scope.home_index = index;
         $scope.home_name = h.HOME_NAME;
         $scope.owner_group = h.OWNER_GROUP_ID;
+        $scope.add_main = h.HOME_NUMBER;
+        $scope.add_sub = h.HOME_SUB_NUMBER;
+        $scope.add_sub_seq = h.HOME_SUB_NUMBER_SEQ;
+        $scope.home_type = h.HOME_TYPE_ID;
     }
     $scope.editHome = (index)=>{
         var h = $scope.homes[index];
         var data ={
             homeId: h.HOME_ID,
             homeName: $scope.home_name,
-            homeDescr: $scope.home_descr != null ? $scope.home_descr : "-"
+            homeDescr: $scope.home_descr != null ? $scope.home_descr : "-",
+            homeNumber:$scope.add_main,
+            homeSubNumber:$scope.add_sub,
+            homeSubNumberSeq:$scope.add_sub_seq
         }
         console.log(data)
         $rootScope.api({
