@@ -78,7 +78,7 @@ class Home_Model extends CI_Model
           LEFT JOIN OWNER_GROUP_TBLS owp on owp.OWNER_GROUP_ID = f.OWNER_GROUP_ID
           WHERE ow.OWNER_GROUP_ID ='.$owId;
     if(NULL != $homeId) $sql.=' AND a.HOME_ID='.$homeId;
-    $sql .=' ORDER BY a.HOME_ID,b.HOME_SECTION_ORDER,c.ROOM_SUB_ADDRESS';
+    $sql .=' ORDER BY a.HOME_ID,b.HOME_SECTION_ORDER,c.ROOM_ID';
     $rs = $this->db->query($sql)->result_array();
     $hId = -1;
     $sId = -1;

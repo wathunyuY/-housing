@@ -138,11 +138,11 @@ class Report extends CI_Controller {
 		$this->pdf->SetFont('angsa','U',18);
 		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','รายงานบ้านพักอาศัย'),0,1,'C');
 		$this->pdf->SetFont('angsa','',14);	
-		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
+		$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายภาณุรังษี (ต.พงสวาย)'),0,1,'C');
 		foreach ($all as $key => $home) {
 			$secs = $home["SECS"];
 			$this->pdf->SetFont('angsa','',14);	
-			// $this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายบุญรังษี (ต.พงสวาย)'),0,1,'C');
+			// $this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ทะเบียนบ้านพักค่ายภาณุรังษี (ต.พงสวาย)'),0,1,'C');
 			$this->pdf->Cell(0,10,iconv( 'UTF-8','TIS-620','ของอาคาร '.$home["OWNER_GROUP_DESCR"].' รับผิดชอบ'),0,1,'C');
 			$w = array(10, 20, 30, 40,30,50);
 			$header = ["ลำดับ","บ้านเลขที่","หมายเลขอาคาร","รายชื่อเข้าพักอาศัย","สังกัด","หมายเหตุ"];
