@@ -66,6 +66,7 @@ class Home_Model extends CI_Model
             ,f.REFERENCE 
             ,ow.OWNER_GROUP_DESCR
             ,if(owp.OWNER_GROUP_DESCR is null ,"",owp.OWNER_GROUP_DESCR) as OWNER_GROUP_DESCR_2
+            ,if(f.ACADEMY is null ,"",f.ACADEMY) as ACADEMY
             ,DATE_FORMAT(d.START_DATE,"%d-%m-%Y") as REFERENCE_DATE
           FROM HOMES a  
           INNER JOIN OWNER_GROUP_TBLS ow on ow.OWNER_GROUP_ID = a.OWNER_GROUP_ID  
@@ -109,7 +110,7 @@ class Home_Model extends CI_Model
       $room["HOME_NUMBER4"] = $h["HOME_NUMBER4"];
       $room["FIRST_NAME"] = $h["FIRST_NAME"];
       $room["REFERENCE"] = $h["REFERENCE"];
-      $room["OWNER"] = $h["OWNER_GROUP_DESCR_2"];
+      $room["OWNER"] = $h["ACADEMY"];
       $room["REFERENCE_DATE"] = $h["REFERENCE_DATE"];
       array_push($homes[$index]["SECS"][count($homes[$index]["SECS"])-1]["ROOMS"],$room);
     }

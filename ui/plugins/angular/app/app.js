@@ -156,6 +156,10 @@ app.config(function($routeProvider) {
     .when("/quick_searchs", {
         templateUrl : "template/quick_search.html",
         controller : "qsearchCtrl2"
+    })
+    .when("/statistics", {
+        templateUrl : "template/statistic.html",
+        controller : "statisticCtrl"
     });
 });
 

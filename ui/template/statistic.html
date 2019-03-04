@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header">
+        <p>อาชีพ</p>
+      </div> 
+      <div class="box-body">
+          <table id="career_tbl" class="table table-bordered table-striped medium-text">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>อาชีพ</th>
+              <th>จำนวน(คน)</th>
+            </tr>
+            </thead>
+            <tbody id="career_stat_tbody">
+              <tr ng-repeat="(i,x) in careers"> 
+                  <td>{{i+1}}</td>
+                  <td>{{x.career ? x.career : "-"}}</td>
+                  <td>{{x._value ? x._value : "-"}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="box box-teal">
+      <div class="box-header">
+        <p>ช่วงอายุ</p>
+      </div> 
+      <div class="box-body">
+          <table id="age_tbl" class="table table-bordered table-striped medium-text">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>ช่วงอายุ</th>
+              <th>จำนวน(คน)</th>
+            </tr>
+            </thead>
+            <tbody id="age_stat_tbody">
+              <tr ng-repeat="(i,x) in ages"> 
+                  <td>{{i+1}}</td>
+                  <td>{{x.n}}</td>
+                  <td>{{x.v ? x.v:0 }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -258,7 +258,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-transgender"></i>
                 </div>
-                <select ng-model="owner_group" class="form-control">
+                <select ng-model="owner_group" class="form-control" ng-disabled="true">
                   <option ng-repeat="x  in masterData.ownerGroups" value="{{ x.OWNER_GROUP_ID }}">{{ x.OWNER_GROUP_NAME }} - {{ x.OWNER_GROUP_DESCR }}</option>
                 </select>
               </div>

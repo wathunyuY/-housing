@@ -39,6 +39,67 @@ class Owner_Group_Model extends CI_Model
       return $this->general_model->findByColumns($this->TABLE,$fields,$values);      
   }
 
+  public function getAgeRankByOwnerId($id){
+    $sql = "SELECT SUM(_12) as _12 ,SUM(_12_20) as _12_20 ,SUM(_20_40) as _20_40,SUM(_40_60) as _40_60,SUM(_60) as _60 FROM(
+              SELECT 
+                sum(if(age < 12,1, 0)) as _12 
+                ,sum( if(age >=12 AND age <20 ,1,0) ) _12_20
+                ,sum( if(age >=20 AND age <40 ,1,0) ) _20_40
+                ,sum( if(age >=40 AND age <60 ,1,0) ) _40_60
+                ,sum( if(age >=60 ,1,0) ) _60
+              FROM(
+                SELECT p.PERS_ID,p.BIRTHDAY, YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) as age 
+                FROM PERSONS p
+                INNER JOIN FAMILY_MEMBERS fm ON fm.PERS_ID = p.PERS_ID
+                INNER JOIN FAMILIES f ON f.FAMILY_ID = fm.FAMILY_ID
+                INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+                INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+                WHERE fm.IS_STAY = TRUE AND hr.OWNER_GROUP_ID = ".$id."
+              ) as _members
+              UNION
+              SELECT 
+                sum(if(age < 12,1, 0)) as _12 
+                ,sum( if(age >=12 AND age <20 ,1,0) ) _12_20
+                ,sum( if(age >=20 AND age <40 ,1,0) ) _20_40
+                ,sum( if(age >=40 AND age <60 ,1,0) ) _40_60
+                ,sum( if(age >=60 ,1,0) ) _60
+              FROM(
+                SELECT p.PERS_ID,p.BIRTHDAY, YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) as age 
+                FROM PERSONS p
+                INNER JOIN FAMILIES fm ON fm.PERS_ID = p.PERS_ID 
+                INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+                INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+                WHERE fp.END_DATE IS NULL AND hr.OWNER_GROUP_ID = ".$id."
+              ) as _head
+            ) as _ages_stat";
+    return $this->db->query($sql)->row_array();    
+  }
+  public function getPopCareerByOwnerId($id){
+    $sql ="SELECT CAREER as career ,SUM(_value) as _value  FROM(
+            SELECT p.CAREER ,COUNT(p.CAREER) as _value
+            FROM PERSON_CURRENTS p
+            INNER JOIN FAMILY_MEMBERS fm ON fm.PERS_ID = p.PERS_ID
+            INNER JOIN FAMILIES f ON f.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+            WHERE fm.IS_STAY = TRUE AND hr.OWNER_GROUP_ID = ".$id."
+            GROUP BY p.CAREER
+          
+          UNION
+          
+            SELECT p.CAREER ,COUNT(p.CAREER) as _value
+            FROM PERSON_CURRENTS p
+            INNER JOIN FAMILIES fm ON fm.PERS_ID = p.PERS_ID 
+            INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+            WHERE fp.END_DATE IS NULL AND hr.OWNER_GROUP_ID = ".$id."
+          
+        ) as _ages_stat
+        WHERE CAREER IS NOT NULL
+        GROUP BY CAREER
+        ORDER BY _value desc";
+    return $this->db->query($sql)->result_array();    
+  }
   
 }?>
 
