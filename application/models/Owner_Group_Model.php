@@ -48,7 +48,7 @@ class Owner_Group_Model extends CI_Model
                 ,sum( if(age >=40 AND age <60 ,1,0) ) _40_60
                 ,sum( if(age >=60 ,1,0) ) _60
               FROM(
-                SELECT p.PERS_ID,p.BIRTHDAY, YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) as age 
+                SELECT p.PERS_ID,p.BIRTHDAY,( YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) ) +543 as age 
                 FROM PERSONS p
                 INNER JOIN FAMILY_MEMBERS fm ON fm.PERS_ID = p.PERS_ID
                 INNER JOIN FAMILIES f ON f.FAMILY_ID = fm.FAMILY_ID
@@ -64,7 +64,7 @@ class Owner_Group_Model extends CI_Model
                 ,sum( if(age >=40 AND age <60 ,1,0) ) _40_60
                 ,sum( if(age >=60 ,1,0) ) _60
               FROM(
-                SELECT p.PERS_ID,p.BIRTHDAY, YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) as age 
+                SELECT p.PERS_ID,p.BIRTHDAY,( YEAR(CURRENT_TIMESTAMP) - YEAR(p.BIRTHDAY) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(p.BIRTHDAY, 5)) ) + 543 as age 
                 FROM PERSONS p
                 INNER JOIN FAMILIES fm ON fm.PERS_ID = p.PERS_ID 
                 INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
@@ -93,13 +93,40 @@ class Owner_Group_Model extends CI_Model
             INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
             INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
             WHERE fp.END_DATE IS NULL AND hr.OWNER_GROUP_ID = ".$id."
-          
+            GROUP BY p.CAREER
         ) as _ages_stat
         WHERE CAREER IS NOT NULL
         GROUP BY CAREER
         ORDER BY _value desc";
     return $this->db->query($sql)->result_array();    
   }
+  public function getPopGenderByOwnerId($id){
+    $sql ="SELECT GENDER as gender ,SUM(_value) as _value  FROM(
+            SELECT p.GENDER ,COUNT(p.GENDER) as _value
+            FROM PERSON_CURRENTS p
+            INNER JOIN FAMILY_MEMBERS fm ON fm.PERS_ID = p.PERS_ID
+            INNER JOIN FAMILIES f ON f.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+            WHERE fm.IS_STAY = TRUE AND hr.OWNER_GROUP_ID = ".$id."
+            GROUP BY p.GENDER
+          
+          UNION
+          
+            SELECT p.GENDER ,COUNT(p.GENDER) as _value
+            FROM PERSON_CURRENTS p
+            INNER JOIN FAMILIES fm ON fm.PERS_ID = p.PERS_ID 
+            INNER JOIN FAMILY_ROOM_MAPPINGS fp ON fp.FAMILY_ID = fm.FAMILY_ID
+            INNER JOIN HOME_ROOMS hr ON hr.ROOM_ID = fp.ROOM_ID
+            WHERE fp.END_DATE IS NULL AND hr.OWNER_GROUP_ID = ".$id."
+            GROUP BY p.GENDER
+        ) as _ages_stat
+        WHERE GENDER IS NOT NULL
+        GROUP BY GENDER
+        ORDER BY _value desc";
+    return $this->db->query($sql)->result_array();    
+  }
+
   
 }?>
 

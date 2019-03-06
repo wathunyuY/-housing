@@ -42,7 +42,8 @@ class Statistic extends CI_Controller {
                     "_20_40"=>"วัยผู้ใหญ่(20-45)",
                     "_40_60"=>"วัยกลางคน(40-60)",
                     "_60"=>"วัยสูงอายุ(60 ปีขึ้นไป)"]
-            ]
+            ],
+            "sexs"=>$this->owner_group_model->getPopGenderByOwnerId($owner_group_id)
         ];
         $this->return_json($rs);
     }

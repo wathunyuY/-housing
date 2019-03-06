@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="box box-teal">
       <div class="box-header">
-        <p>อาชีพ</p>
+        <p>เพศ</p>
       </div> 
       <div class="box-body">
-          <table id="career_tbl" class="table table-bordered table-striped medium-text">
+          <table id="sex_tbl" class="table table-bordered table-striped medium-text">
             <thead>
             <tr>
               <th>No.</th>
-              <th>อาชีพ</th>
+              <th>เพศ</th>
               <th>จำนวน(คน)</th>
             </tr>
             </thead>
-            <tbody id="career_stat_tbody">
-              <tr ng-repeat="(i,x) in careers"> 
+            <tbody id="sex_stat_tbody">
+              <tr ng-repeat="(i,x) in sexs"> 
                   <td>{{i+1}}</td>
-                  <td>{{x.career ? x.career : "-"}}</td>
+                  <td>{{x.gender ? (x.gender =='M' ? "ชาย":"หญิง") : "-"}}</td>
                   <td>{{x._value ? x._value : "-"}}</td>
               </tr>
             </tbody>
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="box box-teal">
       <div class="box-header">
         <p>ช่วงอายุ</p>
@@ -49,4 +49,30 @@
       </div>
     </div>
   </div>
+  <div class="col-md-4">
+    <div class="box box-teal">
+      <div class="box-header">
+        <p>อาชีพ</p>
+      </div> 
+      <div class="box-body">
+          <table id="career_tbl" class="table table-bordered table-striped medium-text">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>อาชีพ</th>
+              <th>จำนวน(คน)</th>
+            </tr>
+            </thead>
+            <tbody id="career_stat_tbody">
+              <tr ng-repeat="(i,x) in careers"> 
+                  <td>{{i+1}}</td>
+                  <td>{{x.career ? x.career : "-"}}</td>
+                  <td>{{x._value ? x._value : "-"}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  
 </div>

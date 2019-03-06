@@ -10,6 +10,7 @@ app.controller('statisticCtrl', function($rootScope,$scope,$http,$filter,$route)
         success:function(res){
             $scope.ages = [];
             $scope.careers = res.data.data.careers;
+            $scope.sexs = res.data.data.sexs;
              angular.forEach(res.data.data.ages.value, function(value, key){
      			$scope.ages.push( {
      				n:res.data.data.ages.name[key],
